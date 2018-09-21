@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "debug TS File",
+            "name": "debug TS File: see https://medium.com/@dupski/debug-typescript-in-vs-code-without-compiling-using-ts-node-9d1f4f9a94a",
             "type": "node",
             "request": "launch",
             "args": ["${relativeFile}"],
