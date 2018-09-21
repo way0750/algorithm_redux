@@ -1,12 +1,21 @@
 {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch localhost",
-            "type": "chrome",
+            "name": "debug TS File",
+            "type": "node",
             "request": "launch",
-            "url": "http://localhost:9222/${file}",
-            "webRoot": "${workspaceFolder}/wwwroot",
+            "args": ["${relativeFile}"],
+            "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+            "sourceMaps": true,
+            "cwd": "${workspaceRoot}",
+            "protocol": "inspector",
+        },
+        {
+            "name": "debug with node",
+            "type": "node",
+            "request": "launch",
+            "program": "${file}",
             "sourceMaps": true
         }
     ]
