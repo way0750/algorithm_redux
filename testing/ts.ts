@@ -1,7 +1,10 @@
-console.log('is this working');
-console.log('so how do you make this work anyway?');
-const hey = (params) => {
-  console.log(params);
-};
-
-hey(['hey']);
+function randonConsoleLog() {
+  console.log(Math.random());
+  const what = 999;
+  console.log(what);
+}
+for (let index = 1; index <= 100; index++) {
+  setTimeout(() => {
+    randonConsoleLog();
+  }, 2000);
+}
