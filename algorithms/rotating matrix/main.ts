@@ -17,3 +17,30 @@
  * solution: flip the rows in the matrix: first row becomes the last row, last row becomes the first
  * then downward diagonally swap number alone the middle line, ex matrix[x][y] swap with matrix[y][x]
  */
+
+function rotateMatrixBy90Deg(matrix) {
+  //first flip the rows
+  const flipedMatrix = matrix.reverse();
+  const matrixSwappedDiagonally = flipedMatrix.map((row, rowIndex) => {
+    return row.map((cell, cellIndex) => {
+      if (cellIndex > rowIndex) {
+        const cellAboveLine = flipedMatrix[rowIndex][cellIndex];
+        flipedMatrix[rowIndex][cellIndex] = flipedMatrix[cellIndex][rowIndex];
+        flipedMatrix[cellIndex][rowIndex] = cellAboveLine;
+      } else {
+        return cell;
+      }
+    });
+  });
+
+  return matrixSwappedDiagonally
+}
+
+const testMatrix1 = [
+ [1,  2,  3,  4],
+ [5,  6,  7,  8],
+ [9,  10, 11, 12],
+ [13, 14, 15, 16]
+];
+
+rotateMatrixBy90Deg(testMatrix1);
