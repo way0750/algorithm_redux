@@ -2,7 +2,7 @@
 Just Bunch of Algorithm and Data Structure Exercise
 
 # Install:
-`npm install'
+`npm install`
 
 # Debug
 This project has been set up to use VS Code to debug each single js/ts file 
