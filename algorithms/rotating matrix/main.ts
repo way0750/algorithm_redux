@@ -62,13 +62,6 @@ function flipUpwardDiagonally(matrix: Array<Array<number>>) {
   return matrixClone;
 }
 
-const testMatrix1 = [
-  [1, 2, 3, 4],
-  [5, 6, 7, 8],
-  [9, 10, 11, 12],
-  [13, 14, 15, 16]
-];
-
 /**
  * give a matrix and a degree to rotate the matrix
  * what if the number is negative? what if the number isn't some like 90, 180, 270
@@ -84,17 +77,17 @@ function getClockWiseRotationDegree(num) {
   // get a number between -360 and 360;
   const scaledDownNum = num % 360
   // scaledDownNum might be a negative number, turn it into it's positive counter part
-  const clockWiseDegree = 360 + scaledDownNum;
+  const clockWiseDegree = (360 + scaledDownNum) % 360;
   return clockWiseDegree;
 }
 
 function rotateMatrix(matrix, rotateDegree) {
+  const clockWiseRotation = getClockWiseRotationDegree(rotateDegree);
   // we can't only rotate matrix by 90 degrees
-  if (!Number.isInteger(rotateDegree) || !!rotateDegree) {
+  if (!Number.isInteger(clockWiseRotation) || !clockWiseRotation) {
     return matrix;
   }
 
-  const clockWiseRotation = getClockWiseRotationDegree(rotateDegree);
   if (clockWiseRotation === 90) {
     // flip up down then downward diagonally
     const flippedVerticallyMatrix = flipVertically(matrix);
@@ -111,7 +104,15 @@ function rotateMatrix(matrix, rotateDegree) {
     const flipUpwardDiagonallyMatrix = flipUpwardDiagonally(flippedVerticallyMatrix);
     return flipUpwardDiagonallyMatrix;
   } else {
-    return matrix
+    return matrix.map((row) => row.slice());
   }
 }
 
+const testMatrix1 = [
+  [1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [9, 10, 11, 12],
+  [13, 14, 15, 16]
+];
+
+rotateMatrix(testMatrix1, 360);
