@@ -16,6 +16,24 @@
  * 
  * solution: flip the rows in the matrix: first row becomes the last row, last row becomes the first
  * then downward diagonally swap number alone the middle line, ex matrix[x][y] swap with matrix[y][x]
+ * 
+ * time and space complexity
+ * each helper function will clone the matrix, so that's n*2 already
+ * then iterate row by row downward, so that n
+ * then if diagonally flip the matrix, then that's about 1/2 of n 
+ * if flip left to right, that's another n*2
+ * 
+ * worst case is when rotating 180: flip up down then left right
+ * n*2 + n + n*2
+ * 2(n*2) + n
+ * drop the least significant number and constant
+ * you get n*2 for time
+ * 
+ * for space, cloning the matrix will be n*2
+ * then flipping diagonally in place will use no additional space
+ * but when flipping left to right, that's another n*2
+ * so worst case flipiing up down then left right
+ * you get 2(n*2) which is n*2
  */
 
 
