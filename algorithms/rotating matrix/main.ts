@@ -18,9 +18,15 @@
  * then downward diagonally swap number alone the middle line, ex matrix[x][y] swap with matrix[y][x]
  */
 
-function flipDiagonally(matrix) {
-  // clone the matrix, should keep the function pure
+
+function flipVertically(matrix) {
   const matrixClone = matrix.map((row) => row.slice());
+  return matrixClone.reverse();
+}
+
+function flipDiagonally(matrix) {
+  const matrixClone = matrix.map((row) => row.slice());
+  // clone the matrix, should keep the function pure
   for (let rowIndex = 0; rowIndex < matrixClone.length; rowIndex++) {
     for (let cellIndex = 0; cellIndex < matrixClone.length; cellIndex++) {
       if (cellIndex > rowIndex) {
@@ -35,7 +41,7 @@ function flipDiagonally(matrix) {
  
 function rotateMatrixBy90Deg(matrix) {
   //first flip the rows
-  let flipedMatrix = matrix.reverse();
+  let flipedMatrix = flipVertically(matrix);
   // flip downward diagonal
   flipedMatrix = flipDiagonally(flipedMatrix);
   return flipedMatrix;
