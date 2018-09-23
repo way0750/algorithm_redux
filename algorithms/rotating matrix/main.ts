@@ -38,6 +38,11 @@ function flipDiagonally(matrix) {
   }
   return matrixClone;
 }
+
+function flipHorizontally(matrix) {
+  const matrixClone = matrix.map((row) => row.slice());
+  return matrixClone.map((row) => row.reverse());
+}
  
 function rotateMatrixBy90Deg(matrix) {
   //first flip the rows
