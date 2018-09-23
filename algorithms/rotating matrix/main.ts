@@ -18,20 +18,26 @@
  * then downward diagonally swap number alone the middle line, ex matrix[x][y] swap with matrix[y][x]
  */
 
-function rotateMatrixBy90Deg(matrix) {
-  //first flip the rows
-  const flipedMatrix = matrix.reverse();
-
-  // flip downward diagonal
-  for (let rowIndex = 0; rowIndex < flipedMatrix.length; rowIndex++) {
-    for (let cellIndex = 0; cellIndex < flipedMatrix.length; cellIndex++) {
+function flipDiagonally(matrix) {
+  // clone the matrix, should keep the function pure
+  const matrixClone = matrix.map((row) => row.slice());
+  for (let rowIndex = 0; rowIndex < matrixClone.length; rowIndex++) {
+    for (let cellIndex = 0; cellIndex < matrixClone.length; cellIndex++) {
       if (cellIndex > rowIndex) {
-        const curFocusedCell = flipedMatrix[rowIndex][cellIndex];
-        flipedMatrix[rowIndex][cellIndex] = flipedMatrix[cellIndex][rowIndex];
-        flipedMatrix[cellIndex][rowIndex] = curFocusedCell;
+        const curFocusedCell = matrixClone[rowIndex][cellIndex];
+        matrixClone[rowIndex][cellIndex] = matrixClone[cellIndex][rowIndex];
+        matrixClone[cellIndex][rowIndex] = curFocusedCell;
       }
     }
   }
+  return matrixClone;
+}
+ 
+function rotateMatrixBy90Deg(matrix) {
+  //first flip the rows
+  let flipedMatrix = matrix.reverse();
+  // flip downward diagonal
+  flipedMatrix = flipDiagonally(flipedMatrix);
   return flipedMatrix;
 }
 
