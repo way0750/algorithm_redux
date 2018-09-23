@@ -24,7 +24,7 @@ function flipVertically(matrix) {
   return matrixClone.reverse();
 }
 
-function flipDiagonally(matrix) {
+function flipDownwardDiagonally(matrix) {
   const matrixClone = matrix.map((row) => row.slice());
   // clone the matrix, should keep the function pure
   for (let rowIndex = 0; rowIndex < matrixClone.length; rowIndex++) {
@@ -43,12 +43,29 @@ function flipHorizontally(matrix) {
   const matrixClone = matrix.map((row) => row.slice());
   return matrixClone.map((row) => row.reverse());
 }
+
+function flipUpwardDiagonally(matrix: Array<Array<number>>) {
+  const matrixClone = matrix.map((row) => row.slice());
+  const matrixLength = matrixClone.length;
+  for (let rowIndex = 0; rowIndex < matrixLength ; rowIndex++) {
+    let lastCellIndexToVisit = matrixLength - 1 - rowIndex;
+    for (let cellIndex = 0; cellIndex < lastCellIndexToVisit; cellIndex++) {
+      const curFocusedCell = matrixClone[rowIndex][cellIndex];
+      const targetRowIndex = matrixLength - rowIndex;
+      const targetCellIndex = matrixLength - cellIndex;
+      matrixClone[rowIndex][cellIndex] = matrixClone[targetRowIndex][targetCellIndex];
+      matrixClone[targetRowIndex][targetCellIndex] = curFocusedCell;
+    }
+  }
+
+  return matrixClone;
+}
  
 function rotateMatrixBy90Deg(matrix) {
   //first flip the rows
   let flipedMatrix = flipVertically(matrix);
   // flip downward diagonal
-  flipedMatrix = flipDiagonally(flipedMatrix);
+  flipedMatrix = flipUpwardDiagonally(flipedMatrix);
   return flipedMatrix;
 }
 
