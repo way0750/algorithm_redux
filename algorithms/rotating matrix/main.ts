@@ -88,4 +88,30 @@ function getClockWiseRotationDegree(num) {
   return clockWiseDegree;
 }
 
-getClockWiseRotationDegree(-270);
+function rotateMatrix(matrix, rotateDegree) {
+  // we can't only rotate matrix by 90 degrees
+  if (!Number.isInteger(rotateDegree) || !!rotateDegree) {
+    return matrix;
+  }
+
+  const clockWiseRotation = getClockWiseRotationDegree(rotateDegree);
+  if (clockWiseRotation === 90) {
+    // flip up down then downward diagonally
+    const flippedVerticallyMatrix = flipVertically(matrix);
+    const flipDownwardDiagonallyMatrix = flipDownwardDiagonally(flippedVerticallyMatrix);
+    return flipDownwardDiagonallyMatrix;
+  } else if (clockWiseRotation === 180) {
+    // flip up down then left right
+    const flippedVerticallyMatrix = flipVertically(matrix);
+    const flipHorizontallyMatrix = flipHorizontally(flippedVerticallyMatrix);
+    return flipHorizontallyMatrix;
+  } else if (clockWiseRotation === 270) {
+    // flip up down then upward diagonally
+    const flippedVerticallyMatrix = flipVertically(matrix);
+    const flipUpwardDiagonallyMatrix = flipUpwardDiagonally(flippedVerticallyMatrix);
+    return flipUpwardDiagonallyMatrix;
+  } else {
+    return matrix
+  }
+}
+
