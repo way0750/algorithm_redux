@@ -101,7 +101,7 @@ function getClockWiseRotationDegree(num) {
 
 function rotateMatrix(matrix, rotateDegree) {
   const clockWiseRotation = getClockWiseRotationDegree(rotateDegree);
-  // we can't only rotate matrix by 90 degrees
+  // we can only rotate matrix by 90 degrees
   if (!Number.isInteger(clockWiseRotation) || !clockWiseRotation) {
     return matrix;
   }
