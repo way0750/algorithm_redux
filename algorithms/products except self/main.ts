@@ -20,3 +20,20 @@ function productsWithoutSelfWithDivision(numbers: Array<number>): Array<number> 
 const numbers = [1, 2, 3, 4, 5];
 
 productsWithoutSelfWithDivision(numbers);
+
+/**
+ * without using division:
+ * ex: [1, 2, 3, 4, 5]
+ * then if you map out the five iteraction, this is how it looks like:
+ * [(1), 2, 3, 4, 5]
+ * [1, (2), 3, 4, 5]
+ * [1, 2, (3), 4, 5]
+ * [1, 2, 3, (4), 5]
+ * [1, 2, 3, 4, (5)]
+ * 
+ * it is like there is a downward diagonal line there
+ * you can have an accumulative partial products for the left side of the triangle, save each at new array at the same index
+ * as the iteraction
+ * then iteract from bottom and up and do the same, mutiple all the partial products at the same index, done
+ * 
+ */
