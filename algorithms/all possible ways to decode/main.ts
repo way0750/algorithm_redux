@@ -21,7 +21,19 @@
  * You need to cache the returns so you can avoid a ton of calls
  */
 
+/**
+ * helper function to edge cases that when there a bunch of zeros in front of the string
+ */
+function removeLeadingZeros(number: string): string{
+  if (number === '') {
+    return number;
+  } else {
+    return number.replace(/^0+/, '');
+  }
+}
+
 function findAllPossibleWays(msg: string, cache: object = {}): Array<Array<string>> {
+  msg = removeLeadingZeros(msg);
   if (cache[msg]) {
     return cache[msg];
   } else if (!msg) {
@@ -30,7 +42,7 @@ function findAllPossibleWays(msg: string, cache: object = {}): Array<Array<strin
   }
   const leadPattern1 = msg.slice(0, 1);
   let combinedPatterns1 = [];
-  const allSubPattern1 = findAllPossibleWays(msg.slice(1));
+  const allSubPattern1 = findAllPossibleWays(msg.slice(1), cache);
   combinedPatterns1 = allSubPattern1.map((arr: Array<string>) => {
     if (+leadPattern1 > 0) {
       return [leadPattern1, ...arr];
@@ -42,9 +54,13 @@ function findAllPossibleWays(msg: string, cache: object = {}): Array<Array<strin
   const leadPattern2 = Number(leadPattern1) > 0 ? msg.slice(0, 2) : msg.slice(1, 2);
   let combinedPatterns2 = []
   if (leadPattern2 !== leadPattern1 && Number(leadPattern2) < 27 && Number(leadPattern2) > 0) {
-    const allSubPattern2 = findAllPossibleWays(msg.slice(2));
+    const allSubPattern2 = findAllPossibleWays(msg.slice(2), cache);
     combinedPatterns2 = allSubPattern2.map((arr: Array<string>) => {
-      return [leadPattern2, ...arr];
+      if (+leadPattern2 > 0) {
+        return [leadPattern2, ...arr];
+      } else {
+        return [...arr];
+      }
     });
   }
 
@@ -53,7 +69,7 @@ function findAllPossibleWays(msg: string, cache: object = {}): Array<Array<strin
   return cache[msg];
 }
 
-// const msg1 = '220111';
-const msg1 = '00111'
-const results = findAllPossibleWays(msg1);
+const msg1 = '220111';
+const cache = {};
+const results = findAllPossibleWays(msg1, cache);
 results;
