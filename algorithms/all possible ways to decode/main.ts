@@ -69,7 +69,46 @@ function findAllPossibleWays(msg: string, cache: object = {}): Array<Array<strin
   return cache[msg];
 }
 
-const msg1 = '220111';
+function findAllPossibleWays002(number: string, cache: object = {}) {
+  if (cache[number]) {
+    return cache[number];
+  } else if (number === '0' || number === '') {
+    return [[]];
+  }
+  const leadingNumber1 = number.slice(0,1);
+  const subNumber1 = number.slice(1);
+  const subPatterns1 = findAllPossibleWays002(subNumber1, cache);
+  const combinedPatterns1 = subPatterns1.map((subPattern: Array<string>) => {
+    if (leadingNumber1 === '0') {
+      return [...subPattern];
+    } else {
+      return [leadingNumber1, ...subPattern];
+    }
+  });
+
+  const leadingNumber2 = '' + Number(number.slice(0,2));
+  const subNumber2 = number.slice(2);
+  let combinedPatterns2 = [];
+  let subPatterns2 = [];
+  if (!leadingNumber2.length || leadingNumber2 === leadingNumber1) {
+    combinedPatterns2 = [];
+  } else if (leadingNumber2 !== '0' && !cache[subNumber2]) {
+    subPatterns2 = findAllPossibleWays002(subNumber2, cache);
+    combinedPatterns2 = subPatterns2.map((subPattern: Array<string>) => {
+      return [leadingNumber2, ...subPattern];
+    });
+  } else if (leadingNumber2 === '0' && !cache[subNumber2]) {
+    subPatterns2 = findAllPossibleWays002(subNumber2, cache);
+    combinedPatterns2 = subPatterns2.map((subPattern: Array<string>) => {
+      return [...subPattern];
+    });
+  }
+
+  cache[number] = [...combinedPatterns1, ...combinedPatterns2];
+  return cache[number];
+}
+
+const msg1 = '111';
 const cache = {};
-const results = findAllPossibleWays(msg1, cache);
+const results = findAllPossibleWays002(msg1, cache);
 results;
