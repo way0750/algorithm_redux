@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 /**
  * You are in an infinite 2D grid where you can move in any of the 8 directions:
  (x,y) to
@@ -57,11 +56,11 @@ import { expect } from 'chai';
    loop through the input array of points then sum all the difference, X or Y which ever is longest, between two immedite points
  */
 
-function shortestPathCount(points: Array<{x, y}>) {
+function shortestPathCount(points: Array<{ x, y }>) {
   // assing default to deal with edge case that the points array is empty
   let curPoint = points[0] || { x: 0, y: 0 };
   let pathCount = 0;
-  points.forEach(( nextPoint ) => {
+  points.forEach((nextPoint) => {
     const XDiff = Math.abs(curPoint.x - nextPoint.x);
     const YDiff = Math.abs(curPoint.y - nextPoint.y);
     pathCount += Math.max(XDiff, YDiff);
@@ -70,35 +69,37 @@ function shortestPathCount(points: Array<{x, y}>) {
   return pathCount;
 }
 
-it('multiple points should return the sum of all the shorest path count', () => {
-  const points = [
-    {x:0, y:2},
-    {x:3, y:8},
-    {x:1, y:9},
-    {x:0, y:8},
-    {x:8, y:0},
-  ];
-  const count = shortestPathCount(points);
-  expect(count).to.equal(17);
-});
+describe('Testing: go through all points', () => {
+  it('multiple points should return the sum of all the shorest path count', () => {
+    const points = [
+      { x: 0, y: 2 },
+      { x: 3, y: 8 },
+      { x: 1, y: 9 },
+      { x: 0, y: 8 },
+      { x: 8, y: 0 },
+    ];
+    const count = shortestPathCount(points);
+    expect(count).to.equal(17);
+  });
 
-it('single point should return 0', () => {
-  const count = shortestPathCount([{x: 8, y:8}]);
-  expect(count).to.equal(0);
-});
+  it('single point should return 0', () => {
+    const count = shortestPathCount([{ x: 8, y: 8 }]);
+    expect(count).to.equal(0);
+  });
 
-it('no point should return 0', () => {
-  const count = shortestPathCount([]);
-  expect(count).to.equal(0);
-});
+  it('no point should return 0', () => {
+    const count = shortestPathCount([]);
+    expect(count).to.equal(0);
+  });
 
-it('should deal with negative points', () => {
-  const points = [
-    {x: -1, y: -2},
-    {x: 0, y: -2},
-    {x: 1, y: -2},
-    {x: -2, y: 2}
-  ];
-  const count = shortestPathCount(points);
-  expect(count).to.equal(6);
+  it('should deal with negative points', () => {
+    const points = [
+      { x: -1, y: -2 },
+      { x: 0, y: -2 },
+      { x: 1, y: -2 },
+      { x: -2, y: 2 }
+    ];
+    const count = shortestPathCount(points);
+    expect(count).to.equal(6);
+  });
 });
