@@ -51,4 +51,20 @@
    travel on horizontally or vertically depending on which one is longer
    so in a way, the shorest steps is either the horizontal or vertical difference
    depending which one is larger. 
+
+   so we can implement the solution like this:
+   loop through the input array of points then sum all the difference, X or Y which ever is longest, between two immedite points
  */
+
+function shortestPathCount(points: Array<{x, y}>) {
+  // assing default to deal with edge case that the points array is empty
+  const curPoint = points[0] || { x: 0, y: 0 };
+  let pathCount = 0;
+  points.forEach(( nextPoint ) => {
+    const XDiff = Math.abs(curPoint.x - nextPoint.x);
+    const YDiff = Math.abs(curPoint.y - nextPoint.y);
+    pathCount += Math.max(XDiff, YDiff);
+  });
+  return pathCount;
+}
+
