@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 /**
  * 
   A unival tree (which stands for "universal value") is a tree where all nodes under it have the same value.
@@ -57,18 +58,26 @@ function searchSubTree(node?: { value: number, left?: any, right?: any }) {
   return defaultSearchState;
 }
 
-const tree1 = {
-  value: 0,
-  left: { value: 1 },
-  right: {
-    value: 0,
-    left: { value: 1, left: { value: 1}, right: { value: 1 } },
-    right: { value: 0 }
-  }
+function countUnivalTree(node?: { value: number, left?: any, right?: any }) {
+  const countState = searchSubTree(node);
+  return countState.count;
 }
 
-const tree2 = {
-  value: 0
-};
-
-const result = searchSubTree(tree1);
+describe('unival tree', () => {
+  const tree1 = {
+    value: 0,
+    left: { value: 1 },
+    right: {
+      value: 0,
+      left: { value: 1, left: { value: 1 }, right: { value: 1 } },
+      right: { value: 0 }
+    }
+  }
+  it('should be able to handle a simple binary tree', () => {
+    const tree = {
+      value: 0
+    };
+    const count = countUnivalTree(tree);
+    expect(count).to.equal(1);
+  });
+});
