@@ -70,7 +70,7 @@ function shortestPathCount(points: Array<{x, y}>) {
   return pathCount;
 }
 
-it('multiple points', () => {
+it('multiple points should return the sum of all the shorest path count', () => {
   const points = [
     {x:0, y:2},
     {x:3, y:8},
