@@ -91,3 +91,14 @@ it('no point should return 0', () => {
   const count = shortestPathCount([]);
   expect(count).to.equal(0);
 });
+
+it('should deal with negative points', () => {
+  const points = [
+    {x: -1, y: -2},
+    {x: 0, y: -2},
+    {x: 1, y: -2},
+    {x: -2, y: 2}
+  ];
+  const count = shortestPathCount(points);
+  expect(count).to.equal(6);
+});
