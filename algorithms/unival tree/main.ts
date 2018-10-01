@@ -30,3 +30,25 @@
  * what to do with return: sum the counts up
  * how to make problem smaller: recursively call left child, then right child
  */
+
+function searchSubTree(node?: { left: any, right: any}) {
+  const defaultSearchState = {
+    doesSubTreeHaveUniVal: true,
+    count: 0
+  }
+  // base case
+  if (!node) {
+    return defaultSearchState;
+  }
+
+  const leftSearchState = searchSubTree(node.left);
+  const rightSearchState = searchSubTree(node.right);
+  defaultSearchState.count += ( leftSearchState.count + rightSearchState.count );
+  defaultSearchState.doesSubTreeHaveUniVal = leftSearchState.doesSubTreeHaveUniVal
+    && rightSearchState.doesSubTreeHaveUniVal;
+  if (defaultSearchState.doesSubTreeHaveUniVal) {
+    defaultSearchState.count++;
+  }
+
+  return defaultSearchState;
+}
