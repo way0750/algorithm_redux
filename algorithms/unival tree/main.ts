@@ -31,9 +31,9 @@
  * how to make problem smaller: recursively call left child, then right child
  */
 
-function searchSubTree(node?: { left: any, right: any}) {
+function searchSubTree(node?: { value: number, left?: any, right?: any }) {
   const defaultSearchState = {
-    doesSubTreeHaveUniVal: true,
+    subTreeSameVal: true,
     count: 0
   }
   // base case
@@ -43,12 +43,32 @@ function searchSubTree(node?: { left: any, right: any}) {
 
   const leftSearchState = searchSubTree(node.left);
   const rightSearchState = searchSubTree(node.right);
-  defaultSearchState.count += ( leftSearchState.count + rightSearchState.count );
-  defaultSearchState.doesSubTreeHaveUniVal = leftSearchState.doesSubTreeHaveUniVal
-    && rightSearchState.doesSubTreeHaveUniVal;
-  if (defaultSearchState.doesSubTreeHaveUniVal) {
+  defaultSearchState.count += (leftSearchState.count + rightSearchState.count);
+
+  const isLeftSameValAsNode = node.left ? node.value === node.left.value : true;
+  const isRightSameValAsNode = node.right ? node.value === node.right.value : true;
+  const allSubTreeSameVal = leftSearchState.subTreeSameVal && rightSearchState.subTreeSameVal;
+  if (allSubTreeSameVal && isLeftSameValAsNode && isRightSameValAsNode) {
     defaultSearchState.count++;
+  } else {
+    defaultSearchState.subTreeSameVal = false;
   }
 
   return defaultSearchState;
 }
+
+const tree1 = {
+  value: 0,
+  left: { value: 1 },
+  right: {
+    value: 0,
+    left: { value: 1, left: { value: 1}, right: { value: 1 } },
+    right: { value: 0 }
+  }
+}
+
+const tree2 = {
+  value: 0
+};
+
+const result = searchSubTree(tree1);
