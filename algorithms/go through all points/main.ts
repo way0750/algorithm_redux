@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 /**
  * You are in an infinite 2D grid where you can move in any of the 8 directions:
  (x,y) to
@@ -58,13 +59,35 @@
 
 function shortestPathCount(points: Array<{x, y}>) {
   // assing default to deal with edge case that the points array is empty
-  const curPoint = points[0] || { x: 0, y: 0 };
+  let curPoint = points[0] || { x: 0, y: 0 };
   let pathCount = 0;
   points.forEach(( nextPoint ) => {
     const XDiff = Math.abs(curPoint.x - nextPoint.x);
     const YDiff = Math.abs(curPoint.y - nextPoint.y);
     pathCount += Math.max(XDiff, YDiff);
+    curPoint = nextPoint;
   });
   return pathCount;
 }
 
+it('multiple points', () => {
+  const points = [
+    {x:0, y:2},
+    {x:3, y:8},
+    {x:1, y:9},
+    {x:0, y:8},
+    {x:8, y:0},
+  ];
+  const count = shortestPathCount(points);
+  expect(count).to.equal(17);
+});
+
+it('single point should return 0', () => {
+  const count = shortestPathCount([{x: 8, y:8}]);
+  expect(count).to.equal(0);
+});
+
+it('no point should return 0', () => {
+  const count = shortestPathCount([]);
+  expect(count).to.equal(0);
+});

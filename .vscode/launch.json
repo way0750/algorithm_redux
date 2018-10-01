@@ -21,7 +21,7 @@
         {
             "name": "MochaJS",
             "runtimeExecutable": "${workspaceRoot}/node_modules/ts-mocha/bin/ts-mocha",
-            "runtimeArgs": ["${relativeFile}"],
+            "runtimeArgs": ["${relativeFile}", "--colors"],
             "type": "node",
             "request": "launch",
             "sourceMaps": true
