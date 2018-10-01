@@ -17,6 +17,14 @@
             "request": "launch",
             "program": "${file}",
             "sourceMaps": true
+        },
+        {
+            "name": "MochaJS",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/ts-mocha/bin/ts-mocha",
+            "runtimeArgs": ["${relativeFile}"],
+            "type": "node",
+            "request": "launch",
+            "sourceMaps": true
         }
     ]
 }
