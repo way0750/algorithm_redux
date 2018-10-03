@@ -22,6 +22,15 @@ describe('sample mocha test with chai', () => {
 In `testing/bootstrap.js` things related to testing are loaded there.
 Including the `expect` function, which is assinged to the global scope
 
+# The Launch.json
+this is where the debugging with vs code feature is setup 
+
+it's at `root/.vscode/launch.json`
+
+# typescript typing
+the global type file is at `index.d.ts` at the root level
+you might want to add all the globally available librarys' type there
+
 # some interesting stuffs:
 ## execute TypeScipt file without having to compile to JS first
 
