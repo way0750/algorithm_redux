@@ -8,16 +8,21 @@
  * ];
  * 
  * solution:
+ * this is a matrix with points marked up: 
+ *   -2 -1  0  1  2
+ * -2 .  .  .  .  X
+ * -1 .  .  .  X  .
+ *  0 .  .  X  .  .
+ *  1 .  X  .  .  .
+ *  2 X  .  .  .  .
+ * 
  * each line can be part of 4 lines: horizontal, vertical, diagonal up and down
  * coerce each point's position to the lines that it belong.
  * ex for point [x:2, y:3] it belongs in these line that go through these positions:
  * horizontal: [x: 0, y: 3] get this by moving x to 0
  * vertical: [x:2, y:0], get this by moving y to 0
- * diagonal down: [x:0, y:1], get this by moving back x y by smallest number of x and y 
- * diagonal up: [x:, y: ], get this by first finding out how many steps x would need to hit the left border: xStepToLeftBorder = MatrixLength - x,
- *   and how many steps y would need to hit the top border, which is itself: yStepToUpperBorder = y.
- *   commonSteps = smaller of xStepToLeftBorder vs yStepToUpperBorder
- *   get the new position as the line position:  x + commonSteps, y - commonSteps
+ * diagonal up: move the line to y:0, and newXPosition = x - ( 0 - y this amount to move )
+ * diagonal down: move the line to y:0, and newXPosition = x + ( 0 - y this amount to move)
  * 
  * do these 4 steps for all the points then you will end up with many lines get longest ones
  * 
@@ -101,5 +106,18 @@ describe('line with most points', () => {
       [[0, 5], [1, 4], [2, 3], [3, 2], [4, 1], [5, 0]]
     ];
     expect(twoLines).to.deep.equal(expectResults);
-  })
+  });
+
+  it('should handle negative indexes', () => {
+    const points = [
+      [0, 0], [1, 1], [2, 2], [-3, -3], [-4, -4], [-5, -5],
+      [0, 5], [1, 4], [2, 3], [3, 2], [4, 1], [5, 0]
+    ];
+    const twoLines = lineWithMostPoints(points);
+    const expectResults = [
+      [[0, 0], [1, 1], [2, 2], [-3, -3], [-4, -4], [-5, -5]],
+      [[0, 5], [1, 4], [2, 3], [3, 2], [4, 1], [5, 0]]
+    ];
+    expect(twoLines).to.deep.equal(expectResults);
+  });
 });
