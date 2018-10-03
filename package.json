@@ -14,7 +14,8 @@
     "typescript": "^3.0.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mochaTest": "node_modules/ts-mocha/bin/ts-mocha -p tsconfig.json --require testing/bootstrap.js $INIT_CWD/main.ts"
   },
   "repository": {
     "type": "git",
