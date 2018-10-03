@@ -36,23 +36,21 @@ function lineWithMostPoints(points: Array<Array<number>>) {
   points.forEach((point: Array<number>) => {
     const [x, y] = point;
 
-    const horizontalLineKey = `0,${y}`;
+    const horizontalLineKey = `Horizontal:${y}`;
     lines[horizontalLineKey] = lines[horizontalLineKey] || [];
     lines[horizontalLineKey].push(point);
 
-    const verticalLineKey = `${x},0`;
+    const verticalLineKey = `Vertical:${x}`;
     lines[verticalLineKey] = lines[verticalLineKey] || [];
     lines[verticalLineKey].push(point);
 
-    const xStepToLeftBorder = points.length - x;
-    const yStepToUpperBorder = y;
-    const stepToDiagonalUp = Math.min(xStepToLeftBorder, yStepToUpperBorder);
-    const diagonalUpKey = `${x + stepToDiagonalUp}, ${y - stepToDiagonalUp}`;
+    const diagonalSteps = 0 - y;
+
+    const diagonalUpKey = `DiagonalUp${x - diagonalSteps}`;
     lines[diagonalUpKey] = lines[diagonalUpKey] || [];
     lines[diagonalUpKey].push(point);
 
-    const stepToDiagonalDown = Math.min(x, y);
-    const diagonalDownKey = `${x - stepToDiagonalDown},${y - stepToDiagonalDown}`;
+    const diagonalDownKey = `DiagonalDown${x + diagonalSteps}`;
     lines[diagonalDownKey] = lines[diagonalDownKey] || [];
     lines[diagonalDownKey].push(point);
   });
@@ -91,4 +89,17 @@ describe('line with most points', () => {
     ];
     expect(collectionOfOneLine).to.deep.equal(expectedResult)
   });
+
+  it('should two lines if they are both longest', () => {
+    const points = [
+      [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5],
+      [0, 5], [1, 4], [2, 3], [3, 2], [4, 1], [5, 0]
+    ];
+    const twoLines = lineWithMostPoints(points);
+    const expectResults = [
+      [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]],
+      [[0, 5], [1, 4], [2, 3], [3, 2], [4, 1], [5, 0]]
+    ];
+    expect(twoLines).to.deep.equal(expectResults);
+  })
 });
