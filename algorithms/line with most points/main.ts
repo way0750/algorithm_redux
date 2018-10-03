@@ -34,7 +34,7 @@
 function lineWithMostPoints(points: Array<Array<number>>) {
   const lines = {};
   points.forEach((point: Array<number>) => {
-    const [ x, y ] = point;
+    const [x, y] = point;
 
     const horizontalLineKey = `0,${y}`;
     lines[horizontalLineKey] = lines[horizontalLineKey] || [];
@@ -47,12 +47,12 @@ function lineWithMostPoints(points: Array<Array<number>>) {
     const xStepToLeftBorder = points.length - x;
     const yStepToUpperBorder = y;
     const stepToDiagonalUp = Math.min(xStepToLeftBorder, yStepToUpperBorder);
-    const diagonalUpKey = `${x + stepToDiagonalUp}, ${ y - stepToDiagonalUp }`;
+    const diagonalUpKey = `${x + stepToDiagonalUp}, ${y - stepToDiagonalUp}`;
     lines[diagonalUpKey] = lines[diagonalUpKey] || [];
     lines[diagonalUpKey].push(point);
 
     const stepToDiagonalDown = Math.min(x, y);
-    const diagonalDownKey =`${x-stepToDiagonalDown},${y-stepToDiagonalDown}`;
+    const diagonalDownKey = `${x - stepToDiagonalDown},${y - stepToDiagonalDown}`;
     lines[diagonalDownKey] = lines[diagonalDownKey] || [];
     lines[diagonalDownKey].push(point);
   });
@@ -65,9 +65,30 @@ function lineWithMostPoints(points: Array<Array<number>>) {
     if (line.length === currentLinesPointCount) {
       longestLines.push(line);
     } else if (line.length > currentLinesPointCount) {
+      currentLinesPointCount = line.length;
       longestLines = [line];
     }
   });
 
   return longestLines;
 }
+
+describe('line with most points', () => {
+  it('should return empty array if input is empty array', () => {
+    const points = [];
+    const result = lineWithMostPoints(points);
+    expect(result).to.deep.equal([]);
+  });
+
+  it('should return 4 lines if one point because 1 point has 4 lines and all the same length', () => {
+    const points = [[4, 4]];
+    const collectionOfOneLine = lineWithMostPoints(points);
+    const expectedResult = [
+      [[4, 4,]],
+      [[4, 4,]],
+      [[4, 4,]],
+      [[4, 4,]],
+    ];
+    expect(collectionOfOneLine).to.deep.equal(expectedResult)
+  });
+});
