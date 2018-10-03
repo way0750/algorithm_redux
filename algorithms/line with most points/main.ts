@@ -41,16 +41,18 @@ function lineWithMostPoints(points: Array<Array<number>>) {
   points.forEach((point: Array<number>) => {
     const [x, y] = point;
 
+    // no need to x index because they are all moving to 0
     const horizontalLineKey = `Horizontal:${y}`;
     lines[horizontalLineKey] = lines[horizontalLineKey] || [];
     lines[horizontalLineKey].push(point);
 
+    // no need to y index because they are all moving to 0
     const verticalLineKey = `Vertical:${x}`;
     lines[verticalLineKey] = lines[verticalLineKey] || [];
     lines[verticalLineKey].push(point);
 
+    // no need for y index for diagonal up and down because they are all moving to 0
     const diagonalSteps = 0 - y;
-
     const diagonalUpKey = `DiagonalUp${x - diagonalSteps}`;
     lines[diagonalUpKey] = lines[diagonalUpKey] || [];
     lines[diagonalUpKey].push(point);
@@ -94,6 +96,19 @@ describe('line with most points', () => {
     ];
     expect(collectionOfOneLine).to.deep.equal(expectedResult)
   });
+
+  it('should return 1 longest line', () => {
+    const points = [
+      // longest line here
+      [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5],
+      [0, 5], [1, 4], [2, 3]
+    ];
+    const oneLine = lineWithMostPoints(points);
+    const expectResults = [
+      [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]
+    ];
+    expect(oneLine).to.deep.equal(expectResults);
+  })
 
   it('should two lines if they are both longest', () => {
     const points = [
