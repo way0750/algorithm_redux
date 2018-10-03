@@ -1,5 +1,10 @@
+![Better algorithm, better robot](./robot.gif)
 # What is this?
 Just Bunch of Algorithm and Data Structure Exercise
+
+# Dependencies:
+Node version:
+If you run into errors while trying to run debugger, it might be that your node version is too old
 
 # Install:
 `npm install`
