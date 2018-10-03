@@ -30,3 +30,44 @@
  * then longest lines, worst case all the lines are the same length, then you get 4n longest lines
  * so 8n, which is n, that's linear.
  */
+
+function lineWithMostPoints(points: Array<Array<number>>) {
+  const lines = {};
+  points.forEach((point: Array<number>) => {
+    const [ x, y ] = point;
+
+    const horizontalLineKey = `0,${y}`;
+    lines[horizontalLineKey] = lines[horizontalLineKey] || [];
+    lines[horizontalLineKey].push(point);
+
+    const verticalLineKey = `${x},0`;
+    lines[verticalLineKey] = lines[verticalLineKey] || [];
+    lines[verticalLineKey].push(point);
+
+    const xStepToLeftBorder = points.length - x;
+    const yStepToUpperBorder = y;
+    const stepToDiagonalUp = Math.min(xStepToLeftBorder, yStepToUpperBorder);
+    const diagonalUpKey = `${x + stepToDiagonalUp}, ${ y - stepToDiagonalUp }`;
+    lines[diagonalUpKey] = lines[diagonalUpKey] || [];
+    lines[diagonalUpKey].push(point);
+
+    const stepToDiagonalDown = Math.min(x, y);
+    const diagonalDownKey =`${x-stepToDiagonalDown},${y-stepToDiagonalDown}`;
+    lines[diagonalDownKey] = lines[diagonalDownKey] || [];
+    lines[diagonalDownKey].push(point);
+  });
+
+  let currentLinesPointCount = 0;
+  let longestLines = [];
+  const allLineKeys: Array<string> = Object.keys(lines);
+  allLineKeys.forEach((lineKey: string) => {
+    const line = lines[lineKey];
+    if (line.length === currentLinesPointCount) {
+      longestLines.push(line);
+    } else if (line.length > currentLinesPointCount) {
+      longestLines = [line];
+    }
+  });
+
+  return longestLines;
+}
