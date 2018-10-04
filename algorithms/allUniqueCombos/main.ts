@@ -49,3 +49,70 @@
  * 
  * remember to set a cache and pass it!!!
  */
+function allUniqueCombos(options, amount: number, cache: object = {}) {
+  if (!options.length) {
+    return amount === 0 ? [[]] : [];
+  }
+  const allCombos = [];
+  let curOptionAmount = 0;
+  const [curOption, optionVal] = options[0];
+  while (curOptionAmount * optionVal <= amount) {
+    const subOptions = options.slice(1);
+    const reducedAmount = amount - (curOptionAmount * optionVal);
+    const subOptionsKeys = subOptions.map(([option]) => option).join('');
+    const cacheKey = `options: ${subOptionsKeys}; amount: ${reducedAmount}`;
+    const curOptionAtCurAmount = Array(curOptionAmount).fill(curOption);
+    let subCombos = []
+    if (cache[cacheKey]) {
+      subCombos = cache[cacheKey];
+    } else {
+      subCombos = allUniqueCombos(subOptions, reducedAmount, cache);
+    }
+    subCombos = subCombos.map((combo: Array<string>) => {
+      return [...curOptionAtCurAmount, ...combo];
+    });
+    allCombos.push(...subCombos);
+    curOptionAmount++;
+  }
+
+  const subOptionsKeys = options.map(([option]) => option).join('');
+  const cacheKey = `options: ${subOptionsKeys}; amount: ${amount}`;
+  cache[cacheKey] = allCombos;
+  return allCombos;
+}
+
+describe('all unique combos', () => {
+  it('should handle only 1 option', () => {
+    const menu = [
+      ['chips', 1],
+    ];
+    const amount = 1;
+    const actualResult = allUniqueCombos(menu, amount);
+    expect(actualResult).to.deep.equal([['chips']]);
+  });
+
+  it('should return [] if no patterns found', () => {
+    const menu = [
+      ['op1', 100]
+    ];
+    const amount = 120;
+    const actualResult = allUniqueCombos(menu, amount);
+    expect(actualResult).to.deep.equal([]);
+  });
+
+  it('the prompt input', () => {
+    const menu = [
+      ['chips', 1],
+      ['pizza', 3],
+      ['hotdog', 1.50],
+      ['fruit juice', 2.25]
+    ];
+    const amount = 5;
+    const actualResult = allUniqueCombos(menu, amount);
+    expect(actualResult).to.deep.equal([
+      [ 'chips', 'chips', 'hotdog', 'hotdog', ],
+      [ 'chips', 'chips', 'pizza', ],
+      [ 'chips', 'chips', 'chips', 'chips', 'chips', ],
+    ])
+  });
+});
