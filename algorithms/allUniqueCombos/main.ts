@@ -59,15 +59,14 @@ function allUniqueCombos(options, amount: number, cache: object = {}) {
   while (curOptionAmount * optionVal <= amount) {
     const subOptions = options.slice(1);
     const reducedAmount = amount - (curOptionAmount * optionVal);
+
     const subOptionsKeys = subOptions.map(([option]) => option).join('');
     const cacheKey = `options: ${subOptionsKeys}; amount: ${reducedAmount}`;
+    let subCombos = cache[cacheKey]
+      ? cache[cacheKey]
+      : allUniqueCombos(subOptions, reducedAmount, cache);
+
     const curOptionAtCurAmount = Array(curOptionAmount).fill(curOption);
-    let subCombos = []
-    if (cache[cacheKey]) {
-      subCombos = cache[cacheKey];
-    } else {
-      subCombos = allUniqueCombos(subOptions, reducedAmount, cache);
-    }
     subCombos = subCombos.map((combo: Array<string>) => {
       return [...curOptionAtCurAmount, ...combo];
     });
