@@ -69,3 +69,42 @@ describe('potentially duplicated, sorted, positive numbers', () => {
     expect(subList).to.deep.equal([])
   });
 });
+
+// this idea has yet been verified:
+/**
+ * What is the numbers list is a list of unque positive integers that increment by 1?
+ * for ex: [1, 2, 3, 4, 5, 6] and k = 9
+ * this should return [2, 3, 4];
+ * since 2, 3, 4, they each increment by 1
+ * visualize it:
+ *     .
+ *   . .
+ * . . .
+ * . . .
+ * 
+ * the area / sum of this shape is k, 9
+ * 
+ * you can get its area by copy itself and flip upside down and add to original self, then you get a rectangle,
+ * get the area of this rectangle and divide by 2, it is 9
+ * 
+ * o o o
+ * o o o
+ * o o .
+ * o . .
+ * . . .
+ * . . .
+ * getting the area of this rectangle:
+ * starting value + ending value: (2 + 4) 
+ * multiple by the length of this range: 3
+ * ( 2 + 4 ) * 3 = 18
+ * 18 / 2 = 9
+ * 
+ * in a formular: ( s + e ) * (e + 1 - s) = 2k
+ * 
+ * with this idea, as we loop through the numbers, we know which number in the list we will need to have a pair
+ * of s + e to sum up to 2k
+ * if e is a interger that is smaller/equal to the last number in the number list, then yes we can make a sub list
+ * 
+ * how to get e for each s:
+ *  
+ */
