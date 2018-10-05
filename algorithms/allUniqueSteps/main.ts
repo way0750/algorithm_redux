@@ -29,3 +29,38 @@
  * how to make problem smaller:
  *   smaller in terms of N, so passing N - steppingOptionNum to the next recursive call
  */
+
+function patternSearch(stepOptions: Array<number>, n: number, cache: object = {}) {
+  if (n === 0) {
+    // return [[]] in patternSeach means one pattern has been found
+    // which is different the n === 0  in the allUniqSteps function
+    return [[]];
+  } else if (n < 0) {
+    return [];
+  }
+
+  let allPatterns = [];
+  stepOptions.forEach((curStepOption: number) => {
+    const newN = n - curStepOption;
+    let subPatterns = cache[newN]
+      ? cache[newN]
+      : patternSearch(stepOptions, newN, cache);
+    subPatterns = subPatterns.map((subPattern: Array<number>) => {
+      return subPattern.unshift(curStepOption);
+    });
+    allPatterns.push(...subPatterns);
+  });
+  cache[n] = allPatterns;
+  return allPatterns;
+}
+
+function allUniqSteps(stepOptions, n): Array<Array<number>> {
+  const AllDPCases = {};
+  for (let DPCase = 0; DPCase <= n; DPCase++) {
+    AllDPCases[DPCase] = patternSearch(stepOptions, DPCase);
+  }
+
+  // have to deal with the edge case when n is 0
+  // should return [] which means no pattern has been found
+  return n === 0 ? [] : AllDPCases[n];
+}
