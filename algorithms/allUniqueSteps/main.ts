@@ -29,8 +29,9 @@
  * how to make problem smaller:
  *   smaller in terms of N, so passing N - steppingOptionNum to the next recursive call
  */
-
+let count = 0
 function patternSearch(stepOptions: Array<number>, n: number, cache: object = {}) {
+  count++;
   if (n === 0) {
     // return [[]] in patternSeach means one pattern has been found
     // which is different the n === 0  in the allUniqSteps function
@@ -45,22 +46,61 @@ function patternSearch(stepOptions: Array<number>, n: number, cache: object = {}
     let subPatterns = cache[newN]
       ? cache[newN]
       : patternSearch(stepOptions, newN, cache);
-    subPatterns = subPatterns.map((subPattern: Array<number>) => {
-      return subPattern.unshift(curStepOption);
+    subPatterns.forEach((subPattern: Array<number>) => {
+      allPatterns.push([curStepOption, ...subPattern]);
     });
-    allPatterns.push(...subPatterns);
+    // allPatterns.push(...subPatterns);
   });
-  cache[n] = allPatterns;
   return allPatterns;
 }
 
 function allUniqSteps(stepOptions, n): Array<Array<number>> {
   const AllDPCases = {};
   for (let DPCase = 0; DPCase <= n; DPCase++) {
-    AllDPCases[DPCase] = patternSearch(stepOptions, DPCase);
+    AllDPCases[DPCase] = patternSearch(stepOptions, DPCase, AllDPCases);
   }
 
   // have to deal with the edge case when n is 0
   // should return [] which means no pattern has been found
   return n === 0 ? [] : AllDPCases[n];
 }
+
+describe('Using dynamic programming to find all unique stpes', () => {
+  it('should return [] if n === 0', () => {
+    const n = 0;
+    const options = [1, 2, 3];
+    const result = allUniqSteps(options, n);
+    expect(result).to.deep.equal([]);
+  });
+  it('should return for a small number 1', () => {
+    const n = 3;
+    const options = [1, 2, 3];
+    const result = allUniqSteps(options, n);
+    expect(result).to.deep.equal([
+      [1, 1, 1],
+      [1, 2],
+      [2, 1],
+      [3]
+    ]);
+  });
+
+  it('should return for the example case', () => {
+    const n = 4;
+    const options = [1, 2];
+    const result = allUniqSteps(options, n);
+    expect(result).to.deep.equal([
+      [1, 1, 1, 1],
+      [1, 1, 2],
+      [1, 2, 1],
+      [2, 1, 1],
+      [2, 2]
+    ]);
+  });
+
+  it.only('should return for a large number of 25, any bigger is gonna way too many patterns', () => {
+    const n = 25;
+    const options = [1,2,3];
+    const result = allUniqSteps(options, n);
+    expect(result.length).to.equal(2555757);
+  });
+});
