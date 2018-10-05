@@ -97,7 +97,7 @@ describe('Using dynamic programming to find all unique stpes', () => {
     ]);
   });
 
-  it.only('should return for a large number of 25, any bigger is gonna way too many patterns', () => {
+  it('should return for a large number of 25, any bigger is going to generate way too many patterns', () => {
     const n = 25;
     const options = [1,2,3];
     const result = allUniqSteps(options, n);
