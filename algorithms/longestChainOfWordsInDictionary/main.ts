@@ -51,7 +51,7 @@ function makeGraph(dict: Array<string>) {
       const leftWord = word.slice(0, posOfCharToDel);
       const rightWord = word.slice(posOfCharToDel + 1);
       const newWord = leftWord + rightWord;
-      const foundWordInGraph = graph[newWord] || {};
+      const foundWordInGraph = graph[newWord];
       // if the new word is found in the graph, then make current word
       // a child of that new word.
       if (foundWordInGraph) {
@@ -101,6 +101,15 @@ function longestChain(dict: Array<string>) {
       currentLongestChain = curWordChain;
     }
   });
-  
+
   return currentLongestChain;
 }
+
+describe('using graph to find longest word chain', () => {
+  it('should return the same as the exaple above', () => {
+    const dict = ["spring", "in", "sin", "spin", "cat", "day", "dog", "food", "sping", "shoes"];
+    const expectedResult = ["in", "sin", "spin", "sping", "spring"];
+    const actualResult = longestChain(dict);
+    expect(actualResult).to.deep.equal(expectedResult);
+  });
+});
