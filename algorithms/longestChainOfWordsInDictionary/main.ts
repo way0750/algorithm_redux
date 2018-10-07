@@ -32,7 +32,7 @@
  * and return the longest one.
  */
 
-function makeGraph(dict: Array<string>) {
+function makeGraph(dict: Array<string>): object {
   // initialize graph:
   const graph = dict.reduce((hash, word) => {
     hash[word] = { children: [], longestChain: [] };
@@ -51,11 +51,11 @@ function makeGraph(dict: Array<string>) {
       const leftWord = word.slice(0, posOfCharToDel);
       const rightWord = word.slice(posOfCharToDel + 1);
       const newWord = leftWord + rightWord;
-      const foundWordInGraph = graph[newWord];
+      const foundWordInGraph = graph.hasOwnProperty(newWord);
       // if the new word is found in the graph, then make current word
       // a child of that new word.
       if (foundWordInGraph) {
-        foundWordInGraph.children.push(word);
+        graph[newWord].children.push(word);
       }
     }
   });
@@ -72,7 +72,7 @@ function makeGraph(dict: Array<string>) {
 //   after checking all childrent and their longestChains, pick the first longest long
 //   and put curernt node/word to front the chain and return it
 
-function graphSearch(word: string, graph) {
+function graphSearch(word: string, graph): Array<string> {
   // if the longestChain has already been saved
   // just return it
   if (graph[word].longestChain.length) {
