@@ -112,4 +112,21 @@ describe('using graph to find longest word chain', () => {
     const actualResult = longestChain(dict);
     expect(actualResult).to.deep.equal(expectedResult);
   });
+
+  it('should return empty array if nothing is provided', () => {
+    const dict = [];
+    const expectedResult = [];
+    const actualResult = longestChain(dict);
+    expect(actualResult).to.deep.equal(expectedResult);
+  });
+
+  it('should return first longest chain, first by the first word found in the input array', () => {
+    const dict = [
+      "spring", "in", "sin", "spin", "cat", "day", "dog", "food", "sping", "shoes",
+      "a", "ab", "abc", "labc", "zlabc"
+    ];
+    const expectedResult = ["in", "sin", "spin", "sping", "spring"];
+    const actualResult = longestChain(dict);
+    expect(actualResult).to.deep.equal(expectedResult);
+  });
 });
