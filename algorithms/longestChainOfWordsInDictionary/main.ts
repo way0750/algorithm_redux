@@ -31,3 +31,76 @@
  * then do a depth first seach and concate longestChains together
  * and return the longest one.
  */
+
+function makeGraph(dict: Array<string>) {
+  // initialize graph:
+  const graph = dict.reduce((hash, word) => {
+    hash[word] = { children: [], longestChain: [] };
+    return hash;
+  }, {});
+
+  // link the graph nodes up:
+  dict.forEach((word) => {
+    // loop through each char in a word, delete it, and check
+    // graph if that word exist, if yes, put current word in that word's children list
+    for(let posOfCharToDel = 0; posOfCharToDel < word.length; posOfCharToDel++) {
+      // new word is created by slice a word into two sides:
+      // left and right
+      //  left is slice from 0 up to the posOfCharToDel
+      //  rigth is slice from posOfCharToDel + 1 to end
+      const leftWord = word.slice(0, posOfCharToDel);
+      const rightWord = word.slice(posOfCharToDel + 1);
+      const newWord = leftWord + rightWord;
+      const foundWordInGraph = graph[newWord] || {};
+      // if the new word is found in the graph, then make current word
+      // a child of that new word.
+      if (foundWordInGraph) {
+        foundWordInGraph.children.push(word);
+      }
+    }
+  });
+  return graph;
+}
+
+// recursively depth first seach
+// what to always return: array of string/word
+// how to make problem smaller: each children is essentially a smaller problem
+//   so pass in the child, one by one, to next recursive call
+// recursive case: the pass in child: string, is not found in the graph
+//   return []
+// what to do with returns
+//   after checking all childrent and their longestChains, pick the first longest long
+//   and put curernt node/word to front the chain and return it
+
+function graphSearch(word: string, graph) {
+  // if the longestChain has already been saved
+  // just return it
+  if (graph[word].longestChain.length) {
+    return graph[word].longestChain;
+  }
+  let longestChildChain = [];
+  const children = graph[word].children;
+  children.forEach((child) => {
+    const childChain = graphSearch(child, graph);
+    if (childChain.length > longestChildChain.length){
+      longestChildChain = childChain;
+    }
+  });
+
+  // add self to the longest child chain
+  graph[word].longestChain = [word, ...longestChildChain];
+  return graph[word].longestChain;
+}
+
+function longestChain(dict: Array<string>) {
+  let currentLongestChain = [];
+  const graph = makeGraph(dict);
+  dict.forEach((word) => {
+    const curWordChain = graphSearch(word, graph);
+    if (curWordChain.length > currentLongestChain.length) {
+      currentLongestChain = curWordChain;
+    }
+  });
+  
+  return currentLongestChain;
+}
