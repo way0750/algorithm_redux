@@ -17,7 +17,7 @@
  * if it is earlier than previous meeting ending time. then nope
  */
 
-function canAttendAllMeetings(meetings: Array<{start: number, end: number}>): boolean {
+function canAttendAllMeetings(meetings: Array<{ start: number, end: number }>): boolean {
   const sortedMeetings = meetings.sort((meet1, meet2) => {
     if (meet1.start === meet2.start) {
       return 0;
@@ -26,11 +26,31 @@ function canAttendAllMeetings(meetings: Array<{start: number, end: number}>): bo
     }
   });
   for (let i = 1; i < sortedMeetings.length; i++) {
-    const previousMeeting = sortedMeetings[i-1];
+    const previousMeeting = sortedMeetings[i - 1];
     const curMeeting = sortedMeetings[i];
-    if (curMeeting.start > previousMeeting.end) {
+    if (curMeeting.start < previousMeeting.end) {
       return false;
     }
   }
   return true;
 }
+
+describe('meeting room overlap', () => {
+  it('should return true', () => {
+    const meetings = [
+      { start: 0, end: 12 },
+      { start: 13, end: 14 },
+      { start: 16, end: 19 },
+    ];
+    expect(canAttendAllMeetings(meetings)).to.be.true;
+  });
+  it('should handle the example above:', () => {
+    const meetings = [
+      { start: 0, end: 12 },
+      { start: 13, end: 14 },
+      { start: 16, end: 19 },
+      { start: 17, end: 25 }
+    ];
+    expect(canAttendAllMeetings(meetings)).to.be.false;
+  });
+});
