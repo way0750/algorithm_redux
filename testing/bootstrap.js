@@ -1,2 +1,2 @@
-global.expect = require('chai').expect;
-module.export = global;
+const chai = require('chai');
+Object.assign(global, chai);

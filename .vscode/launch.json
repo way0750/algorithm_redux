@@ -5,8 +5,14 @@
             "name": "debug TS File: see https://medium.com/@dupski/debug-typescript-in-vs-code-without-compiling-using-ts-node-9d1f4f9a94a",
             "type": "node",
             "request": "launch",
-            "args": ["${relativeFile}"],
-            "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+            "args": [
+                "${relativeFile}"
+            ],
+            "runtimeArgs": [
+                "--nolazy",
+                "-r",
+                "ts-node/register"
+            ],
             "sourceMaps": true,
             "cwd": "${workspaceRoot}",
             "protocol": "inspector",
@@ -21,7 +27,12 @@
         {
             "name": "MochaJS",
             "runtimeExecutable": "${workspaceRoot}/node_modules/ts-mocha/bin/ts-mocha",
-            "runtimeArgs": ["${relativeFile}", "--colors", "--require", "${workspaceRoot}/testing/bootstrap"],
+            "runtimeArgs": [
+                "${relativeFile}",
+                "--colors",
+                "--require",
+                "${workspaceRoot}/testing/bootstrap"
+            ],
             "type": "node",
             "request": "launch",
             "sourceMaps": true

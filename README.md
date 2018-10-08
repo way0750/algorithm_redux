@@ -13,7 +13,7 @@ If you run into errors while trying to run debugger, it might be that your node 
 This project has been set up to use VS Code to debug each single js/ts file 
 
 go to Debug -> Start Debugging in VS Code, 3 options are available
-You should use Mocha, it is the most convenient of 3 options, it has been setup to directly test typescript with mocha and chai.
+You should use the MochaJS option, it is the most convenient of 3 options, it has been setup to directly test typescript with mocha and chai.
 Example:
 ```
 // make sure to open the console in vs code to see the test results
@@ -24,11 +24,15 @@ describe('sample mocha test with chai', () => {
   });
 })
 ```
-In `testing/bootstrap.js` things related to testing are loaded there.
+*note:*
+1) You can set break points in vs-code, but there is an issue with ts-node and vs-code that cause breaking points getting ignored sometimes.
+  However, using `debugger`, will stop the execution consistently.
+
+2) In `testing/bootstrap.js` things related to testing are loaded there.
 Including the `expect` function, which is assinged to the global scope
 
 ## naming convension:
-No spaces in path name, else when you run mocha test in terminal, any spaces in path would not
+1) No spaces in path name, else when you run mocha test in terminal, any spaces in path would not
 be escaped!
 the file with all the test should be named main.js, that's where mocha will look for the specs if you
 are running mocha in the terminal
@@ -38,16 +42,37 @@ go to any directory with a `main.ts` and run `npm run mochaTest`
 this will run ts-mocha's binary in node_module and find the `main.ts` in current working directory
 
 # The Launch.json
+
 this is where the debugging with vs code feature is setup 
-
 it's at `root/.vscode/launch.json`
+```
+  {
+    "name": "MochaJS",
+    // If want to use different lib to debug, this is where you put the
+    // the bin
+    "runtimeExecutable": "${workspaceRoot}/node_modules/ts-mocha/bin/ts-mocha",
+    // Just bunch of args that get passed to the bin above during run time
+    "runtimeArgs": [
+      // this is what enables debugging any file that you are currently at
+        "${relativeFile}",
+        "--colors",
+        // requiring chai, and assigning all of its properties to global object
+        "--require",
+        "${workspaceRoot}/testing/bootstrap"
+    ],
+    "type": "node",
+    "request": "launch",
+    "sourceMaps": true
+  }
+```
 
-# typescript typing
+# TypeScript Typing
+
 the global type file is at `index.d.ts` at the root level
 you might want to add all the globally available librarys' type there
 
-# some interesting stuffs:
-## execute TypeScipt file without having to compile to JS first
+# Some Interesting Stuffs:
+### Execute TypeScipt File Without Having To Compile To JS First
 
 This repo has been setup with ts-node and ts-mocha to make testing typescript files easier without transpiling.
 
