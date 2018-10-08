@@ -19,5 +19,19 @@
  * how to make problem smaller: pass self value to recursive call on children
  */
 
+interface node {
+  left: node;
+  right: node;
+  value: number;
+}
 
+function getTreePathSum(node: node, k, curPathSum: number = 0): boolean {
+  // get to leaf node
+  if (!node) {
+    // if true, then tree can sum to k
+    return curPathSum === k;
+  }
 
+  return getTreePathSum(node.left, k, node.value + curPathSum)
+    || getTreePathSum(node.right, k, node.value + curPathSum);;
+}
