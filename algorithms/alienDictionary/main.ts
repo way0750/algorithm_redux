@@ -59,7 +59,7 @@ function getEdges(word1, word2) {
   return [];
 }
 
-function makeGraph(edges) {
+function makeGraph(edges: any) {
   const graph = {};
   edges.forEach((edge) => {
     if (edge.length === 1) {
@@ -79,7 +79,7 @@ function makeGraph(edges) {
 }
 
 // always return an array
-function search(nodeValue, graph) {
+export function search(nodeValue, graph) {
   const node = graph[nodeValue];
   if (node.isVisited) {
     return [];

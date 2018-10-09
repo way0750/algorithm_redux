@@ -37,6 +37,11 @@ be escaped!
 the file with all the test should be named index.js, that's where mocha will look for the specs if you
 are running mocha in the terminal
 
+## use export/import in each file to create file level scope
+meaning turning the file into a module.
+If you don't use export/import in each file, then all variables constance and anything else will be part of the global scope
+This mean polluting the global scope, and you will end up with naming collusion!
+
 ## if you have to run test in terminal
 go to any directory with a `index.ts` and run `npm run mochaTest`
 this will run ts-mocha's binary in node_module and find the `index.ts` in current working directory
