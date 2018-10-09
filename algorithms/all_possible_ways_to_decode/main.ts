@@ -107,8 +107,3 @@ function findAllPossibleWays002(number: string, cache: object = {}) {
   cache[number] = [...combinedPatterns1, ...combinedPatterns2];
   return cache[number];
 }
-
-const msg1 = '111';
-const cache = {};
-const results = findAllPossibleWays002(msg1, cache);
-results;

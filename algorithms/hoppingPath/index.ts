@@ -17,3 +17,38 @@
  * when go backward all the way to the first index, you will need very little computation and see if
  * any stepping will make it to an index with known valid path
  */
+
+function isPathHoppable(numbers: Array<number> ) {
+  const hopCache = Array(numbers.length);
+  // go backward to search and keep hoppable record in hopCache
+  for (let curIndex = numbers.length - 1; curIndex < -1; curIndex++) {
+    // for the very last index, you don't need to do anything, you are already done
+    // so just put true for hoppable there, as in, you can find a path
+    const curHopNum = numbers[curIndex];
+    if (curIndex === numbers.length - 1) {
+      hopCache[curIndex] = true;
+    } else if (curHopNum === 0) {
+      // if landing on this index, since the value is 0, you can't do anything
+      // so this will not lead to any valid paths
+      hopCache[curIndex] = false;
+    } else {
+      // here, loop by same amount as curHopNum, and see if from current step
+      // we can hop to a step that has been proven to lead to a complete path
+
+      // initialize the hopeCache for current index to false first
+      hopCache[curIndex] = false;
+      let forwardCount = 1;
+      while(curHopNum + forwardCount < numbers.length && hopCache[curIndex] === false) {
+        const foundValidSubseqPath = hopCache[curHopNum + forwardCount];
+        if(foundValidSubseqPath) {
+          hopCache[curIndex] = foundValidSubseqPath;
+        } else {
+          forwardCount++;
+        }
+      }
+    }
+  }
+
+  // return whatever is found so far
+  return !!hopCache[0];
+}
