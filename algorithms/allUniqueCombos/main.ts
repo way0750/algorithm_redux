@@ -81,6 +81,7 @@ function allUniqueCombos(options, amount: number, cache: object = {}) {
 }
 
 describe('all unique combos', () => {
+  beforeEach(() => {});
   it('should handle only 1 option', () => {
     const menu = [
       ['chips', 1],
@@ -112,6 +113,27 @@ describe('all unique combos', () => {
       [ 'chips', 'chips', 'hotdog', 'hotdog', ],
       [ 'chips', 'chips', 'pizza', ],
       [ 'chips', 'chips', 'chips', 'chips', 'chips', ],
-    ])
+    ]);
   });
 });
+
+/**
+ *       1 -> 8 -> 4 -> 3 -> 9
+ * 
+ * 9
+ * 3,9
+ * 3,
+ * 4
+ * 4,3
+ * 4,3,9
+ * 8
+ * 8,4
+ * 8,4,3
+ * 8,4,3,9
+ * 1,
+ * 1,8
+ * 1,8,4
+ * 1,8,4,3
+ * 1,8,4,3,9
+ * 
+ */

@@ -15,7 +15,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "mochaTest": "node_modules/ts-mocha/bin/ts-mocha -p tsconfig.json --require testing/bootstrap.js $INIT_CWD/main.ts"
+    "mochaTest": "node_modules/ts-mocha/bin/ts-mocha -p tsconfig.json --require testing/bootstrap.js $INIT_CWD/index.ts"
   },
   "repository": {
     "type": "git",

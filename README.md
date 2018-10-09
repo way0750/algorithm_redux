@@ -34,12 +34,12 @@ Including the `expect` function, which is assinged to the global scope
 ## naming convension:
 1) No spaces in path name, else when you run mocha test in terminal, any spaces in path would not
 be escaped!
-the file with all the test should be named main.js, that's where mocha will look for the specs if you
+the file with all the test should be named index.js, that's where mocha will look for the specs if you
 are running mocha in the terminal
 
 ## if you have to run test in terminal
-go to any directory with a `main.ts` and run `npm run mochaTest`
-this will run ts-mocha's binary in node_module and find the `main.ts` in current working directory
+go to any directory with a `index.ts` and run `npm run mochaTest`
+this will run ts-mocha's binary in node_module and find the `index.ts` in current working directory
 
 # The Launch.json
 
