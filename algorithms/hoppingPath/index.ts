@@ -18,10 +18,10 @@
  * any stepping will make it to an index with known valid path
  */
 
-function isPathHoppable(numbers: Array<number> ) {
+function isPathHoppable(numbers: Array<number>): any {
   const hopCache = Array(numbers.length);
   // go backward to search and keep hoppable record in hopCache
-  for (let curIndex = numbers.length - 1; curIndex < -1; curIndex++) {
+  for (let curIndex = numbers.length - 1; curIndex > -1; curIndex--) {
     // for the very last index, you don't need to do anything, you are already done
     // so just put true for hoppable there, as in, you can find a path
     const curHopNum = numbers[curIndex];
@@ -38,9 +38,13 @@ function isPathHoppable(numbers: Array<number> ) {
       // initialize the hopeCache for current index to false first
       hopCache[curIndex] = false;
       let forwardCount = 1;
-      while(curHopNum + forwardCount < numbers.length && hopCache[curIndex] === false) {
+      // loop condition: forwardCount is a way to keep track to how many steps we should use from
+      // the curNum, if the curNum is 4, then we can these options: 1/2/3/4, we will loop through all of them and no more
+      // In addition to that, if anything any of the stepping will lead to an out of bound index, stop
+      // Or if anytime we should a valid path, stop
+      while (forwardCount <= curHopNum && curHopNum + forwardCount < numbers.length && hopCache[curIndex] === false) {
         const foundValidSubseqPath = hopCache[curHopNum + forwardCount];
-        if(foundValidSubseqPath) {
+        if (foundValidSubseqPath) {
           hopCache[curIndex] = foundValidSubseqPath;
         } else {
           forwardCount++;
@@ -52,3 +56,29 @@ function isPathHoppable(numbers: Array<number> ) {
   // return whatever is found so far
   return !!hopCache[0];
 }
+
+describe('hopping path', () => {
+  it('should return true for the example path', () => {
+    const numbers = [2, 0, 1, 0];
+    expect(isPathHoppable(numbers)).to.be.true;
+  });
+
+  it('should return true for a config that has multiple valid paths too', () => {
+    const numbers = [4, 3, 0, 0, 1, 0];
+    expect(isPathHoppable(numbers)).to.be.true;
+  });
+
+  it('should return false for empty path', () => {
+    expect(isPathHoppable([])).to.be.false;
+  });
+
+  it('should return false for long and invalid config', () => {
+    const numbers = [1, 2, 3, 4, 5, 0, 0, 0, 0, 0, 0, 10];
+    expect(isPathHoppable(numbers)).to.be.false;
+  });
+
+  it('should return false for config that begings with a 0', () => {
+    const numbers = [0, 2, 3, 4, 5, 0, 0, 10];
+    expect(isPathHoppable(numbers)).to.be.false;
+  });
+});
