@@ -27,10 +27,6 @@ function isPathHoppable(numbers: Array<number>): any {
     const curHopNum = numbers[curIndex];
     if (curIndex === numbers.length - 1) {
       hopCache[curIndex] = true;
-    } else if (curHopNum === 0) {
-      // if landing on this index, since the value is 0, you can't do anything
-      // so this will not lead to any valid paths
-      hopCache[curIndex] = false;
     } else {
       // here, loop by same amount as curHopNum, and see if from current step
       // we can hop to a step that has been proven to lead to a complete path
