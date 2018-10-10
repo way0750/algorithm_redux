@@ -18,7 +18,7 @@
  * any stepping will make it to an index with known valid path
  */
 
-function isPathHoppable(numbers: Array<number>): any {
+function isPathHoppableOldAlgorithm(numbers: Array<number>): any {
   const hopCache = Array(numbers.length);
   // go backward to search and keep hoppable record in hopCache
   for (let curIndex = numbers.length - 1; curIndex > -1; curIndex--) {
@@ -50,7 +50,34 @@ function isPathHoppable(numbers: Array<number>): any {
   }
 
   // return whatever is found so far
-  return !!hopCache[0];
+  // if empty array, just return true
+  return numbers.length ? !!hopCache[0] : true;
+}
+
+/**
+ * new way of doing this: loop through each index and calculate the furthest index that currently could be hopped to from
+ * any conbination of any previous steps
+ * 
+ * ex: [1,2,3,4,0,0,0];
+ * for index 0, value is 1, that mean so far the best we can do is hop to index 0 + 1 = 1
+ * then when we get to index, the value is 2, this is the within the hoppable distance, and we now recalculate the happable distance
+ * so we get index 1 + 2 = 3, the max happable distance/index is now 3. And this means we can get here at index 2, and we can also get 
+ * to index 3
+ * keep on doing this and updating the furthest hoppable distance
+ * if we can finish looping though the entire array with the last index <= to the max happable distance, we should return ture 
+ */
+
+function isPathHoppable(numbers: Array<number>): boolean {
+  let maxHoppableDistance = 0;
+  return numbers.every((val, index) => {
+    // current index is out of max possible reachable index
+    if (index > maxHoppableDistance) {
+      return false;
+    } else {
+      maxHoppableDistance = Math.max(maxHoppableDistance, index + val);
+      return true;
+    }
+  });
 }
 
 describe('hopping path', () => {
@@ -65,7 +92,7 @@ describe('hopping path', () => {
   });
 
   it('should return false for empty path', () => {
-    expect(isPathHoppable([])).to.be.false;
+    expect(isPathHoppable([])).to.be.true;
   });
 
   it('should return false for long and invalid config', () => {
