@@ -27,11 +27,11 @@ export function depthFirstSearch(node) {
     // when no child at all, return [[ self value ]];
     return [[node.value]];
   }
-  const leftPaths = depthFirstSearch(node.left);
-  const rightPaths = depthFirstSearch(node.right);
-  const allPaths = [...leftPaths, ...rightPaths];
+  const leftSubPaths = depthFirstSearch(node.left);
+  const rightSubPaths = depthFirstSearch(node.right);
+  const allSubPaths = [...leftSubPaths, ...rightSubPaths];
   // add current node value to all sub paths
-  return allPaths.map((path) => [node.value, ...path]);
+  return allSubPaths.map((path) => [node.value, ...path]);
 };
 
 describe('depth first search', () => {
