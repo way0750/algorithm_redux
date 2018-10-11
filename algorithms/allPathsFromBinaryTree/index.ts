@@ -33,3 +33,19 @@ export function depthFirstSearch(node) {
   // add current node value to all sub paths
   return allPaths.map((path) => [node.value, ...path]);
 };
+
+describe('depth first search', () => {
+  it('emtpy node should return []', () => {
+    const tree = null;
+    expect(depthFirstSearch(tree)).to.deep.equal([]);
+  });
+  it('should return example return for the above example', () => {
+    const tree = { value: 1, left: { value: 2 }, right: { value: 3, left: { value: 4 }, right: { value: 5 } } };
+    const expectedValue = [
+      [1, 2],
+      [1, 3, 4],
+      [1, 3, 5]
+    ];
+    expect(depthFirstSearch(tree)).to.deep.equal(expectedValue);
+  });
+});
