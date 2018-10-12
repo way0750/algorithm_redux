@@ -29,7 +29,7 @@
  * how to make problem smaller:
  *   smaller in terms of N, so passing N - steppingOptionNum to the next recursive call
  */
-let count = 0
+export let count = 0
 function patternSearch(stepOptions: Array<number>, n: number, cache: object = {}) {
   count++;
   if (n === 0) {
