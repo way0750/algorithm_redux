@@ -23,23 +23,24 @@
  *   if the return from the subsequent recursive call is null, keep taking char from the beginning of the string
  */
 
-export function getWords(dict, str) {
+export function getWords(dict, str, cache = {}) {
   let curWord = '';
   let remainingStr = str;
   while(remainingStr) {
     curWord += remainingStr.slice(0,1);
     remainingStr = remainingStr.slice(1);
-    //debugger
     if (dict[curWord] && remainingStr) {
-      const recursiveReturn = getWords(dict, remainingStr)
+      const recursiveReturn = cache[remainingStr] ? cache[remainingStr] : getWords(dict, remainingStr, cache);
       if (recursiveReturn) {
-        return [curWord, ...recursiveReturn];
+        cache[str] = [curWord, ...recursiveReturn];
+        return cache[str];
       }
     } else if(dict[curWord] && !remainingStr) {
-      return [curWord];
+      cache[str] = [curWord];
+      return cache[str];
     }
   }
-
+  cache[str] = null;
   return null;
 }
 
