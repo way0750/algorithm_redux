@@ -23,14 +23,14 @@
  *   if the return from the subsequent recursive call is null, keep taking char from the beginning of the string
  */
 
-export function getWords(dict, str, cache = {}) {
+export function search(dict, str, cache = {}) {
   let curWord = '';
   let remainingStr = str;
   while(remainingStr) {
     curWord += remainingStr.slice(0,1);
     remainingStr = remainingStr.slice(1);
     if (dict[curWord] && remainingStr) {
-      const recursiveReturn = cache[remainingStr] || getWords(dict, remainingStr, cache);
+      const recursiveReturn = cache[remainingStr] || search(dict, remainingStr, cache);
       if (recursiveReturn) {
         cache[str] = [curWord, ...recursiveReturn];
         return cache[str];
@@ -44,44 +44,49 @@ export function getWords(dict, str, cache = {}) {
   return cache[str];
 }
 
+function getWords(dict, str) {
+  const wordHash = dict.reduce((hash, word) => {
+    hash[word] = true;
+    return hash;
+  }, {});
+  const hash = {};
+  return search(wordHash, str, hash);
+}
+
 describe('Get words from sentence', () => {
   it('should return example return like above', () => {
-    const dict = {
-      cat: true,
-      dog: true,
-      chases: true
-    };
+    const words = ['quick', 'brown', 'the', 'fox'];
+    const string = 'thequickbrownfox';
+    expect(getWords(words, string)).to.deep.equal(['the', 'quick', 'brown', 'fox']);
+  });
+
+  it('should return example return like above', () => {
+    const dict = [ 'cat', 'dog', 'chases' ];
     const str = "catchasesdog";
     expect(getWords(dict, str)).to.deep.equal(['cat', 'chases', 'dog']);
   });
 
   it('should return null for no pattern found', () => {
-    const dict = {
-      cat: true,
-      dog: true,
-      chases: true
-    };
+    const dict = [ 'cat', 'dog', 'chases' ];
     const str = "catchasesdogwrong";
     expect(getWords(dict, str)).to.deep.equal(null);
   });
 
   it('should return null for no pattern found', () => {
-    const dict = {
-      cat: true,
-      dog: true,
-      chases: true
-    };
+    const dict = [ 'cat', 'dog', 'chases' ];
     const str = "nothingfound";
     expect(getWords(dict, str)).to.deep.equal(null);
   });
 
   it('should return array for pattern found', () => {
-    const dict = {
-      a: true,
-      b: true,
-      c: true
-    };
+    const dict = ['a', 'b', 'c'];
     const str = "abccb";
     expect(getWords(dict, str)).to.deep.equal(['a', 'b', 'c', 'c', 'b']);
+  });
+
+  it('should return vaid pattern after backtracking', () => {
+    const dict = ['abc', 'defbb', 'def', 'cbs'];
+    const str = 'abcdefbbcbs';
+    expect(getWords(dict, str)).to.deep.equal(['abc', 'defbb', 'cbs']);
   });
 });
