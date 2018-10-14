@@ -22,3 +22,65 @@
  *   keep taking one char from the input string, and pass the remaining string
  *   if the return from the subsequent recursive call is null, keep taking char from the beginning of the string
  */
+
+export function getWords(dict, str) {
+  let curWord = '';
+  let remainingStr = str;
+  while(remainingStr) {
+    curWord += remainingStr.slice(0,1);
+    remainingStr = remainingStr.slice(1);
+    //debugger
+    if (dict[curWord] && remainingStr) {
+      const recursiveReturn = getWords(dict, remainingStr)
+      if (recursiveReturn) {
+        return [curWord, ...recursiveReturn];
+      }
+    } else if(dict[curWord] && !remainingStr) {
+      return [curWord];
+    }
+  }
+
+  return null;
+}
+
+describe('Get words from sentence', () => {
+  it('should return example return like above', () => {
+    const dict = {
+      cat: true,
+      dog: true,
+      chases: true
+    };
+    const str = "catchasesdog";
+    expect(getWords(dict, str)).to.deep.equal(['cat', 'chases', 'dog']);
+  });
+
+  it('should return null for no pattern found', () => {
+    const dict = {
+      cat: true,
+      dog: true,
+      chases: true
+    };
+    const str = "catchasesdogwrong";
+    expect(getWords(dict, str)).to.deep.equal(null);
+  });
+
+  it('should return null for no pattern found', () => {
+    const dict = {
+      cat: true,
+      dog: true,
+      chases: true
+    };
+    const str = "nothingfound";
+    expect(getWords(dict, str)).to.deep.equal(null);
+  });
+
+  it('should return array for pattern found', () => {
+    const dict = {
+      a: true,
+      b: true,
+      c: true
+    };
+    const str = "abccb";
+    expect(getWords(dict, str)).to.deep.equal(['a', 'b', 'c', 'c', 'b']);
+  });
+});
