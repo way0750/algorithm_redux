@@ -5,7 +5,7 @@
 // Given the set of words 'bed', 'bath', 'bedbath', 'and', 'beyond', and the string "bedbathandbeyond", return either ['bed', 'bath', 'and', 'beyond] or ['bedbath', 'and', 'beyond'].
 
 /**
- * the quck and intuative way: loop from left to right and get one valid word, then pass the remaining string to the next recursive call.
+ * the quck and intuative way: loop from left to right and get one valid word, then pass the remaining string to the next recursive call to see if this set up will yield any valid pattern at all.
  * if nothing returns from the recursive call, then keep add new char to the already valid word to see if you can make a longer and valid word
  * if yes then again pass the remaining string to next call.
  * 
@@ -13,13 +13,13 @@
  * 
  * recursive case: if remaing string isn't empty, recursively call with it.
  * what to always return:
- *   an array of potentially sub array, each sub array is a pattern
+ *   an array of strings, this is a valid sub pattern
  *   or null for no sub pattern found
  * what to do with return:
- *   if the return is null, then try to search more
- *   if the reutnr is an array, then you have found a valid sub pattern, prepend current valid word
+ *   if the return is null, then try to search more. If found noting at the end, just return null.
+ *   if the reutnr is an array, then you have found a valid sub pattern, prepend current valid word to it
  * how to make problem smaller:
- *   keep taking one char from the input string, and pass the remaining string
+ *   keep taking one char from the input string until finding a valid word, and then pass the remaining string to next call
  *   if the return from the subsequent recursive call is null, keep taking char from the beginning of the string
  */
 
@@ -30,7 +30,7 @@ export function getWords(dict, str, cache = {}) {
     curWord += remainingStr.slice(0,1);
     remainingStr = remainingStr.slice(1);
     if (dict[curWord] && remainingStr) {
-      const recursiveReturn = cache[remainingStr] ? cache[remainingStr] : getWords(dict, remainingStr, cache);
+      const recursiveReturn = cache[remainingStr] || getWords(dict, remainingStr, cache);
       if (recursiveReturn) {
         cache[str] = [curWord, ...recursiveReturn];
         return cache[str];
@@ -41,7 +41,7 @@ export function getWords(dict, str, cache = {}) {
     }
   }
   cache[str] = null;
-  return null;
+  return cache[str];
 }
 
 describe('Get words from sentence', () => {
