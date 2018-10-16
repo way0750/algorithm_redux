@@ -42,3 +42,61 @@ function isSubTreeOf(s, t): boolean {
 
   return isSubTreeOf(s, t.left) || isSubTreeOf(s, t.right)
 }
+
+describe('Sub tree by value', () => {
+  it('should work with simple test', () => {
+    const tree1 = {
+      value: 1,
+      left: { value: 2},
+      right: { value: 3 }
+    };
+
+    const tree2 = {
+      value: 1,
+      left: { value: 2},
+      right: { value: 3 }
+    };
+
+    expect(isSubTreeOf(tree1, tree2)).to.be.true;
+  });
+
+  it('should be false for not sub tree', () => {
+    const tree1 = {
+      value: 1,
+      left: { value: 2},
+      right: { value: 2 }
+    };
+
+    const tree2 = {
+      value: 1,
+      left: { value: 2},
+      right: { value: 3 }
+    };
+
+    expect(isSubTreeOf(tree1, tree2)).to.be.false;
+  });
+
+  it('should be true between big and small tree', () => {
+    const tree1 = {
+      value: 9,
+      left: {
+        value: 8,
+        left: {
+          value: 1,
+          left: { value: 2 },
+          right: { value: 3 }
+        },
+        right: { value: 99 }
+      },
+      right: { value: 32 }
+    };
+
+    const tree2 = {
+      value: 1,
+      left: { value: 2},
+      right: { value: 3 }
+    };
+
+    expect(isSubTreeOf(tree2, tree1)).to.be.true;
+  });
+});
