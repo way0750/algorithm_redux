@@ -5,7 +5,7 @@
  * search through t and keep comparing to s root node by value
  * if same value then pass that node and s to a recursive function to check if from that node on all of s's children values are found
  * 
- * recursive function:
+ * recursive function for comparing two trees:
  * base case
  *   if s node is null: return true
  *   if t node is null: return false
