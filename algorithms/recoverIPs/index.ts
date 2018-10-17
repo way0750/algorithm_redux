@@ -35,3 +35,20 @@
  * how to make problem smaller:
  *   recursively call with remaing string and new min (curMin - 1) and max length (curMax - 3)
  */
+
+export function findAllIPs(numStr: string, minStrLength: number = 3, maxStrLength: number = 9): Array<string> {
+  let patterns = [];
+  let strSlicingCount = 1;
+  while (strSlicingCount < 4) {
+    const curNum = Number(numStr.slice(0, strSlicingCount));
+    let remainingNum = numStr.slice(strSlicingCount);
+    let isEnoughtNumLeft = remainingNum.length >= minStrLength && remainingNum.length <= maxStrLength;
+    if (curNum > -1 && curNum < 256 && isEnoughtNumLeft) {
+      let subPatterns = findAllIPs(remainingNum, minStrLength - 1, maxStrLength - 3);
+      subPatterns = subPatterns.map((subPattern) => `${curNum}.${subPattern}`);
+      patterns.push(...subPatterns);
+    }
+    strSlicingCount++;
+  }
+  return patterns;
+}
