@@ -36,6 +36,9 @@ import { getMaxListeners } from "cluster";
  * what to do with return, add current section num to each string's front
  * how to make problem smaller:
  *   recursively call with remaing string and new min (curMin - 1) and max length (curMax - 3)
+ * 
+ * 
+ * what really REALLY counts as an IP address though?
  */
 
 export function findAllIPs(numStr: string, minStrLength: number = 3, maxStrLength: number = 9): Array<string> {
