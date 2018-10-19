@@ -48,7 +48,7 @@
 
 export function findSmallestDiff(arrA, arrB) {
   arrA = arrA.map((num) => { return { value: num, sourceArr: "A" } });
-  arrB = arrB.map((num) => { return { value: num, sourceArr: "B" }});
+  arrB = arrB.map((num) => { return { value: num, sourceArr: "B" } });
   const sortedMargeArr = [...arrA, ...arrB].sort((arr1Obj, arr2Obj) => {
     if (arr1Obj.value === arr2Obj.value) {
       return 0;
@@ -73,14 +73,14 @@ export function findSmallestDiff(arrA, arrB) {
 
 describe('find smallest diff', () => {
   it('should return like the example', () => {
-    const arr1 = [3,2,5];
-    const arr2 = [4,7,2];
+    const arr1 = [3, 2, 5];
+    const arr2 = [4, 7, 2];
     expect(findSmallestDiff(arr1, arr2)).to.equal(0);
   });
 
   it('should work with unequal arrays', () => {
-    const arr1 = [5,10,20, 33,1];
-    const arr2 = [4,7,2];
+    const arr1 = [5, 10, 20, 33, 1];
+    const arr2 = [4, 7, 2];
     expect(findSmallestDiff(arr1, arr2)).to.equal(1);
   });
 
@@ -88,5 +88,43 @@ describe('find smallest diff', () => {
     const arr1 = [];
     const arr2 = [];
     expect(findSmallestDiff(arr1, arr2)).to.equal(undefined);
+  });
+});
+
+function printLeftOnly(tree) {
+  let nodesOfSameLevel = [tree];
+  const printStack = [];
+  while (nodesOfSameLevel.length) {
+    const children = []
+    nodesOfSameLevel.forEach((node) => {
+      if (node.left) {
+        children.push(node.left)
+      }
+      if (node.right) {
+        children.push(node.right);
+      }
+    });
+    const leftMostNode = nodesOfSameLevel.shift();
+    console.log(leftMostNode.value);
+    printStack.push(leftMostNode.value);
+    nodesOfSameLevel = children;
+  }
+
+  return printStack;
+}
+
+describe('print left only', () => {
+  it('shold return simple list', () => {
+    const tree = {
+      value: 1,
+      left: { value: 3 },
+      right: {
+        value: 4,
+        left: { value: 5},
+        right: { value: 6}
+      },
+    }
+    const printStack = [1, 3, 5];
+    expect(printLeftOnly(tree)).to.deep.equal(printStack);
   });
 });
