@@ -128,3 +128,44 @@ describe('print left only', () => {
     expect(printLeftOnly(tree)).to.deep.equal(printStack);
   });
 });
+
+
+function isTreeBinarySearchTree(tree) {
+  if (!tree) {
+    return true;
+  }
+
+  const leftNode = tree.left || { value: -Infinity };
+  const rightNode = tree.right || { value: Infinity };
+  const isCurOrdered = leftNode.value <= tree.value && tree.value <= rightNode.value;
+
+  return isCurOrdered && isTreeBinarySearchTree(tree.left) && isTreeBinarySearchTree(tree.right);
+}
+
+describe(' is tree a binary search tree', () => {
+  it('should return true for binary search tree', () => {
+    const tree = {
+      value: 10,
+      left: {
+        value: 5,
+        left: {
+          value: 2,
+          left: { value: 1}
+        },
+        right: {
+          value: 6
+        }
+      },
+      right: {
+        value: 18,
+        left: {
+          value: 17,
+        },
+        right: {
+          value: 19
+        }
+      }
+    }
+    expect(isTreeBinarySearchTree(tree)).to.be.true;
+  });
+});
