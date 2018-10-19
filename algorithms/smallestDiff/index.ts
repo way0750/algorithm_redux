@@ -57,7 +57,7 @@ export function findSmallestDiff(arrA, arrB) {
     }
   });
 
-  let curMin = sortedMargeArr.length > 1 ? Infinity : undefined;
+  let curMin = sortedMargeArr.length > 1 ? Infinity : -1;
   for (let leftIndex = 0; leftIndex < sortedMargeArr.length - 1; leftIndex++) {
     const rightIndex = leftIndex + 1;
     const leftNumObj = sortedMargeArr[leftIndex];
@@ -87,7 +87,7 @@ describe('find smallest diff', () => {
   it('should work emtpy arrays', () => {
     const arr1 = [];
     const arr2 = [];
-    expect(findSmallestDiff(arr1, arr2)).to.equal(undefined);
+    expect(findSmallestDiff(arr1, arr2)).to.equal(-1);
   });
 });
 
