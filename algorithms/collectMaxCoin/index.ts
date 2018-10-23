@@ -18,3 +18,40 @@
  * space: n * m too, but with some optimizatin, you can reduce it to m because only the immedite row below the current
  * row is needed for precalculate results
  */
+
+// This solution will mutate the input
+function forEachBackward (array, callback) {
+  for (let index = array.length - 1; index < -1; index-- ) {
+    callback(array[index], index, array);
+  }
+}
+
+export function getMaxCoinValue(matrix: Array<Array<number>>): number {
+  forEachBackward(matrix, (row: Array<number>, rowIndex: number) => {
+    forEachBackward(row, (cell: number, cellIndex: number) => {
+      const adjacentRightIndex = cellIndex + 1;
+      const mostCoinValueFromRight =  adjacentRightIndex < row.length ? row[adjacentRightIndex] : 0;
+
+      const bottomRowIndex = rowIndex + 1;
+      const bottomRow = matrix[bottomRowIndex] || [];
+      const mostCoinValueFromBottom = bottomRow[cellIndex] || 0;
+
+      const curValue = cell
+      const mostCoinValueFromCurIndex  = curValue + Math.max(mostCoinValueFromRight, mostCoinValueFromBottom);
+      matrix[rowIndex][cellIndex] = mostCoinValueFromCurIndex;
+    });
+  });
+  const firstRow = matrix[0] || [];
+  return firstRow[0] || 0;
+}
+
+describe('Most coin value', () => {
+  it('should return result for example above', () => {
+    const matrix = [
+      [0, 3, 1, 1],
+      [2, 0, 0, 4],
+      [1, 5, 3, 1],
+    ];
+    expect(getMaxCoinValue(matrix)).to.equal(12);
+  });
+});
