@@ -56,8 +56,8 @@ function getMaxCoinValueNoInputMutation(matrix): number {
       const mostCoinValueFromLeft =  adjacentLeftIndex > -1 ? row[adjacentLeftIndex] : 0;
 
       const topRowIndex = rowIndex - 1;
-      const bottomRow = matrixReverseClone[topRowIndex] || [];
-      const mostCoinValueFromTop = bottomRow[cellIndex] || 0;
+      const topRow = matrixReverseClone[topRowIndex] || [];
+      const mostCoinValueFromTop = topRow[cellIndex] || 0;
 
       const curValue = cell
       const mostCoinValueFromCurIndex  = curValue + Math.max(mostCoinValueFromLeft, mostCoinValueFromTop);
