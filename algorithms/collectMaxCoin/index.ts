@@ -13,4 +13,8 @@
  * In that case you are pretty much creating all possible sub case/problem all. And each sub case/problem
  * can reuse result from its immedite right cell and immedite bottom cell. 
  * at the very end, just return the value at matrix[0][0]
+ * 
+ * time: n * m, this solution is shape independent, square or rectangle, both works
+ * space: n * m too, but with some optimizatin, you can reduce it to m because only the immedite row below the current
+ * row is needed for precalculate results
  */
