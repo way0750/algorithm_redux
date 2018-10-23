@@ -21,7 +21,7 @@
 
 // This solution will mutate the input
 function forEachBackward (array, callback) {
-  for (let index = array.length - 1; index < -1; index-- ) {
+  for (let index = array.length - 1; index > -1; index-- ) {
     callback(array[index], index, array);
   }
 }
@@ -44,6 +44,10 @@ export function getMaxCoinValue(matrix: Array<Array<number>>): number {
   const firstRow = matrix[0] || [];
   return firstRow[0] || 0;
 }
+
+// function getMaxCoinValueNoInputMutation(matrix): number {
+
+// }
 
 describe('Most coin value', () => {
   it('should return result for example above', () => {
