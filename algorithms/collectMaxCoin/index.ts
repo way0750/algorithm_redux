@@ -45,9 +45,29 @@ export function getMaxCoinValue(matrix: Array<Array<number>>): number {
   return firstRow[0] || 0;
 }
 
-// function getMaxCoinValueNoInputMutation(matrix): number {
 
-// }
+// This one doesn't mutate the input:
+function getMaxCoinValueNoInputMutation(matrix): number {
+  let matrixReverseClone = matrix.map((row: Array<number>) => row.reverse());
+  matrixReverseClone = matrixReverseClone.reverse();
+  matrixReverseClone.forEach((row, rowIndex) => {
+    row.forEach((cell, cellIndex) => {
+      const adjacentLeftIndex = cellIndex - 1;
+      const mostCoinValueFromLeft =  adjacentLeftIndex > -1 ? row[adjacentLeftIndex] : 0;
+
+      const topRowIndex = rowIndex - 1;
+      const bottomRow = matrixReverseClone[topRowIndex] || [];
+      const mostCoinValueFromTop = bottomRow[cellIndex] || 0;
+
+      const curValue = cell
+      const mostCoinValueFromCurIndex  = curValue + Math.max(mostCoinValueFromLeft, mostCoinValueFromTop);
+      matrixReverseClone[rowIndex][cellIndex] = mostCoinValueFromCurIndex;
+    });
+  });
+
+  const lastRow = matrixReverseClone[matrixReverseClone.length - 1] || [];
+  return lastRow[lastRow.length - 1] || 0;
+}
 
 describe('Most coin value', () => {
   it('should return result for example above', () => {
@@ -57,5 +77,42 @@ describe('Most coin value', () => {
       [1, 5, 3, 1],
     ];
     expect(getMaxCoinValue(matrix)).to.equal(12);
+  });
+
+  it('should return zero for empty array', () => {
+    const matrix = [];
+    expect(getMaxCoinValue(matrix)).to.equal(0);
+  });
+
+  it('should return 9', () => {
+    const matrix = [
+      [0, 3, 1, 1],
+      [2, 0, 0, 4]
+    ];
+    expect(getMaxCoinValue(matrix)).to.equal(9);
+  });
+});
+
+describe('Most coin value: no mutating input version', () => {
+  it('should return result for example above', () => {
+    const matrix = [
+      [0, 3, 1, 1],
+      [2, 0, 0, 4],
+      [1, 5, 3, 1],
+    ];
+    expect(getMaxCoinValueNoInputMutation(matrix)).to.equal(12);
+  });
+
+  it('should return zero for empty array', () => {
+    const matrix = [];
+    expect(getMaxCoinValueNoInputMutation(matrix)).to.equal(0);
+  });
+
+  it('should return 9', () => {
+    const matrix = [
+      [0, 3, 1, 1],
+      [2, 0, 0, 4]
+    ];
+    expect(getMaxCoinValueNoInputMutation(matrix)).to.equal(9);
   });
 });
