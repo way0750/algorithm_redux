@@ -18,3 +18,99 @@
  * solution 2 will be able to handle the follow-up question becaues it doesn't need to know the entire size of the matrix, and it
  * maintains the most current state in which we can use to check if there are inconsistances
  */
+
+// solution 2, without dealing with the follow up:
+// time complexity: n * m
+// space: m (the width of matrix)
+export function isToeplitzMatrix(matrix, previousRow?: Array<any>) {
+  return matrix.every((row) => {
+    if (!previousRow) {
+      previousRow = row.slice();
+    } else {
+      // the very last number is not needed for current row comparation
+      previousRow.pop();
+      // push the current row's first item in it, as a placeholder item to pass the comparation
+      // but it will be useful for subsequent rows' comparations
+      previousRow.unshift(row[0]);
+    }
+    return row.every((cell, index) => cell === previousRow[index]);
+  });
+}
+
+// a reimplementation that maintain state for handling the follow up case above 
+function makeIsToeplitzMatrixFunc() {
+  let previousRows;
+  let isCurrentlyToeplitz = true;
+  return function isToeplitzMatrixPartially(partialMatrix) {
+    // passing previousRows into isToeplitzMatrix, this way it will be mutated and maintain the most recent
+    // row for next comparisions.
+    if (!isCurrentlyToeplitz) {
+      return false;
+    }
+    if (!previousRows) {
+      previousRows = partialMatrix[0].slice();
+      previousRows.shift(); 
+      previousRows.push(Infinity); //a placeholder value that will get popped
+    }
+    isCurrentlyToeplitz = isToeplitzMatrix(partialMatrix, previousRows);
+    return isCurrentlyToeplitz;
+  };
+}
+
+describe('isToeplitzMatrix', () => {
+  it('should return true', () => {
+    const matrix = [
+      [1,2,3,4,5],
+      [6,1,2,3,4],
+      [7,6,1,2,3],
+      [8,7,6,1,2],
+      [9,8,7,6,1],
+    ];
+    expect(isToeplitzMatrix(matrix)).to.be.true;
+  });
+
+  it('should return false', () => {
+    const matrix = [
+      [1,2,3,4,5],
+      [6,1,2,3,4],
+      [7,6,1,2,3],
+      [8,7,6,1,2],
+      [9,18,7,6,1],
+    ];
+    expect(isToeplitzMatrix(matrix)).to.be.false;
+  });
+});
+
+describe('isToeplitzMatrix handling follow up case', () => {
+  it('should return true', () => {
+    const matrix = [
+      [1,2,3,4,5],
+      [6,1,2,3,4],
+      [7,6,1,2,3],
+      [8,7,6,1,2],
+      [9,8,7,6,1],
+    ];
+    const func = makeIsToeplitzMatrixFunc();
+    const results = matrix.map((row) => {
+      return func([row]);
+    });
+    // mimic printing things out
+    expect(results).to.deep.equal([true, true, true, true, true]);
+  });
+
+  it('should return false', () => {
+    const matrix = [
+      [1,2,3,4,5],
+      [6,1,2,3,4],
+      [7,6,11,2,3], // notice the 11?
+      [8,7,6,1,2],
+      [9,8,7,6,1],
+    ];
+
+    const func = makeIsToeplitzMatrixFunc();
+    const results = matrix.map((row) => {
+      return func([row]);
+    });
+    expect(results).to.deep.equal([true, true, false, false, false]);
+  });
+});
