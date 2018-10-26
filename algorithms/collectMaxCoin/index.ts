@@ -20,7 +20,7 @@
  */
 
 // This solution will mutate the input
-function forEachBackward (array, callback) {
+export function forEachBackward (array, callback) {
   for (let index = array.length - 1; index > -1; index-- ) {
     callback(array[index], index, array);
   }
