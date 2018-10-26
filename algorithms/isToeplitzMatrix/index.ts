@@ -27,23 +27,23 @@ export function isToeplitzMatrix(matrix, previousRow?: Array<any>) {
     if (!previousRow) {
       previousRow = row.slice();
     } else {
-      // the very last number is not needed for current row comparation
+      // the very last number is not needed for current row comparison
       previousRow.pop();
-      // push the current row's first item in it, as a placeholder item to pass the comparation
-      // but it will be useful for subsequent rows' comparations
+      // push the current row's first item in it, as a placeholder item to pass the comparison
+      // but it will be useful for subsequent rows' comparison
       previousRow.unshift(row[0]);
     }
     return row.every((cell, index) => cell === previousRow[index]);
   });
 }
 
-// a reimplementation that maintain state for handling the follow up case above 
+// a reimplementation that maintains previous comparison state for handling the follow up case above 
 function makeIsToeplitzMatrixFunc() {
   let previousRows;
   let isCurrentlyToeplitz = true;
   return function isToeplitzMatrixPartially(partialMatrix) {
     // passing previousRows into isToeplitzMatrix, this way it will be mutated and maintain the most recent
-    // row for next comparisions.
+    // row for next comparison.
     if (!isCurrentlyToeplitz) {
       return false;
     }
