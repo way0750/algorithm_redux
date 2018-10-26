@@ -48,6 +48,7 @@ function makeIsToeplitzMatrixFunc() {
       return false;
     }
     if (!previousRows) {
+      // set up the previous row before the first time calling isToeplitzMatrix
       previousRows = partialMatrix[0].slice();
       previousRows.shift(); 
       previousRows.push(Infinity); //a placeholder value that will get popped
@@ -83,7 +84,7 @@ describe('isToeplitzMatrix', () => {
 
 describe('isToeplitzMatrix handling follow up case', () => {
   it('should return true', () => {
-    const matrix = [
+    const fileRows = [
       [1,2,3,4,5],
       [6,1,2,3,4],
       [7,6,1,2,3],
@@ -91,7 +92,7 @@ describe('isToeplitzMatrix handling follow up case', () => {
       [9,8,7,6,1],
     ];
     const func = makeIsToeplitzMatrixFunc();
-    const results = matrix.map((row) => {
+    const results = fileRows.map((row) => {
       return func([row]);
     });
     // mimic printing things out
@@ -99,7 +100,7 @@ describe('isToeplitzMatrix handling follow up case', () => {
   });
 
   it('should return false', () => {
-    const matrix = [
+    const fileRows = [
       [1,2,3,4,5],
       [6,1,2,3,4],
       [7,6,11,2,3], // notice the 11?
@@ -108,7 +109,7 @@ describe('isToeplitzMatrix handling follow up case', () => {
     ];
 
     const func = makeIsToeplitzMatrixFunc();
-    const results = matrix.map((row) => {
+    const results = fileRows.map((row) => {
       return func([row]);
     });
     expect(results).to.deep.equal([true, true, false, false, false]);
