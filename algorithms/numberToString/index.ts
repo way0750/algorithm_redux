@@ -112,11 +112,11 @@ export function numToString (num: number) {
 describe(' number to string', () => {
   it('should return the right string for 15647389', () => {
     const result = numToString(15647389);
-    expect(result).to.deep.equal('');
+    expect(result).to.deep.equal('fifthteen million six hundred fourty seven thousand three hundred eighty nine');
   });
 
   it('should return the right string for 1000000000', () => {
     const result = numToString(1000000000);
-    expect(result).to.deep.equal('');
+    expect(result).to.deep.equal('one billion');
   });
 });
