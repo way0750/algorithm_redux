@@ -19,6 +19,17 @@ export function makeAllSubsets(set: Array<number>): Array<Array<number>> {
   return curSubsets;
 }
 
+function makeAllSubsetsRedux(set: Array<number>): Array<Array<number>> {
+  return set.reduce((curSubsets: Array<Array<number>>, num: number) => {
+    const newSubsets = curSubsets.map((subset: Array<number>) => [num, ...subset]);
+    return [...curSubsets, ...newSubsets];
+  }, [[]]);
+}
+
+const isArrsEql = (arr1, arr2) => {
+  return arr1.length !== arr2.length ? false : !_.difference(arr1, arr2).length;
+}
+
 describe('Make All Subsets', () => {
   it('should return expect result for example above', () => {
     const set = [1, 2, 3];
@@ -33,9 +44,6 @@ describe('Make All Subsets', () => {
       [2, 3],
       [1, 2, 3]
     ];
-    const isArrsEql = (arr1, arr2) => {
-      return arr1.length !== arr2.length ? false : !_.difference(arr1, arr2).length;
-    }
     expect(_.differenceWith(expected, result, isArrsEql).length).to.equal(0);
   });
 
@@ -45,9 +53,6 @@ describe('Make All Subsets', () => {
     const expected = [
       []
     ];
-    const isArrsEql = (arr1, arr2) => {
-      return arr1.length !== arr2.length ? false : !_.difference(arr1, arr2).length;
-    }
     expect(_.differenceWith(expected, result, isArrsEql).length).to.equal(0);
   });
 
@@ -72,9 +77,6 @@ describe('Make All Subsets', () => {
       [7, 6, 5],
       [7, 6, 5, 4],
     ];
-    const isArrsEql = (arr1, arr2) => {
-      return arr1.length !== arr2.length ? false : !_.difference(arr1, arr2).length;
-    }
     expect(_.differenceWith(expected, result, isArrsEql).length).to.equal(0);
   });
 });
