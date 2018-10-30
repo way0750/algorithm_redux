@@ -6,3 +6,12 @@
  * repeat until you have gone through all the elements
  * by default start with an empty set
  */
+
+export function makeAllSubsets(set: Array<number>): Array<Array<number>> {
+  const curSubsets = [[]];
+  set.forEach((num: number) => {
+    const newSubsets = curSubsets.map((subset: Array<number>) => [num, ...subset]);
+    curSubsets.push(...newSubsets);
+  });
+  return curSubsets;
+}
