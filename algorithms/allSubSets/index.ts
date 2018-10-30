@@ -51,7 +51,7 @@ describe('Make All Subsets', () => {
     expect(_.differenceWith(expected, result, isArrsEql).length).to.equal(0);
   });
 
-  it('should return expect result for example above', () => {
+  it('should return correct sub sets for [4,5,6,7]', () => {
     const set = [4, 5, 6, 7];
     const result = makeAllSubsets(set);
     const expected = [
