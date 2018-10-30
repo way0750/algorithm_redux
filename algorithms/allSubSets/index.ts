@@ -30,6 +30,14 @@ const isArrsEql = (arr1, arr2) => {
   return arr1.length !== arr2.length ? false : !_.difference(arr1, arr2).length;
 }
 
+const isDifferenceWith = (set1, set2) => {
+  if (set1.length !== set2.length) {
+    return false;
+  } else {
+    return !_.differenceWith(set1, set2, isArrsEql).length;
+  }
+}
+
 describe('Make All Subsets', () => {
   it('should return expect result for example above', () => {
     const set = [1, 2, 3];
@@ -42,9 +50,25 @@ describe('Make All Subsets', () => {
       [1, 2],
       [1, 3],
       [2, 3],
-      [1, 2, 3]
+      [1, 2, 3],
     ];
-    expect(_.differenceWith(expected, result, isArrsEql).length).to.equal(0);
+    expect(isDifferenceWith(expected, result)).to.be.true;
+  });
+
+  it('should return as expected for falsy check', () => {
+    const set = [1, 2, 3];
+    const result = makeAllSubsets(set);
+    const expected = [
+      [99999999999],
+      [1],
+      [2],
+      [3],
+      [1, 2],
+      [1, 3],
+      [2, 3],
+      [1, 2, 3],
+    ];
+    expect(isDifferenceWith(expected, result)).to.be.false;
   });
 
   it('should return array of one empty array for empty input', () => {
@@ -53,7 +77,7 @@ describe('Make All Subsets', () => {
     const expected = [
       []
     ];
-    expect(_.differenceWith(expected, result, isArrsEql).length).to.equal(0);
+    expect(isDifferenceWith(expected, result)).to.be.true;
   });
 
   it('should return correct sub sets for [4,5,6,7]', () => {
@@ -77,6 +101,6 @@ describe('Make All Subsets', () => {
       [7, 6, 5],
       [7, 6, 5, 4],
     ];
-    expect(_.differenceWith(expected, result, isArrsEql).length).to.equal(0);
+    expect(isDifferenceWith(expected, result)).to.be.true;
   });
 });
