@@ -16,4 +16,27 @@ const _ = require('lodash');
  * return the head node of the cloned list
  */
 
+function loopLinklist (curNode, callBack) {
+  while(curNode) {
+    callBack(curNode);
+    curNode = curNode.next;
+  }
+}
+
+export function deepCloneLinklist(headNode) {
+  loopLinklist(headNode, (curNode) => {
+    curNode.selfClone = _.deepClone(curNode);
+  });
+  loopLinklist(headNode, (curNode) => {
+    if (curNode.next) {
+      curNode.selfClone.next = curNode.next.selfClone;
+    }
+    if (curNode.random) {
+      curNode.selfClone.random = curNode.random.selfClone;
+    }
+  });
+  loopLinklist(headNode, (curNode) => {
+    delete curNode.selfClone;
+  });
+}
 
