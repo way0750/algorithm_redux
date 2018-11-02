@@ -101,5 +101,12 @@ describe('deep clone complext link list', () => {
     });
     expect(orderValues).to.deep.equal([1,2,3,4,1,2,3]);
     expect(randomValues).to.deep.equal([Infinity, 1, Infinity, Infinity, 4, Infinity, Infinity]);
+    // make sure that the selfClone is gone;
+
+    const selfClones = [];
+    loopLinklist(node1, (node) => {
+      selfClones.push(node.selfClone);
+    });
+    expect(selfClones).to.deep.equal([undefined, undefined, undefined, undefined, undefined, undefined, undefined]);
   });
 });
