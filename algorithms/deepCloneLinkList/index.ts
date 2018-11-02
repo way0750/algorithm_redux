@@ -25,7 +25,7 @@ function loopLinklist (curNode, callBack) {
 
 export function deepCloneLinklist(headNode) {
   loopLinklist(headNode, (curNode) => {
-    curNode.selfClone = _.deepClone(curNode);
+    curNode.selfClone = _.cloneDeep(curNode);
   });
   loopLinklist(headNode, (curNode) => {
     if (curNode.next) {
@@ -35,8 +35,71 @@ export function deepCloneLinklist(headNode) {
       curNode.selfClone.random = curNode.random.selfClone;
     }
   });
+
+  const cloneHeadNode = headNode && headNode.selfClone;
+
   loopLinklist(headNode, (curNode) => {
     delete curNode.selfClone;
   });
+
+  return cloneHeadNode;
 }
 
+describe('deep clone complext link list', () => {
+  it('should pass all node while loop list', () => {
+    const node1 = { value: 1, next: null, random: null };
+    const node2 = { value: 2, next: null, random: null };
+    const node3 = { value: 3, next: null, random: null };
+    const node4 = { value: 4, next: null, random: null };
+    const node5 = { value: 1, next: null, random: null };
+    const node6 = { value: 2, next: null, random: null };
+    const node7 = { value: 3, next: null, random: null };
+    node1.next = node2;
+    node2.next = node3;
+    node2.random = node1;
+
+    node3.next = node4;
+    node4.next = node5;
+    node5.next = node6;
+    node5.random = node4;
+
+    node6.next = node7;
+    const values = []
+    loopLinklist(node1, (node) => {
+      values.push(node.value);
+    });
+    expect(values).to.deep.equal([1,2,3,4,1,2,3]);
+  });
+  it('should return 1,2,3,4,1,2,3', () => {
+    const node1 = { value: 1, next: null, random: null };
+    const node2 = { value: 2, next: null, random: null };
+    const node3 = { value: 3, next: null, random: null };
+    const node4 = { value: 4, next: null, random: null };
+    const node5 = { value: 1, next: null, random: null };
+    const node6 = { value: 2, next: null, random: null };
+    const node7 = { value: 3, next: null, random: null };
+    node1.next = node2;
+    node2.next = node3;
+    node2.random = node1;
+
+    node3.next = node4;
+    node4.next = node5;
+    node5.next = node6;
+    node5.random = node4;
+
+    node6.next = node7;
+
+    const cloneList = deepCloneLinklist(node1);
+    const orderValues = [];
+    loopLinklist(cloneList, (curNode) => {
+      orderValues.push(curNode.value);
+    });
+    const randomValues = [];
+    loopLinklist(cloneList, (node) => {
+      const randomValue = node.random ? node.random.value : Infinity;
+      randomValues.push(randomValue);
+    });
+    expect(orderValues).to.deep.equal([1,2,3,4,1,2,3]);
+    expect(randomValues).to.deep.equal([Infinity, 1, Infinity, Infinity, 4, Infinity, Infinity]);
+  });
+});
