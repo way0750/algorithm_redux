@@ -86,4 +86,9 @@ describe('matching brackets redux', () => {
     const result = bracketMatch(bracketStr);
     expect(result).to.equal(false);
   });
+  it('should work for (*}', () => {
+    const bracketStr = '(*}';
+    const result = bracketMatch(bracketStr);
+    expect(result).to.equal(false);
+  });
 });
