@@ -9,3 +9,41 @@
  * so how about keep track of how * have so far matched with left side bracket?
  * Each time if a right bracket is encountered, reduce the * count, if it is zero then pop from stack
  */
+
+export function bracketMatch(str) {
+  const leftBracketsStack = [];
+  let wildMatchCount = 0;
+  const leftBrackets = {
+    '(': '(',
+    '{': '{',
+    '[': '[',
+    '"': '"' 
+  };
+  const rightBracketMatch = {
+    ')': '(',
+    '}': '{',
+    '[': ']',
+    '"': '"'
+  };
+  for(let i = 0; i < str.length; i++) {
+    const curChar = str[i];
+    if (leftBrackets[curChar]) {
+      leftBracketsStack.push(curChar);
+    } else if (curChar == '*' && leftBracketsStack.length) {
+      leftBracketsStack.pop();
+      wildMatchCount++;
+    } else if (rightBracketMatch[curChar]) {
+      if (wildMatchCount) {
+        wildMatchCount--;
+      } else {
+        const leftSideBracketMatch = leftBracketsStack.pop() || '';
+        const leftSideBracketMatch2 = rightBracketMatch[curChar];
+        if (!leftSideBracketMatch === leftSideBracketMatch2) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return leftBracketsStack.length ? false : true;
+}
