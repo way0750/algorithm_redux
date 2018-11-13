@@ -51,28 +51,38 @@ export function bracketMatch(str) {
 }
 
 describe('matching brackets redux', () => {
-  it('test 1', () => {
+  it('should work for empty string', () => {
+    const bracketStr = '';
+    const result = bracketMatch(bracketStr);
+    expect(result).to.equal(true);
+  });
+  it('should work for (*)', () => {
     const bracketStr = '(*)';
     const result = bracketMatch(bracketStr);
     expect(result).to.equal(true);
   });
-  it('test 2', () => {
+  it('should work for (**)', () => {
     const bracketStr = '(**)';
     const result = bracketMatch(bracketStr);
     expect(result).to.equal(true);
   });
-  it('test 3', () => {
+  it('should work for ((*********))', () => {
     const bracketStr = '((*********))';
     const result = bracketMatch(bracketStr);
     expect(result).to.equal(true);
   });
-  it('test 4', () => {
+  it('should work for ((*********))}', () => {
     const bracketStr = '((*********))}';
     const result = bracketMatch(bracketStr);
     expect(result).to.equal(true);
   });
-  it('test 5', () => {
+  it('should for (*)}', () => {
     const bracketStr = '(*)}';
+    const result = bracketMatch(bracketStr);
+    expect(result).to.equal(false);
+  });
+  it('should work for (*)}}', () => {
+    const bracketStr = '(*)}}';
     const result = bracketMatch(bracketStr);
     expect(result).to.equal(false);
   });
