@@ -29,16 +29,18 @@ export function bracketMatch(str) {
     const curChar = str[i];
     if (leftBrackets[curChar]) {
       leftBracketsStack.push(curChar);
-    } else if (curChar == '*' && leftBracketsStack.length) {
-      leftBracketsStack.pop();
+    } else if (curChar === '*') {
       wildMatchCount++;
+      if (leftBracketsStack.length) {
+        leftBracketsStack.pop();
+      }
     } else if (rightBracketMatch[curChar]) {
       if (wildMatchCount) {
         wildMatchCount--;
       } else {
         const leftSideBracketMatch = leftBracketsStack.pop() || '';
         const leftSideBracketMatch2 = rightBracketMatch[curChar];
-        if (!leftSideBracketMatch === leftSideBracketMatch2) {
+        if (leftSideBracketMatch !== leftSideBracketMatch2) {
           return false;
         }
       }
@@ -47,3 +49,31 @@ export function bracketMatch(str) {
 
   return leftBracketsStack.length ? false : true;
 }
+
+describe('matching brackets redux', () => {
+  it('test 1', () => {
+    const bracketStr = '(*)';
+    const result = bracketMatch(bracketStr);
+    expect(result).to.equal(true);
+  });
+  it('test 2', () => {
+    const bracketStr = '(**)';
+    const result = bracketMatch(bracketStr);
+    expect(result).to.equal(true);
+  });
+  it('test 3', () => {
+    const bracketStr = '((*********))';
+    const result = bracketMatch(bracketStr);
+    expect(result).to.equal(true);
+  });
+  it('test 4', () => {
+    const bracketStr = '((*********))}';
+    const result = bracketMatch(bracketStr);
+    expect(result).to.equal(true);
+  });
+  it('test 5', () => {
+    const bracketStr = '(*)}';
+    const result = bracketMatch(bracketStr);
+    expect(result).to.equal(false);
+  });
+});
