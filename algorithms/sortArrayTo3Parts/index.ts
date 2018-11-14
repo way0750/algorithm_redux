@@ -13,3 +13,27 @@
  *   set that pointer to last index
  *   and then a pointer to keep moving backward to check the value of each number against x
  */
+
+export function sortArray(nums: Array<number>, x) {
+  let swapIndexFromLeft = 0;
+  for (let i = 0; i < nums.length; i++) {
+    const curNum = nums[i];
+    if (curNum < x) {
+      nums[i] = nums[swapIndexFromLeft];
+      nums[swapIndexFromLeft] = curNum;
+      swapIndexFromLeft++;
+    }
+  }
+  ;
+  let swapIndexFromRight = nums.length - 1;
+  for (let i = nums.length - 1; i > -1; i-- ) {
+    const curNum = nums[i];
+    if (curNum > x) {
+      nums[i] = nums[swapIndexFromRight];
+      nums[swapIndexFromRight] = curNum;
+      swapIndexFromRight--;
+    }
+  }
+
+  return nums;
+}
