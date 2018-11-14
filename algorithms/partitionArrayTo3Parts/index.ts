@@ -14,7 +14,7 @@
  *   and then a pointer to keep moving backward to check the value of each number against x
  */
 
-export function sortArray(nums: Array<number>, x) {
+export function partitionArray(nums: Array<number>, x) {
   let swapIndexFromLeft = 0;
   for (let i = 0; i < nums.length; i++) {
     const curNum = nums[i];
@@ -37,3 +37,23 @@ export function sortArray(nums: Array<number>, x) {
 
   return nums;
 }
+
+describe('partition array in place', () => {
+  it('should example above work', () => {
+    const lst = [9, 12, 3, 5, 14, 10, 10];
+    const result = partitionArray(lst, 10);
+    expect(result).to.deep.equal([9, 3, 5, 10, 10, 12, 14]);
+  });
+
+  it('should return empty array for empty array', () => {
+    const lst = [];
+    const result = partitionArray(lst, 10);
+    expect(result).to.deep.equal([]);
+  });
+
+  it('test 3', () => {
+    const lst = [5,5,5,5,5,5];
+    const result = partitionArray(lst, 10);
+    expect(result).to.deep.equal([5,5,5,5,5,5]);
+  });
+});
