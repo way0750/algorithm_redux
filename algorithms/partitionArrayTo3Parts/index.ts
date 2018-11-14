@@ -26,7 +26,7 @@ export function partitionArray(nums: Array<number>, x) {
   }
 
   let swapIndexFromRight = nums.length - 1;
-  for (let i = nums.length - 1; i > -1; i-- ) {
+  for (let i = nums.length - 1; i >= swapIndexFromLeft; i-- ) {
     const curNum = nums[i];
     if (curNum > x) {
       nums[i] = nums[swapIndexFromRight];
