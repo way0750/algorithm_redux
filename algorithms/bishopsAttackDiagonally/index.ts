@@ -16,3 +16,30 @@
 // [b 0 0 0 0]
 
 // You should return 2, since bishops 1 and 3 attack each other, as well as bishops 3 and 4.
+
+export function attackDiagonally(points: Array<Array<number>>): number {
+  const diagonalGroupCounts = points.reduce((diagonalGroup, points) => {
+    const [y, x] = points;
+
+    const upwardDiagonalPoint = `0, ${x + y}`;
+    const downwardDiagonalPoint = `0, ${x - y}`;
+
+    diagonalGroup[upwardDiagonalPoint] = diagonalGroup[upwardDiagonalPoint] || 0;
+    diagonalGroup[upwardDiagonalPoint]++;
+
+    diagonalGroup[downwardDiagonalPoint] = diagonalGroup[downwardDiagonalPoint] || 0;
+    diagonalGroup[downwardDiagonalPoint]++;
+
+    return diagonalGroup;
+  }, {});
+
+  const pairCount = Object.keys(diagonalGroupCounts).reduce((count, groupId) => {
+    const groupCount = diagonalGroupCounts[groupId];
+    if (groupCount > 1) {
+      count += (groupCount * (groupCount - 1)) / 2;
+    }
+    return count;
+  }, 0);
+
+  return pairCount;
+}
