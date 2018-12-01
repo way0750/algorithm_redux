@@ -17,24 +17,32 @@
 
 // You should return 2, since bishops 1 and 3 attack each other, as well as bishops 3 and 4.
 
-export function attackDiagonally(points: Array<Array<number>>): number {
+function getDiagonalGroupCount(points: Array<Array<number>>, upward: boolean = true) {
   const diagonalGroupCounts = points.reduce((diagonalGroup, points) => {
     const [y, x] = points;
+    const diagonalX = upward ? x + y : x - y;
+    const diagonalPoint = `${upward ? 'upward' : 'downward'}_X: ${diagonalX}`;
 
-    const upwardDiagonalPoint = `0, ${x + y}`;
-    const downwardDiagonalPoint = `0, ${x - y}`;
-
-    diagonalGroup[upwardDiagonalPoint] = diagonalGroup[upwardDiagonalPoint] || 0;
-    diagonalGroup[upwardDiagonalPoint]++;
-
-    diagonalGroup[downwardDiagonalPoint] = diagonalGroup[downwardDiagonalPoint] || 0;
-    diagonalGroup[downwardDiagonalPoint]++;
+    diagonalGroup[diagonalPoint] = diagonalGroup[diagonalPoint] || 0;
+    diagonalGroup[diagonalPoint]++;
 
     return diagonalGroup;
   }, {});
 
-  const pairCount = Object.keys(diagonalGroupCounts).reduce((count, groupId) => {
-    const groupCount = diagonalGroupCounts[groupId];
+  return diagonalGroupCounts;
+}
+
+export function attackDiagonally(points: Array<Array<number>>): number {
+  const upwardDiagonalGroupCounts = getDiagonalGroupCount(points);
+  const downwardDiagonalGroupCounts = getDiagonalGroupCount(points, false)
+
+  const allGroups = {
+    ...upwardDiagonalGroupCounts,
+    ...downwardDiagonalGroupCounts
+  };
+
+  const pairCount = Object.keys(allGroups).reduce((count, groupId) => {
+    const groupCount = allGroups[groupId];
     if (groupCount > 1) {
       count += (groupCount * (groupCount - 1)) / 2;
     }
@@ -43,3 +51,43 @@ export function attackDiagonally(points: Array<Array<number>>): number {
 
   return pairCount;
 }
+
+describe('Attack diagonally', () => {
+  it('should work for the example above:', () => {
+    const points = [
+      [0, 0],
+      [1, 2],
+      [2, 2],
+      [4, 0]
+    ];
+    expect(attackDiagonally(points)).to.equal(2);
+  });
+
+  it('should work for 1 diagonal line', () => {
+    const points = [
+      [0, 0],
+      [1, 1],
+      [2, 2],
+      [3, 3],
+      [4, 4],
+    ];
+
+    expect(attackDiagonally(points)).to.equal(10);
+  });
+
+  it('should work for 2 diagonal line', () => {
+    const points = [
+      [0, 0],
+      [1, 1],
+      [2, 2],
+      [3, 3],
+      [4, 4],
+      [4, 0],
+      [3, 1],
+      [1, 3],
+      [0, 4],
+    ];
+
+    expect(attackDiagonally(points)).to.equal(20);
+  });
+});
