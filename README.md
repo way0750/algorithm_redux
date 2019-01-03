@@ -12,6 +12,7 @@ If you run into errors while trying to run debugger, it might be that your node 
 # Debug / Test
 This project has been set up to use VS Code to debug each single js/ts file 
 
+## one way to test:
 go to Debug -> Start Debugging in VS Code, 3 options are available
 You should use the MochaJS option, it is the most convenient of 3 options, it has been setup to directly test typescript with mocha and chai.
 Example:
@@ -24,6 +25,11 @@ describe('sample mocha test with chai', () => {
   });
 })
 ```
+
+## another way to test:
+cd your way to the directory with index.ts that you want to test then:
+`npm run mochaTest`
+
 *note:*
 1) You can set break points in vs-code, but there is an issue with ts-node and vs-code that cause breaking points getting ignored sometimes.
   However, using `debugger`, will stop the execution consistently.
