@@ -52,6 +52,6 @@ describe('Testing find the second largest int', () => {
   it('should return second largest if all numbers are the same', () => {
     let numbers = [77, 88, 88]
     let secondLargestInt = findSecondLargest(numbers);
-    expect(secondLargestInt).to.equal(77);
+    expect(secondLargestInt).to.equal(88);
   });
 });
