@@ -108,7 +108,26 @@ export function findPath(curNode, endNode): Array<object> {
 }
 
 const path = findPath(nodes.r3_1, nodes.r5_5);
-const pathString = path.map((node: { id: string }) => {
-  return node.id;
+const pathString = path.map((node: { color: string, id: string }) => {
+  return `${node.id}:${node.color}`;
 });
 console.log(pathString.join(' '));
+/**
+ * r3_1:red
+ * r2_2:green
+ * r2_1:yellow
+ * r3_2:red
+ * r9_1:green
+ * r5_1:yellow
+ * r5_2:red
+ * r6_1:green
+ * r7_2:yellow
+ * r7_3:red
+ * r6_2:green
+ * r1_1:yellow
+ * r4_1:red
+ * r1_2:green
+ * r3_3:yellow
+ * r4_2:red
+ * r5_5:green
+ */
