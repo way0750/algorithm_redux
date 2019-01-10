@@ -20,44 +20,44 @@ const GREEN = 'green';
 const RED = 'red';
 const YELLOW = 'yellow';
 export let nodes = {
-  r1_1: { visited: false, color: YELLOW, to: ['r3_2', 'r5_2', 'r4_1'] },
-  r1_2: { visited: false, color: GREEN, to: ['r1_1', 'r3_3'] },
+  r1_1: { id: 'r1_1', visited: false, color: YELLOW, to: ['r3_2', 'r5_2', 'r4_1'] },
+  r1_2: { id: 'r1_2', visited: false, color: GREEN, to: ['r1_1', 'r3_3'] },
 
-  r2_1: { visited: false, color: YELLOW, to: ['r3_2', 'r5_2', 'r7_1'] },
-  r2_2: { visited: false, color: GREEN, to: ['r2_1', 'r1_1', 'r5_1', 'r5_3'] },
+  r2_1: { id: 'r2_1', visited: false, color: YELLOW, to: ['r3_2', 'r5_2', 'r7_1'] },
+  r2_2: { id: 'r2_2', visited: false, color: GREEN, to: ['r2_1', 'r1_1', 'r5_1', 'r5_3'] },
 
-  r3_1: { visited: false, color: RED, to: ['r2_2', 'r9_1'] },
-  r3_2: { visited: false, color: RED, to: ['r2_2', 'r9_1', 'r6_2'] },
-  r3_3: { visited: false, color: YELLOW, to: ['r4_1', 'r4_2'] },
+  r3_1: { id: 'r3_1', visited: false, color: RED, to: ['r2_2', 'r9_1'] },
+  r3_2: { id: 'r3_2', visited: false, color: RED, to: ['r2_2', 'r9_1', 'r6_2'] },
+  r3_3: { id: 'r3_3', visited: false, color: YELLOW, to: ['r4_1', 'r4_2'] },
 
-  r4_1: { visited: false, color: RED, to: ['r1_2', 'r5_4', 'r6_3'] },
-  r4_2: { visited: false, color: RED, to: ['r1_2', 'r5_4', 'r5_5'] },
+  r4_1: { id: 'r4_1', visited: false, color: RED, to: ['r1_2', 'r5_4', 'r6_3'] },
+  r4_2: { id: 'r4_2', visited: false, color: RED, to: ['r1_2', 'r5_4', 'r5_5'] },
 
-  r5_1: { visited: false, color: YELLOW, to: ['r3_2', 'r5_2', 'r7_1'] },
-  r5_2: { visited: false, color: RED, to: ['r2_2', 'r6_1', 'r6_2'] },
-  r5_3: { visited: false, color: YELLOW, to: ['r3_2', 'r4_1', 'r5_2'] },
-  r5_4: { visited: false, color: GREEN, to: ['r5_3', 'r6_4'] },
-  r5_5: { visited: false, color: GREEN, to: [] }, // this is the ending node so no need to connecto to any other nodes
+  r5_1: { id: 'r5_1', visited: false, color: YELLOW, to: ['r3_2', 'r5_2', 'r7_1'] },
+  r5_2: { id: 'r5_2', visited: false, color: RED, to: ['r2_2', 'r6_1', 'r6_2'] },
+  r5_3: { id: 'r5_3', visited: false, color: YELLOW, to: ['r3_2', 'r4_1', 'r5_2'] },
+  r5_4: { id: 'r5_4', visited: false, color: GREEN, to: ['r5_3', 'r6_4'] },
+  r5_5: { id: 'r5_5', visited: false, color: GREEN, to: [] }, // this is the ending node so no need to connecto to any other nodes
 
-  r6_1: { visited: false, color: GREEN, to: ['r5_1', 'r7_2', 'r8_1'] },
-  r6_2: { visited: false, color: GREEN, to: ['r1_1', 'r2_1', 'r5_3', 'r7_2'] },
-  r6_3: { visited: false, color: GREEN, to: ['r5_3', 'r8_3'] },
-  r6_4: { visited: false, color: YELLOW, to: ['r4_2', 'r8_4'] },
+  r6_1: { id: 'r6_1', visited: false, color: GREEN, to: ['r5_1', 'r7_2', 'r8_1'] },
+  r6_2: { id: 'r6_2', visited: false, color: GREEN, to: ['r1_1', 'r2_1', 'r5_3', 'r7_2'] },
+  r6_3: { id: 'r6_3', visited: false, color: GREEN, to: ['r5_3', 'r8_3'] },
+  r6_4: { id: 'r6_4', visited: false, color: YELLOW, to: ['r4_2', 'r8_4'] },
 
-  r7_1: { visited: false, color: RED, to: ['r2_2', 'r6_1', 'r9_1'] },
-  r7_2: { visited: false, color: YELLOW, to: ['r7_1', 'r7_3'] },
-  r7_3: { visited: false, color: RED, to: ['r6_2', 'r6_3', 'r7_4', 'r8_2'] },
-  r7_4: { visited: false, color: GREEN, to: ['r6_4', 'r8_3'] },
+  r7_1: { id: 'r7_1', visited: false, color: RED, to: ['r2_2', 'r6_1', 'r9_1'] },
+  r7_2: { id: 'r7_2', visited: false, color: YELLOW, to: ['r7_1', 'r7_3'] },
+  r7_3: { id: 'r7_3', visited: false, color: RED, to: ['r6_2', 'r6_3', 'r7_4', 'r8_2'] },
+  r7_4: { id: 'r7_4', visited: false, color: GREEN, to: ['r6_4', 'r8_3'] },
 
-  r8_1: { visited: false, color: YELLOW, to: ['r7_1', 'r9_2'] },
-  r8_2: { visited: false, color: GREEN, to: ['r7_2'] },
-  r8_3: { visited: false, color: YELLOW, to: ['r7_3', 'r9_3'] },
-  r8_4: { visited: false, color: RED, to: ['r7_4', 'r9_4'] },
+  r8_1: { id: 'r8_1', visited: false, color: YELLOW, to: ['r7_1', 'r9_2'] },
+  r8_2: { id: 'r8_2', visited: false, color: GREEN, to: ['r7_2'] },
+  r8_3: { id: 'r8_3', visited: false, color: YELLOW, to: ['r7_3', 'r9_3'] },
+  r8_4: { id: 'r8_4', visited: false, color: RED, to: ['r7_4', 'r9_4'] },
 
-  r9_1: { visited: false, color: GREEN, to: ['r2_1', 'r5_1', 'r8_1'] },
-  r9_2: { visited: false, color: RED, to: ['r8_2', 'r9_1'] },
-  r9_3: { visited: false, color: RED, to: ['r8_2', 'r9_4'] },
-  r9_4: { visited: false, color: GREEN, to: ['r8_3'] },
+  r9_1: { id: 'r9_1', visited: false, color: GREEN, to: ['r2_1', 'r5_1', 'r8_1'] },
+  r9_2: { id: 'r9_2', visited: false, color: RED, to: ['r8_2', 'r9_1'] },
+  r9_3: { id: 'r9_3', visited: false, color: RED, to: ['r8_2', 'r9_4'] },
+  r9_4: { id: 'r9_4', visited: false, color: GREEN, to: ['r8_3'] },
 };
 
 // map each edge in the node.to to a node
@@ -106,3 +106,9 @@ export function findPath(curNode, endNode): Array<object> {
     return curShortestSubPath;
   }
 }
+
+const path = findPath(nodes.r3_1, nodes.r5_5);
+const pathString = path.map((node: { id: string }) => {
+  return node.id;
+});
+console.log(pathString.join(' '));
