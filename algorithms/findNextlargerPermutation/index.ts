@@ -21,7 +21,7 @@ export function findNextLargerPermutation(number: number): number {
   }
 
   const swappableNum = digits[swappableIndex];
-  const toSwapIndex = digits.slice(swappableIndex + 1).reduce((toSwapIndex, curNum, curIndex) => {
+  const toSwapIndex = digits.reduce((toSwapIndex, curNum, curIndex) => {
     return swappableNum < curNum ? curIndex : toSwapIndex;
   }, -1);
 
@@ -29,7 +29,26 @@ export function findNextLargerPermutation(number: number): number {
   digits[toSwapIndex] = swappableNum;
 
   const leftDigits = digits.slice(0, swappableIndex + 1);
-  const rigthDigit = digits.slice(swappableIndex).reverse();
+  const rigthDigit = digits.slice(swappableIndex + 1).reverse();
   const finalNumStr = [...leftDigits, ...rigthDigit].map((num) => `${num}`).join('');
   return +finalNumStr;
 }
+
+describe('Find next larger permutation', () => {
+  it('Should return correctly for example', () => {
+    const nextLarger = findNextLargerPermutation(48975);
+    expect(nextLarger).to.equal(49578);
+  });
+  it('Should return correctly for large number', () => {
+    const nextLarger = findNextLargerPermutation(1234123459877777);
+    expect(nextLarger).to.equal(1234123475777789);
+  });
+  it('Should return NaN for nothing found', () => {
+    const nextLarger = findNextLargerPermutation(9876543210);
+    expect(nextLarger.toString()).to.equal('NaN');
+  });
+  it('Should return NaN for nothing found', () => {
+    const nextLarger = findNextLargerPermutation(9876543210);
+    expect(nextLarger.toString()).to.equal('NaN');
+  });
+});
