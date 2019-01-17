@@ -37,3 +37,36 @@ export function makeBalanceString(str: string): string {
   finalString += ')'.repeat(leftParentCount);
   return finalString;
 }
+
+describe('Test makeBalanceString', () => {
+  it('Should return correctly for the example', () => {
+    const str = "(()"; 
+    const expectedReturn = "(())";
+    expect(makeBalanceString(str)).to.equal(expectedReturn);
+  });
+  it('Should return correctly for the example', () => {
+    const str = "))()(";
+    const expectedReturn = "()()()()";
+    expect(makeBalanceString(str)).to.equal(expectedReturn);
+  });
+  it('Should return empty string for empty string input', () => {
+    const str = ""
+    const expectedReturn = "";
+    expect(makeBalanceString(str)).to.equal(expectedReturn);
+  });
+  it('Should return ()()()()() string for )))))', () => {
+    const str = ")))))"
+    const expectedReturn = "()()()()()";
+    expect(makeBalanceString(str)).to.equal(expectedReturn);
+  });
+  it('Should return ()()()()() string for ()()()()()', () => {
+    const str = "()()()()()"
+    const expectedReturn = "()()()()()";
+    expect(makeBalanceString(str)).to.equal(expectedReturn);
+  });
+  it('Should return ((((())))) string for ((((())))', () => {
+    const str = "((((())))"
+    const expectedReturn = "((((()))))";
+    expect(makeBalanceString(str)).to.equal(expectedReturn);
+  });
+});
