@@ -15,3 +15,25 @@
  *  
  *   return finalString;
  */
+
+export function makeBalanceString(str: string): string {
+  let leftParentCount = 0;
+  let finalString = '';
+  for (let index = 0; index < str.length; index++) {
+    const curChar = str[index];
+    if (curChar === '(') {
+      finalString += curChar;
+      leftParentCount++;
+    } else if (curChar === ')') {
+      if (leftParentCount) {
+        leftParentCount--;
+        finalString += curChar;
+      } else {
+        finalString += '()';
+      }
+    }
+  }
+
+  finalString += ')'.repeat(leftParentCount);
+  return finalString;
+}
