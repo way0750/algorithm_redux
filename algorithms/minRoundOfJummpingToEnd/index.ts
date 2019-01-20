@@ -13,3 +13,13 @@ Explanation: The minimum number of jumps to reach the last index is 2.
     Jump 1 step from index 0 to 1, then 3 steps to the last index.
 
  */
+
+/**
+ * solution:
+ * use dynamic programming to go from simplest cast: one element array to full array
+ * and cache the min amount of jump required to reach each from that element/index
+ * 
+ * return the result from index 0
+ * unless array is empty or last element is 0
+ *   then return NaN
+ */
