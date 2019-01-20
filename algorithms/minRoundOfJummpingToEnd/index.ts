@@ -36,17 +36,19 @@ export function minJump(numbers: Array<number>): number {
   // if no, you are out of bound, ignore that checkIndex and stop looping
   // at the end you might end up with multiple cache[checkIndex] value
   // pick the smallest one and save in cache
-  const cache = numbers.reduceRight((record, curNum, indexFromRight) => {
+  const cache = numbers.reduceRight((record, curNum, curIndex) => {
     // already at last index, no need to do anything
-    if (indexFromRight === numbers.length) {
-      record[indexFromRight] = 0;
-    }
-
-    const loopLimit = numbers.length - indexFromRight
-    for (let i = 1; i < loopLimit; i++) {
-      const checkIndex = indexFromRight + i;
-      const curMinJump = record[indexFromRight] || Infinity;
-      record[indexFromRight] = Math.min(curMinJump, record[checkIndex]);
+    if (curIndex === numbers.length - 1) {
+      record[curIndex] = 0;
+    } else {
+      let loopLimit = numbers.length - 1 - curIndex
+      loopLimit = Math.min(loopLimit, curNum);
+      for (let i = 1; i <= loopLimit; i++) {
+        const checkIndex = curIndex + i;
+        const minJumpAtIndex = record.hasOwnProperty(checkIndex) ? record[checkIndex] : Infinity;
+        const curMinJump = record.hasOwnProperty(curIndex) ? record[curIndex] : Infinity;
+        record[curIndex] = Math.min(curMinJump, minJumpAtIndex + 1);
+      }
     }
 
     return record;
@@ -57,11 +59,19 @@ export function minJump(numbers: Array<number>): number {
 
 describe('Test min round of jummping to end', () => {
   it('Should return correctly for the example', () => {
-    const numbers = [2,3,1,1,4];
+    const numbers = [2, 3, 1, 1, 4];
     expect(minJump(numbers)).to.equal(2);
   });
-  it('Should return correctly for the example', () => {
-    const numbers = [2,3,1,1,4];
-    expect(minJump(numbers)).to.equal(2);
+  it('Should return NaN for last index equal to 0', () => {
+    const numbers = [2, 3, 1, 1, 0];
+    expect(minJump(numbers).toString()).to.equal('NaN');
+  });
+  it('Should return NaN for empty array', () => {
+    const numbers = [];
+    expect(minJump(numbers).toString()).to.equal('NaN');
+  });
+  it('Should return correctly for large array', () => {
+    const numbers = [2, 3, 1, 1, 4, 9, 12, 3, 32, 7, 43, 23, 12, 0, 235, 2, 321, 23, 135, 90, 1, 1, 1, 1, 9, 11, 9087];
+    expect(minJump(numbers)).to.equal(4);
   });
 });
