@@ -1,3 +1,5 @@
+import { nodes } from "../maze";
+
 /**
   Given a binary tree, find a minimum path sum from root to a leaf.
 
@@ -16,8 +18,8 @@
 
   so we can use recursion for this
 
-  base case:
-    if the input node is null, then return 0;
+  recursive case:
+    if the child has value
   what data type to ALWAYS return 
     always return a number, and it means the min path sum
   what to do with the return
@@ -29,14 +31,59 @@
  */
 
 export function minPathSum(node): number {
-  if (node === undefined) {
-    return 0;
-  }
+  const leftMinSum = node.left === undefined ? Infinity : minPathSum(node.left);
+  const rightMinSum = node.right === undefined ? Infinity : minPathSum(node.right);
 
-  const curMinPathSum = Math.min(
-    minPathSum(node.left),
-    minPathSum(node.right),
-  );
+  let curMinPathSum = Math.min( leftMinSum, rightMinSum );
+  // just in case the curMinPath sum is Infinity due to current node having no child.
+  curMinPathSum = curMinPathSum === Infinity ? 0 : curMinPathSum;
 
   return node.value + curMinPathSum;
 }
+
+describe('Test minPathSum', () => {
+  it('should return correctly for the example above', () => {
+    /**
+     * 
+        10
+      /  \
+      5    5
+      \     \
+        2    1
+            /
+          -1
+     */
+    const tree = {
+      value: 10, 
+      left: { value: 5, right: { value: 2 } },
+      right: {
+        value: 5,
+        right: { value: 1, left: { value: -1 } }
+      }
+    }
+
+    expect(minPathSum(tree)).to.equal(15);
+  });
+  it('should return 20', () => {
+    /**
+     * 
+        10
+      /  \
+      5    5
+      \     \
+        5    100
+            /
+          91
+     */
+    const tree = {
+      value: 10, 
+      left: { value: 5, right: { value: 5 } },
+      right: {
+        value: 5,
+        right: { value: 100, left: { value: 91 } }
+      }
+    }
+
+    expect(minPathSum(tree)).to.equal(20);
+  });
+});
