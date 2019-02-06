@@ -27,3 +27,16 @@
   how to make problem smaller
     recursively call left and right
  */
+
+export function minPathSum(node): number {
+  if (node === undefined) {
+    return 0;
+  }
+
+  const curMinPathSum = Math.min(
+    minPathSum(node.left),
+    minPathSum(node.right),
+  );
+
+  return node.value + curMinPathSum;
+}
