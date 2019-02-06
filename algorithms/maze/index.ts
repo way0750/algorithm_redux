@@ -37,7 +37,7 @@ export let nodes = {
   r5_2: { id: 'r5_2', visited: false, color: RED, to: ['r2_2', 'r6_1', 'r6_2'] },
   r5_3: { id: 'r5_3', visited: false, color: YELLOW, to: ['r3_2', 'r4_1', 'r5_2'] },
   r5_4: { id: 'r5_4', visited: false, color: GREEN, to: ['r5_3', 'r6_4'] },
-  r5_5: { id: 'r5_5', visited: false, color: GREEN, to: [] }, // this is the ending node so no need to connecto to any other nodes
+  r5_5: { id: 'r5_5', visited: false, color: GREEN, to: [] }, // this is the ending node so no need to connect to to any other nodes
 
   r6_1: { id: 'r6_1', visited: false, color: GREEN, to: ['r5_1', 'r7_2', 'r8_1'] },
   r6_2: { id: 'r6_2', visited: false, color: GREEN, to: ['r1_1', 'r2_1', 'r5_3', 'r7_2'] },

@@ -1,5 +1,3 @@
-import { getMaxListeners } from "cluster";
-
 // Given a string containing only digits, restore it by returning all possible valid IP address combinations.
 // Example:
 // Input: "25525511135"
@@ -18,11 +16,11 @@ import { getMaxListeners } from "cluster";
  * 
  * solution 1:
  * loop through the string and take numbers from 1 to 3 digits to create 1 section of an IP
- * it is a valid section if: the remaning string can create the right amount of sections 
+ * it is a valid section if: the remanding string can create the right amount of sections 
  *   ex: after taking 1 digit, we still need to create 3 sections, meaning we need between 3 to 9 numbers
  *     less than 3 or more than 9 meanings taking 1 digit for this section will work
  * it is a valid section if: the section number is between 0 and 255
- * if it is a valid section, then recursively call with remaing string, with the stack number too so we know
+ * if it is a valid section, then recursively call with remaining string, with the stack number too so we know
  *   how to check the length required for making sub sections
  * 
  * prepend current section to each of the returned pattern
@@ -35,7 +33,7 @@ import { getMaxListeners } from "cluster";
  * what to return always: an array of possible strings
  * what to do with return, add current section num to each string's front
  * how to make problem smaller:
- *   recursively call with remaing string and new min (curMin - 1) and max length (curMax - 3)
+ *   recursively call with remaining string and new min (curMin - 1) and max length (curMax - 3)
  * 
  * 
  * what really REALLY counts as an IP address though?
