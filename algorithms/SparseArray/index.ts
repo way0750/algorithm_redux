@@ -21,14 +21,21 @@
 export class SparseArray {
   private logicalLength: number = 0;
   private storage: {[key:string]: number} = {};
-  public init(arr: Array<number>, size: number) {
+  public constructor(arr: Array<number>, size: number) {
     this.logicalLength = size;
     // only add the element that is not 0;
-    arr.forEach((num, index) => {
+    for (let index = 0; index < size; index++) {
+      const num = arr[index];
       if (num !== 0) {
         this.storage[index] = num;
       }
-    });
+    }
+
+    return this;
+  }
+
+  public init(arr: Array<number>, size: number) {
+    return this.constructor(arr, size);
   }
 
   public set(i, val) {
@@ -51,3 +58,38 @@ export class SparseArray {
     }
   }
 }
+
+describe('Testing SparseArray', () => {
+  it('test 1', () => {
+    const regularArray = [1,2,30,0,0,0,0,5,6];
+    const sparseArray = new SparseArray(regularArray, 10);
+    expect((sparseArray as any).storage).to.deep.equal({
+      0: 1,
+      1: 2,
+      2: 30,
+      7: 5,
+      8: 6,
+      9: undefined
+    });
+  });
+
+  it('test 2', () => {
+    const regularArray = [1,2,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,6];
+    const sparseArray = new SparseArray(regularArray, 10);
+    expect((sparseArray as any).storage).to.deep.equal({ 0: 1, 1: 2, 2: 30 });
+    expect((sparseArray as any).logicalLength).to.equal(10);
+  });
+
+  it('test 3', () => {
+    const regularArray = [1,2,30,0,0,0,0,0,0,0,0,0,5,6];
+    const sparseArray = new SparseArray(regularArray, 10);
+    expect((sparseArray as any).storage).to.deep.equal({ 0: 1, 1: 2, 2: 30 });
+    expect((sparseArray as any).logicalLength).to.equal(10);
+
+    sparseArray.set(100, 9999);
+    expect((sparseArray as any).logicalLength).to.equal(101);
+    expect((sparseArray as any).storage).to.deep.equal({ 0: 1, 1: 2, 2: 30, 100: 9999 });
+    
+    expect(sparseArray.get(100)).to.equal(9999);
+  });
+});
