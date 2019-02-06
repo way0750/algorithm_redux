@@ -17,3 +17,37 @@
  * and whenever accessing an index that has yet been deliberately assigned, just
  * return a default value: undefined, but in this case we can just number: 0;
  */
+
+export class SparseArray {
+  private logicalLength: number = 0;
+  private storage: {[key:string]: number} = {};
+  public init(arr: Array<number>, size: number) {
+    this.logicalLength = size;
+    // only add the element that is not 0;
+    arr.forEach((num, index) => {
+      if (num !== 0) {
+        this.storage[index] = num;
+      }
+    });
+  }
+
+  public set(i, val) {
+    this.storage[i] = val;
+    // need to update the length if setting a value at an index
+    // that is out of the current length bound
+    if (i >= this.logicalLength) {
+      this.logicalLength = i + 1;
+    }
+  }
+
+  public get(i) {
+    if (i >= 0 && i < this.logicalLength) {
+      return this.storage.hasOwnProperty(i)
+        ? this.storage[i]
+        : 0; // return default value: 0 because we never save any 0s.
+    } else {
+      // going along with the JavaScript implementation:
+      return undefined;
+    }
+  }
+}
