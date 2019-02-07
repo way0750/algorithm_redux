@@ -104,4 +104,21 @@ describe('Test next in order successor', () => {
     const node = tree.right.right;
     expect(nextInOrderSuccessor(tree, node)).to.equal(null);
   });
+  it('Should return 22', () => {
+    //   10
+    //   /  \
+    // 5    30
+    //     /  \
+    //   22    35
+    const tree = {
+      value: 10,
+      left: { value: 5 },
+      right: { value: 30,
+        left: { value: 22 },
+        right: { value: 35 }
+      }
+    }
+    const node = tree;
+    expect(nextInOrderSuccessor(tree, node).value).to.equal(22);
+  });
 });
