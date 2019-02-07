@@ -28,3 +28,7 @@
  *   if no, then search from the root node tree to find the target node 
  *     but make sure to keep the reference to parent of node when you search
  */
+
+export function nextInOrderSuccessor(tree, node) {
+
+}
