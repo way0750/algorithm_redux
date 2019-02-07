@@ -32,6 +32,8 @@
 /**
  * base case: curNode === targetNode
  *  return parentNode
+ *  or if curNode is null/undefined
+ *    then return null;
  * what to always return:
  *   parentNode || null for no node found in path;
  * what to do with return:
@@ -41,11 +43,14 @@
  *   make sure to pass self as parent node
  */
 function findNodeInTree(curNode, targetNode, parentNode) {
-  if (curNode === targetNode) {
-    parentNode;
-  }
+  if (!curNode) {
+    return null;
+  } else if (curNode.value === targetNode.value) {
+    return parentNode;
+  } 
 
-  return findNodeInTree(curNode.left, targetNode, curNode) || findNodeInTree(curNode.right, targetNode, curNode);
+  return findNodeInTree(curNode.left, targetNode, curNode)
+    || findNodeInTree(curNode.right, targetNode, null);
 }
 
 export function nextInOrderSuccessor(tree, node) {
@@ -63,3 +68,40 @@ export function nextInOrderSuccessor(tree, node) {
   const nextInOrderNode = findNodeInTree(tree, node, null);
   return nextInOrderNode;
 }
+
+describe('Test next in order successor', () => {
+  it('should return correct for the example above', () => {
+    //   10
+    //   /  \
+    // 5    30
+    //     /  \
+    //   22    35
+    const tree = {
+      value: 10,
+      left: { value: 5 },
+      right: { value: 30,
+        left: { value: 22 },
+        right: { value: 35 }
+      }
+    }
+    const node = tree.right.left;
+    expect(nextInOrderSuccessor(tree, node).value).to.equal(30);
+  });
+  it('Should return null for no next in order node', () => {
+    //   10
+    //   /  \
+    // 5    30
+    //     /  \
+    //   22    35
+    const tree = {
+      value: 10,
+      left: { value: 5 },
+      right: { value: 30,
+        left: { value: 22 },
+        right: { value: 35 }
+      }
+    }
+    const node = tree.right.right;
+    expect(nextInOrderSuccessor(tree, node)).to.equal(null);
+  });
+});
