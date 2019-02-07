@@ -29,6 +29,37 @@
  *     but make sure to keep the reference to parent of node when you search
  */
 
-export function nextInOrderSuccessor(tree, node) {
+/**
+ * base case: curNode === targetNode
+ *  return parentNode
+ * what to always return:
+ *   parentNode || null for no node found in path;
+ * what to do with return:
+ *   keep returning it
+ *   but you will get 2 returns, so return the node one not the null
+ * how to recursively call with curNode's left child and then right child
+ *   make sure to pass self as parent node
+ */
+function findNodeInTree(curNode, targetNode, parentNode) {
+  if (curNode === targetNode) {
+    parentNode;
+  }
 
+  return findNodeInTree(curNode.left, targetNode, curNode) || findNodeInTree(curNode.right, targetNode, curNode);
+}
+
+export function nextInOrderSuccessor(tree, node) {
+  const hasRightTree = !!node.right;
+  // find the last node on the right sub tree's left path
+  if (hasRightTree) {
+    let leftDescNode = node.right;
+    while(!!leftDescNode.left) {
+      leftDescNode = leftDescNode.left;
+    }
+    return leftDescNode;
+  }
+
+  // tree traversal to find the node, but return its parent
+  const nextInOrderNode = findNodeInTree(tree, node, null);
+  return nextInOrderNode;
 }
