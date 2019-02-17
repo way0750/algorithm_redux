@@ -96,4 +96,29 @@ describe('trim sub trees', () => {
     }
     expect(trimTree(tree)).to.eql(expectedReturn);
   });
+
+  it('should return undefined if all sub trees are trimed', () => {
+  /*
+  *      0
+  *     / \
+  *    0   0
+  *       / \
+  *      0   0
+  *     / \
+  *    0   0
+  */
+    const tree = {
+      value: 0,
+      left: { value: 0},
+      right: {
+        value: 0,
+        left: {
+          value: 0, left: { value: 0 }, right: { value: 0 }
+        },
+        right: { value: 0 }
+      }
+    };
+    const expectedReturn = undefined;
+    expect(trimTree(tree)).to.eql(expectedReturn);
+  });
 });
