@@ -47,11 +47,14 @@ export function trimTree (node: TreeNode): TreeNode | null {
     return undefined;
   }
 
-  // recursively call each child and reassign the values
-  // and value would be either the original left/right child
-  // or undefined to detach sub tree
-  node.left = trimTree(node.left);
-  node.right = trimTree(node.right);
+  // if the call return undefined then return that child
+  if (!trimTree(node.left)) {
+    delete node.left;
+  }
+  // if the call return undefined then return that child
+  if (!trimTree(node.right)) {
+    delete node.right;
+  }
 
   // If left or right child is still there, that means there are still sub trees
   if (node.left || node.right) {
@@ -60,3 +63,37 @@ export function trimTree (node: TreeNode): TreeNode | null {
     return node.value ? node : undefined;
   }
 }
+
+describe('trim sub trees', () => {
+  it('should return like the example aobve', () => {
+  /*
+  *      0
+  *     / \
+  *    1   0
+  *       / \
+  *      1   0
+  *     / \
+  *    0   0
+  */
+    const tree = {
+      value: 0,
+      left: { value: 1},
+      right: {
+        value: 0,
+        left: {
+          value: 1, left: { value: 0 }, right: { value: 0 }
+        },
+        right: { value: 0 }
+      }
+    };
+    const expectedReturn = {
+      value: 0,
+      left: { value: 1 },
+      right: {
+        value: 0,
+        left: { value: 1 }
+      }
+    }
+    expect(trimTree(tree)).to.eql(expectedReturn);
+  });
+});
