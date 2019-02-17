@@ -121,4 +121,37 @@ describe('trim sub trees', () => {
     const expectedReturn = undefined;
     expect(trimTree(tree)).to.eql(expectedReturn);
   });
+
+  it('should return just 1 node if all sub trees are 0', () => {
+  /*
+  *      1
+  *     / \
+  *    0   0
+  *       / \
+  *      0   0
+  *     / \
+  *    0   0
+  */
+    const tree = {
+      value: 1,
+      left: { value: 0},
+      right: {
+        value: 0,
+        left: {
+          value: 0, left: { value: 0 }, right: { value: 0 }
+        },
+        right: { value: 0 }
+      }
+    };
+    const expectedReturn = {
+      value: 1
+    };
+    expect(trimTree(tree)).to.eql(expectedReturn);
+  });
+
+  it('should return undefined if tree is empty', () => {
+    const tree = undefined;
+    const expectedReturn = undefined;
+    expect(trimTree(tree)).to.eql(expectedReturn);
+  });
 });
