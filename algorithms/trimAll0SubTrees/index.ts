@@ -34,6 +34,25 @@
  *   just call left and right child...
  *   then return self if current node is 1 or return null if current node is 0
  * 
+ * 
+ * time and space complexity
+ * if n is the total amount of nodes in the tree
+ * time: we would go through each and every single node once, 
+ *   and we would also call twice more for each left node
+ * over all a bit more than n
+ * depth = logN
+ * total depth would be depth + 1
+ * !(logN + 1)
+ * 
+ * space:
+ *  the returned tree:
+ *  at worse it would be the same as the tree
+ *  at best would be none
+ * 
+ *  the recursively stack:
+ *  at worse it would be the depth + 1
+ *  so logN + 1
+ * 
  */
 
 interface TreeNode {
