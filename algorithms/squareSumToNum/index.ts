@@ -30,3 +30,15 @@
  * 
  * return cache[n]
  */
+
+export function squareSumToNum(num: number): number {
+  const cache = { 0: 0 };
+  for (let curNum = 1; curNum <= num; curNum++) {
+    let searchNum = 1;
+    while(searchNum ** 2 <= Math.sqrt(curNum)) {
+      cache[curNum] = Math.min(cache[curNum] || Infinity, 1 + cache[curNum - searchNum ** 2])
+      searchNum++;
+    }
+  }
+  return cache[num];
+}
