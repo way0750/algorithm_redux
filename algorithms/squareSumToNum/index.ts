@@ -20,4 +20,13 @@
  * but then when you get to 3, 3 * 3 + 2 * 2, same thing, you can have to search the min amount for 24
  * so if you have already calculate the min result for 24, you can just reuse it
  * 
+ * set cache to hash with 1 value yet: { 0: 0 }
+ * loop from 1 to n
+ *  each loop you search from 1 to square root of n
+ *    for each of this nest loop
+ *    get current remainder and check it against the cache
+ *    update cache of current num from the outter loop to 1 + cache[remainder];
+ *      if it is smaller
+ * 
+ * return cache[n]
  */
