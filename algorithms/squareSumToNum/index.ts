@@ -1,6 +1,6 @@
 /**
  * Given a positive integer n, find the smallest number of squared integers 
- * which sum to n. For example, given n = 13, return 2 since 13 = 32 + 22 = 9 + 4.
+ * which sum to n. For example, given n = 13, return 2 since 13 = 3 of 3 + 2 of 2 = 9 + 4.
  * Given n = 27, return 3 since 27 = 32 + 32 + 32 = 9 + 9 + 9
  * 
  * 
@@ -29,16 +29,56 @@
  *      if it is smaller
  * 
  * return cache[n]
+ * 
+ * time and space complexity
+ * time would be !√n
+ *   because we will be loop from 1 all the way to n
+ *   and for each loop, there is a nested loop that go through square root amount of current search num;
+ *   so when you add all of them together: √1 + √2 + √3 ..... + √n
+ *   which means it is !√n
+ * space complexity: it is just n
  */
 
 export function squareSumToNum(num: number): number {
   const cache = { 0: 0 };
   for (let curNum = 1; curNum <= num; curNum++) {
     let searchNum = 1;
-    while(searchNum ** 2 <= Math.sqrt(curNum)) {
-      cache[curNum] = Math.min(cache[curNum] || Infinity, 1 + cache[curNum - searchNum ** 2])
+    while(searchNum <= Math.sqrt(curNum)) {
+      const remainder = curNum - searchNum ** 2;
+      cache[curNum] = Math.min(cache[curNum] || Infinity, 1 + cache[remainder])
       searchNum++;
     }
   }
   return cache[num];
 }
+
+/**
+ * n = 13
+ * 1..13
+ * {
+ * 0:0
+ * 1: 1
+ * 2: 2
+ * 3: 3
+ * 4: 1
+ * 5: 2
+ * 6: 3
+ * 7: 4
+ * 8: 2
+ * 9: 1
+ * 10: 2
+ * 11: 3
+ * 12: 3
+ * 13: 2
+ * }
+ */
+describe('testing squareSumToNum', () => {
+  it('should return correctly for example above', () => {
+    const n = 13;
+    expect(squareSumToNum(n)).to.equal(2);
+  });
+  it('should return correctly for example above', () => {
+    const n = 8;
+    expect(squareSumToNum(n)).to.equal(2);
+  });
+});
