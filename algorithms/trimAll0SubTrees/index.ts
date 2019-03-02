@@ -84,7 +84,7 @@ export function trimTree (node: TreeNode): TreeNode | null {
 }
 
 describe('trim sub trees', () => {
-  it('should return like the example aobve', () => {
+  it('should return like the example above', () => {
   /*
   *      0
   *     / \
@@ -116,7 +116,7 @@ describe('trim sub trees', () => {
     expect(trimTree(tree)).to.eql(expectedReturn);
   });
 
-  it('should return undefined if all sub trees are trimed', () => {
+  it('should return undefined if all sub trees are trimmed', () => {
   /*
   *      0
   *     / \
