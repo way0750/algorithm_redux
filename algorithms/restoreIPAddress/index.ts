@@ -50,21 +50,27 @@
  * what to always return: an array of string "ip"
 
  */
+export function isValid(string) {
+  const noLeading0 = string.length > 1 ? string[0] !== '0' : true;
+  const noEmpty = !!string.length;
+  const isSmallerThan255 = +string <= 255;
+  return noLeading0 && noEmpty && isSmallerThan255;
+}
 
-function restoreIpAddressesMySolution(string, stackLevel = 0) {
+function restoreIpAddresses(string, stackLevel = 0) {
   // got to the last stack level
   if (stackLevel >= 3) {
     // because this is the last stack, so we can't further slice the input
     // string, we have to use the input string as it is.
-    return +string > 255 || string === '' ? [] : [`${+string}`];
+    return isValid(string) ? [string] : [];
   }
 
   const allPatterns = [];
   for (let slicingIndex = 1; slicingIndex < 4; slicingIndex++) {
     const curSegment = string.slice(0, slicingIndex);
     const remainingStr = string.slice(slicingIndex);
-    if (+curSegment <= 255) {
-      const subPatterns = restoreIpAddressesMySolution(remainingStr, stackLevel + 1);
+    if (isValid(curSegment)) {
+      const subPatterns = restoreIpAddresses(remainingStr, stackLevel + 1);
       subPatterns.forEach((subPattern) => allPatterns.push(`${+curSegment}.${subPattern}`));
     }
   }
@@ -72,19 +78,18 @@ function restoreIpAddressesMySolution(string, stackLevel = 0) {
   return allPatterns;
 }
 
-function restoreIpAddresses(string) {
+function restoreIpAddressesLeetCode(string) {
   const allPatterns = [];
   for (let firstSegIndex = 1; firstSegIndex < 4; ++firstSegIndex) {
     for (let secondSegIndex = 1; secondSegIndex < 4; ++secondSegIndex) {
       for (let thirdSegIndex = 1; thirdSegIndex < 4; ++thirdSegIndex) {
         // let fourthSegIndex
-        const firstSeg = +(string.substr(0, firstSegIndex) || NaN);
-        const secondSeg = +(string.substr(firstSegIndex, secondSegIndex) || NaN);
-        const thirdSeg = +(string.substr(firstSegIndex + secondSegIndex, thirdSegIndex) || NaN);
+        const firstSeg = string.substr(0, firstSegIndex);
+        const secondSeg = string.substr(firstSegIndex, secondSegIndex);
+        const thirdSeg = string.substr(firstSegIndex + secondSegIndex, thirdSegIndex);
         // make the fourth one use all the remaining digits
-        const fourthSeg = +(string.substr(firstSegIndex + secondSegIndex + thirdSegIndex) || NaN);
-        console.log(firstSeg, secondSeg, thirdSeg, fourthSeg);
-        if (firstSeg <= 255 && secondSeg <= 255 && thirdSeg <= 255 && fourthSeg <= 255) {
+        const fourthSeg = string.substr(firstSegIndex + secondSegIndex + thirdSegIndex);
+        if (isValid(firstSeg) && isValid(secondSeg) && isValid(thirdSeg) && isValid(fourthSeg)) {
           allPatterns.push(`${firstSeg}.${secondSeg}.${thirdSeg}.${fourthSeg}`);
         }
       }
