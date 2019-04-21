@@ -50,3 +50,24 @@
  * what to always return: an array of string "ip"
 
  */
+
+function restoreIpAddresses(string, stackLevel = 0) {
+  // got to the last stack level
+  if (stackLevel >= 3) {
+    // because this is the last stack, so we can't further slice the input
+    // string, we have to use the input string as it is.
+    return +string > 255 || string === '' ? [] : [string];
+  }
+
+  const allPatterns = [];
+  for (let slicingIndex = 1; slicingIndex < 4; slicingIndex++) {
+    const curSegment = string.slice(0, slicingIndex);
+    const remainingStr = string.slice(slicingIndex);
+    if (+curSegment <= 255) {
+      const subPatterns = restoreIpAddresses(remainingStr, stackLevel++);
+      subPatterns.forEach((subPattern) => allPatterns.push(`${curSegment}.${subPattern}`));
+    }
+  }
+
+  return allPatterns;
+}
