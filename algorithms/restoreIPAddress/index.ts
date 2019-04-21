@@ -12,5 +12,41 @@
     see the the last 11111?
     it is reusable for 1.11 and 11.1
     that means we can potentially save calculation by caching results
-    
+
+    solution:
+    1.....
+    then
+    11.....
+    111.....
+    1111...... 1111 > 255 so stop here for the first segment
+ *  take 1 number first, then take 2 number, then take 3 and then pass the
+ *  renaming to the next call to get 3 segments of numbers, if non-empty array
+ *  is returned from subsequent calls, then add to current segment
+ * if nothing then do nothing
+ * 
+ * recursion setup:
+ * base case: we will pass a stack num to tell which segment are we at
+ *    so when the segment is at 4, then that's the base case
+ *    what to return at base case:
+ *    if the input string is empty then return [];
+      if the entire input string is larger then 255, return [] becase we have to
+      use the entire string as it is without further slicing because there is no
+      more sub sequent call anymore
+ *    if 255 or less, return [itself]
+
+   how to make problem smaller:
+   slice the input string 3 times, each time slice 1 char further:
+   if input: '1234567'
+   1: '1'
+   2: '12'
+   3: '123' // if larger than 255 don't recursively call
+   then pass the remaining to the subsequent calls
+
+   what to do with returns:
+ * add current sliced segment to the front of each returned string, and then add
+ * this new string to some sort of final array
+ * 
+ * 
+ * what to always return: an array of string "ip"
+
  */
