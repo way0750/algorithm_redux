@@ -64,10 +64,29 @@ function restoreIpAddresses(string, stackLevel = 0) {
     const curSegment = string.slice(0, slicingIndex);
     const remainingStr = string.slice(slicingIndex);
     if (+curSegment <= 255) {
-      const subPatterns = restoreIpAddresses(remainingStr, stackLevel++);
+      const subPatterns = restoreIpAddresses(remainingStr, stackLevel + 1);
       subPatterns.forEach((subPattern) => allPatterns.push(`${curSegment}.${subPattern}`));
     }
   }
 
   return allPatterns;
 }
+
+describe('restore IP address', () => {
+  it('should work with the example', () => {
+    const string = '25525511135';
+    expect(restoreIpAddresses(string)).to.eql(['255.255.11.135', '255.255.111.35']);
+  });
+  it('should return [] if not enough digits', () => {
+    const string = '123';
+    expect(restoreIpAddresses(string)).to.eql([]);
+  });
+  it('should return [] if too many digits', () => {
+    const string = '1234567890123456789';
+    expect(restoreIpAddresses(string)).to.eql([]);
+  });
+  it('should return [] if can not create seg with value <= 255', () => {
+    const string = '333333333333';
+    expect(restoreIpAddresses(string)).to.eql([]);
+  });
+});
