@@ -51,12 +51,12 @@
 
  */
 
-function restoreIpAddresses(string, stackLevel = 0) {
+function restoreIpAddressesMySolution(string, stackLevel = 0) {
   // got to the last stack level
   if (stackLevel >= 3) {
     // because this is the last stack, so we can't further slice the input
     // string, we have to use the input string as it is.
-    return +string > 255 || string === '' ? [] : [string];
+    return +string > 255 || string === '' ? [] : [`${+string}`];
   }
 
   const allPatterns = [];
@@ -64,8 +64,29 @@ function restoreIpAddresses(string, stackLevel = 0) {
     const curSegment = string.slice(0, slicingIndex);
     const remainingStr = string.slice(slicingIndex);
     if (+curSegment <= 255) {
-      const subPatterns = restoreIpAddresses(remainingStr, stackLevel + 1);
-      subPatterns.forEach((subPattern) => allPatterns.push(`${curSegment}.${subPattern}`));
+      const subPatterns = restoreIpAddressesMySolution(remainingStr, stackLevel + 1);
+      subPatterns.forEach((subPattern) => allPatterns.push(`${+curSegment}.${subPattern}`));
+    }
+  }
+
+  return allPatterns;
+}
+
+function restoreIpAddresses(string) {
+  const allPatterns = [];
+  for (let firstSegIndex = 1; firstSegIndex < 4; ++firstSegIndex) {
+    for (let secondSegIndex = 1; firstSegIndex < 4; ++secondSegIndex) {
+      for (let thirdSegIndex = 1; firstSegIndex < 4; ++thirdSegIndex) {
+        // let fourthSegIndex
+        const firstSeg = +string.slice(0, firstSegIndex);
+        const secondSeg = +string.slice(firstSegIndex, secondSegIndex);
+        const thirdSeg = +string.slice(firstSegIndex + secondSegIndex, thirdSegIndex);
+        // make the fourth one use all the remaining digits
+        const fourthSeg = +string.slice(firstSegIndex + secondSegIndex + thirdSegIndex);
+        if (firstSeg <= 255 && secondSeg <= 255 && thirdSeg <= 255 && fourthSeg <= 255) {
+          allPatterns.push(`${firstSeg}.${secondSeg}.${thirdSeg}.${fourthSeg}`);
+        }
+      }
     }
   }
 
@@ -88,5 +109,9 @@ describe('restore IP address', () => {
   it('should return [] if can not create seg with value <= 255', () => {
     const string = '333333333333';
     expect(restoreIpAddresses(string)).to.eql([]);
+  });
+  it('should work with "010010"', () => {
+    const string = '010010';
+    expect(restoreIpAddresses(string)).to.eql(['0.10.0.10','0.100.1.0']);
   });
 });
