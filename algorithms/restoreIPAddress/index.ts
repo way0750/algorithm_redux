@@ -57,7 +57,7 @@ export function isValid(string) {
   return noLeading0 && noEmpty && isSmallerThan255;
 }
 
-function restoreIpAddresses(string, stackLevel = 0) {
+function restoreIpAddressesMy(string, stackLevel = 0) {
   // got to the last stack level
   if (stackLevel >= 3) {
     // because this is the last stack, so we can't further slice the input
@@ -70,7 +70,7 @@ function restoreIpAddresses(string, stackLevel = 0) {
     const curSegment = string.slice(0, slicingIndex);
     const remainingStr = string.slice(slicingIndex);
     if (isValid(curSegment)) {
-      const subPatterns = restoreIpAddresses(remainingStr, stackLevel + 1);
+      const subPatterns = restoreIpAddressesMy(remainingStr, stackLevel + 1);
       subPatterns.forEach((subPattern) => allPatterns.push(`${+curSegment}.${subPattern}`));
     }
   }
@@ -98,6 +98,31 @@ function restoreIpAddressesLeetCode(string) {
 
   return allPatterns;
 }
+
+const allPossiblePatterns = [
+  [0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 5],
+  [0, 1, 3, 4], [0, 1, 3, 5], [0, 1, 3, 6],
+  [0, 1, 4, 5], [0, 1, 4, 6], [0, 1, 4, 7],
+  [0, 2, 3, 4], [0, 2, 3, 5], [0, 2, 3, 6],
+  [0, 2, 4, 5], [0, 2, 4, 6], [0, 2, 4, 7],
+  [0, 2, 5, 6], [0, 2, 5, 7], [0, 2, 5, 8],
+  [0, 3, 4, 5], [0, 3, 4, 6], [0, 3, 4, 7],
+  [0, 3, 5, 6], [0, 3, 5, 7], [0, 3, 5, 8],
+  [0, 3, 6, 7], [0, 3, 6, 8], [0, 3, 6, 9]
+];
+
+export function restoreIpAddresses(string) {
+  return allPossiblePatterns.reduce((IPs, pattern) => {
+    // get the segments:
+    const segments = pattern.map((sliceStart, i) => string.slice(sliceStart, pattern[i+1]));
+    if (segments.every((segment) => isValid(segment))) {
+      IPs.push(segments.join('.'));
+    }
+    return IPs;
+  }, []);
+}
+
+
 
 describe('restore IP address', () => {
   it('should work with the example', () => {
