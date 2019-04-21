@@ -1,3 +1,4 @@
+
 /*
 Given a string, find the length of the longest substring without repeating characters.
 
@@ -29,35 +30,51 @@ substring.
    frequency. Once the frequency is > 1 stop, and set a flag: foundRepeatChar to true
  whenever foundRepeatChar is true, move B and reduce frequency count of current char by 1, whenever the value is still 1 after reducing, that means we have reduce the only repeated char so far in this B..A interval, set foundRepeaetChar to false so A can move again
  */
-let lengthOfLongestSubstring = function(s) {
-  let foundRepeatChar = false;
-  let A = 0;
+
+function lengthOfLongestSubstring(s) {
+  let A = -1;
   let B = -1;
   let curMax = 0;
   let cache = {};
-  while(A <= s.length) {
+  let repeatedChar = '';
+  while(A < s.length - 1) {
       let curChar;
-      if (foundRepeatChar) {
+      if (repeatedChar) {
+          B++
           curChar = s[B];
           // reduce the frequency by 1
           cache[curChar]--;
           // get ride of the only repeat char
-          if (cache[curChar] === 1) {
-              foundRepeatChar = false;
-          } else {
-              B++;
+          if (repeatedChar === curChar) {
+              repeatedChar = '';
           }
       } else {
-          curMax = Math.max(A-B, curMax);
+          A++;
           curChar = s[A] || '';
           cache[curChar] = cache[curChar] || 0;
           cache[curChar]++;
+          // found one char
           if (cache[curChar] > 1) {
-              foundRepeatChar = true;
+              repeatedChar = curChar;
           } else {
-              A++;
+              curMax = Math.max(A-B, curMax);
           }
       }
   }
   return curMax;
 };
+
+describe('longest unique sub string', () => {
+  it('should work with example above:', () => {
+    const str = 'abcabcbb';
+    expect(lengthOfLongestSubstring(str)).to.eql(3);
+  });
+  it('should work with bbbbbabcds', () => {
+    const str = 'bbbbbabcds';
+    expect(lengthOfLongestSubstring(str)).to.eql(5);
+  });
+  it('should work with alksdjflajbbbbweresdfkljaksdljfwoeiuroiwer', () => {
+    const str = 'alksdjflajbbbbweresdfkljaksdljfwoeiuroiwer';
+    expect(lengthOfLongestSubstring(str)).to.eql(13);
+  });
+});
