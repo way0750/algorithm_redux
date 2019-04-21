@@ -75,14 +75,15 @@ function restoreIpAddressesMySolution(string, stackLevel = 0) {
 function restoreIpAddresses(string) {
   const allPatterns = [];
   for (let firstSegIndex = 1; firstSegIndex < 4; ++firstSegIndex) {
-    for (let secondSegIndex = 1; firstSegIndex < 4; ++secondSegIndex) {
-      for (let thirdSegIndex = 1; firstSegIndex < 4; ++thirdSegIndex) {
+    for (let secondSegIndex = 1; secondSegIndex < 4; ++secondSegIndex) {
+      for (let thirdSegIndex = 1; thirdSegIndex < 4; ++thirdSegIndex) {
         // let fourthSegIndex
-        const firstSeg = +string.slice(0, firstSegIndex);
-        const secondSeg = +string.slice(firstSegIndex, secondSegIndex);
-        const thirdSeg = +string.slice(firstSegIndex + secondSegIndex, thirdSegIndex);
+        const firstSeg = +(string.substr(0, firstSegIndex) || NaN);
+        const secondSeg = +(string.substr(firstSegIndex, secondSegIndex) || NaN);
+        const thirdSeg = +(string.substr(firstSegIndex + secondSegIndex, thirdSegIndex) || NaN);
         // make the fourth one use all the remaining digits
-        const fourthSeg = +string.slice(firstSegIndex + secondSegIndex + thirdSegIndex);
+        const fourthSeg = +(string.substr(firstSegIndex + secondSegIndex + thirdSegIndex) || NaN);
+        console.log(firstSeg, secondSeg, thirdSeg, fourthSeg);
         if (firstSeg <= 255 && secondSeg <= 255 && thirdSeg <= 255 && fourthSeg <= 255) {
           allPatterns.push(`${firstSeg}.${secondSeg}.${thirdSeg}.${fourthSeg}`);
         }
