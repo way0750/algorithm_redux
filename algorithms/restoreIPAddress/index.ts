@@ -99,6 +99,12 @@ function restoreIpAddressesLeetCode(string) {
   return allPatterns;
 }
 
+/**
+ * there are only 27 possible patterns to re-create ips off a string of numbers
+ * you can hard code all the patterns to make the last bit of code easier to read.
+ * performance and space wise, both constant time at 27 at worst
+ */
+
 const allPossiblePatterns = [
   [0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 5],
   [0, 1, 3, 4], [0, 1, 3, 5], [0, 1, 3, 6],
@@ -112,7 +118,7 @@ const allPossiblePatterns = [
 ];
 
 export function restoreIpAddresses(string) {
-  return allPossiblePatterns.reduce((IPs, pattern) => {
+  return allPossiblePatterns.reduce((IPs: Array<string>, pattern: Array<number>) => {
     // get the segments:
     const segments = pattern.map((sliceStart, i) => string.slice(sliceStart, pattern[i+1]));
     if (segments.every((segment) => isValid(segment))) {
@@ -121,8 +127,6 @@ export function restoreIpAddresses(string) {
     return IPs;
   }, []);
 }
-
-
 
 describe('restore IP address', () => {
   it('should work with the example', () => {
