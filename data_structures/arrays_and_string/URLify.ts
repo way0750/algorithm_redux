@@ -20,8 +20,22 @@
  *  time and space:
  *  time: if the string is mutatable structure then we will just update the entire
  *  string which is the same length as the input, but not the same as the true length
+ *   if the string is not mutatable, then this is going to be n**2
  * 
  *  space: same as the input string
  *  
  *  so n for both
+ * 
+ * solution 2: to deal with immutatable string structure
+ * make empty string, then loop the true length portation of the string
+ * then if cur char is space, then push '%20' else push cur char
+ * join the string.
+ * 
+ * time and space:
+ * time: worse case you will end up going through entire true length without
+ * encountering a space, so that is t (for true length), then joining in the
+ * array, that would also be t
+ * so 2t which is t
+ * 
+ * space: worse case you have all spaces: so true length * 3 (%20)
  */
