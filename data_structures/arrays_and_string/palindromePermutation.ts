@@ -22,3 +22,21 @@
  * 
  * space: worse case you end up with all unique chars so..... n again
  */
+
+export function palindromePermutation(str) {
+  let oddCharCount = 0;
+  const frequencyRecord = {};
+  for (let i = 0; i < str.length; i++) {
+    const curChar = str[i];
+    frequencyRecord[curChar] = frequencyRecord[curChar] || 0;
+    frequencyRecord[curChar]++;
+    if (frequencyRecord[curChar] % 2 === 0) {
+      oddCharCount--;
+    } else {
+      oddCharCount++;
+    }
+  }
+
+  return oddCharCount < 2;
+}
+
