@@ -26,14 +26,11 @@ export function stringCompression(str) {
   let curSectionCount = 0;
   for (let i = 0; i <= str.length; i++) {
     const curChar = str[i];
-    if (!curSectionChar) {
-      curSectionChar = curChar;
-      curSectionCount = 1;
-    } else if (curChar === curSectionChar) {
+    if (curChar === curSectionChar) {
       curSectionCount++;
     } else {
       // different char this time!
-      compressedStr += `${curSectionCount}${curSectionChar}`;
+      compressedStr += `${curSectionChar}${curSectionCount ? curSectionCount : '' }`;
       if (compressedStr.length >= str.length) {
         return str;
       } else {
@@ -45,3 +42,18 @@ export function stringCompression(str) {
 
   return compressedStr;
 }
+
+describe('String Compression', () => {
+  it('should return a2b1c5a3', () => {
+    const str = 'aabcccccaaa';
+    expect(stringCompression(str)).to.equal('a2b1c5a3');
+  });
+  it('should return abcd', () => {
+    const str = 'abcd';
+    expect(stringCompression(str)).to.equal('abcd');
+  });
+  it('should return 5a', () => {
+    const str = 'aaaaa';
+    expect(stringCompression(str)).to.equal('a5');
+  });
+});
