@@ -40,16 +40,31 @@
  * space: worse case you have all spaces: so true length * 3 (%20)
  */
 
-export function URLify(str, trueLength) {
+export function URLify(str, trueLength = str.length) {
   const chars = [];
   const escapedSpace = '%20';
   for ( let i = 0; i < trueLength; i++) {
     const curChar = str[i];
-    if (curChar === '') {
+    if (curChar === ' ') {
       chars.push(escapedSpace);
     } else {
       chars.push(curChar);
     }
   }
+
   return chars.join('');
 }
+
+describe('URLify', () => {
+  it('should return "Mr%20John%20Smith"', () => {
+    const str = 'Mr John Smith           ';
+    const expectStr = 'Mr%20John%20Smith';
+    expect(URLify(str, 13)).to.equal(expectStr);
+  });
+
+  it('should return " hi         "', () => {
+    const str = ' hi         ';
+    const expectStr = '%20hi%20';
+    expect(URLify(str, 4)).to.equal(expectStr);
+  });
+});
