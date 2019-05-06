@@ -10,4 +10,24 @@
  * of s1
  * then find s2 in it
  */
+function isSubstring(s1, s2) {
+  return s1.search(s2) > -1;
+}
 
+export function isRotatedSubStr(s1, s2) {
+  const longerS1 = s1 + s1;
+  return isSubstring(longerS1, s2);
+}
+
+describe('String Rotation', () => {
+  it('should return true for the example', () => {
+    const s1 = 'waterbottle';
+    const s2 = 'erbottlewat';
+    expect(isRotatedSubStr(s1, s2)).to.be.true;
+  });
+  it('should return false', () => {
+    const s1 = 'waterbottle';
+    const s2 = 'erbottlewbt';
+    expect(isRotatedSubStr(s1, s2)).to.be.false;
+  });
+});
