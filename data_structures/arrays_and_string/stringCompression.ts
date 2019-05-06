@@ -14,4 +14,34 @@
  *     and compare length of compressedStr to input str, if longer then return inputStr
  *  
  *  at the very end, return the compressedStr;
+ * 
+ * time and space:
+ * time: you are going through each index, so n
+ * space: you are worse case it is the same the input string, so n again
  */
+
+export function stringCompression(str) {
+  let compressedStr = '';
+  let curSectionChar = '';
+  let curSectionCount = 0;
+  for (let i = 0; i <= str.length; i++) {
+    const curChar = str[i];
+    if (!curSectionChar) {
+      curSectionChar = curChar;
+      curSectionCount = 1;
+    } else if (curChar === curSectionChar) {
+      curSectionCount++;
+    } else {
+      // different char this time!
+      compressedStr += `${curSectionCount}${curSectionChar}`;
+      if (compressedStr.length >= str.length) {
+        return str;
+      } else {
+        curSectionChar = curChar;
+        curSectionCount = 1;
+      }
+    }
+  }
+
+  return compressedStr;
+}
