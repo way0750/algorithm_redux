@@ -39,3 +39,17 @@
  * 
  * space: worse case you have all spaces: so true length * 3 (%20)
  */
+
+export function URLify(str, trueLength) {
+  const chars = [];
+  const escapedSpace = '%20';
+  for ( let i = 0; i < trueLength; i++) {
+    const curChar = str[i];
+    if (curChar === '') {
+      chars.push(escapedSpace);
+    } else {
+      chars.push(curChar);
+    }
+  }
+  return chars.join('');
+}
