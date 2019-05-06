@@ -47,3 +47,16 @@ export function arePermutations(str1, str2) {
   }
   return true;
 }
+
+describe('check permutation', () => {
+  it('should return true for aab, aba', () => {
+    const str1 = 'aab';
+    const str2 = 'aba';
+    expect(arePermutations(str1, str2)).to.be.true;
+  });
+  it('should return false for aab, abd', () => {
+    const str1 = 'aab';
+    const str2 = 'abd';
+    expect(arePermutations(str1, str2)).to.be.false;
+  });
+});
