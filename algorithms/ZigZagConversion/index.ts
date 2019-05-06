@@ -23,6 +23,18 @@
  * 
  * at the end just map and concat everything from the lines into one huge string
  * and return;
+ * 
+ * time and space:
+ * time:
+ * looping through all char: n
+ * depends on if the string data structure is mutable or not
+ *   if yes: then time is n
+ *   if no: then worst case can be n**2
+ * 
+ * space:
+ * final line is same size as input
+ * and the temp array will hold the same space as input
+ * so n
  */
 
 export function zigzagConversion(str, lineCount) {
@@ -50,3 +62,15 @@ export function zigzagConversion(str, lineCount) {
   }, '');
 }
 
+describe('zig zag', () => {
+  it('should PAYPALISHIRING return PAHNAPLSIIGYIR', () => {
+    const str = 'PAYPALISHIRING';
+    const expected = 'PAHNAPLSIIGYIR';
+    expect(zigzagConversion(str, 3)).to.equal(expected);
+  });
+  it('should PAYPALISHIRING return PAHNAPLSIIGYIR', () => {
+    const str = 'PAYPALISHIRING';
+    const expected = 'PINALSIGYAHRPI';
+    expect(zigzagConversion(str, 4)).to.equal(expected);
+  });
+});
