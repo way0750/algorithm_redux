@@ -9,6 +9,9 @@
  * s1+s1 this will make a longer string which will handle all passing rotation
  * of s1
  * then find s2 in it
+ * time and space
+ * time whatever the time complexity of isSubstring is
+ * space whatever the space complexity of isSubstring is;
  */
 function isSubstring(s1, s2) {
   return s1.search(s2) > -1;
