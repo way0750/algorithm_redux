@@ -14,3 +14,43 @@
  * curent long str char to current short str char, if different then allow the
  * short str index to stay once. if it has already stayed once then return false
  */
+
+export function oneAway(str1, str2) {
+  if (Math.abs(str1.length - str2.length) > 1) {
+    return false;
+  }
+
+  if (str1.length === str2.length) {
+    for (let i = 0; i < str1.length; i++) {
+      if (str1[i] !== str2[i]) {
+        return false;
+      }
+    }
+  } else {
+    let longStr;
+    let shortStr;
+    if (str1.length > str2.length) {
+      longStr = str1;
+      shortStr = str2;
+    } else {
+      longStr = str2;
+      shortStr = str1;
+    }
+    let shortStrIndex = 0;
+    let shortIndexLegged = false;
+    for (let i = 0; i < longStr.length; i++) {
+      const longStrChar = longStr[i];
+      const shortStrChar = shortStr[shortStrIndex];
+      if (shortIndexLegged && (longStrChar !== shortStrChar)) {
+        return false;
+      } else if (!shortIndexLegged && (longStrChar !== shortStrChar)) {
+        shortIndexLegged = true;
+      } else {
+        shortStrIndex++;
+      }
+    }
+  }
+
+  return true;
+}
+
