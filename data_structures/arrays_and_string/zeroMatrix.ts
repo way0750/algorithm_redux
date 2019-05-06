@@ -53,3 +53,48 @@ export function zeroMatrixInPlace(matrix) {
 
   return matrix;
 }
+
+describe('zero matrix', () => {
+  it('test 001', () => {
+    const matrix = [
+      [1,0,0,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,0,1]
+    ];
+
+    const expectedMatrix = [
+      [0,0,0,0,0],
+      [1,0,0,0,1],
+      [1,0,0,0,1],
+      [0,0,0,0,0]
+    ];
+
+    expect(zeroMatrixInPlace(matrix)).to.deep.equal(expectedMatrix);
+  });
+  it('test empty matrix', () => {
+    const matrix = [];
+
+    const expectedMatrix = [];
+
+    expect(zeroMatrixInPlace(matrix)).to.deep.equal(expectedMatrix);
+  });
+
+  it('test 003', () => {
+    const matrix = [
+      [1,0,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,0,1]
+    ];
+
+    const expectedMatrix = [
+      [0,0,0,0,0],
+      [1,0,1,0,1],
+      [1,0,1,0,1],
+      [0,0,0,0,0]
+    ];
+
+    expect(zeroMatrixInPlace(matrix)).to.deep.equal(expectedMatrix);
+  });
+});
