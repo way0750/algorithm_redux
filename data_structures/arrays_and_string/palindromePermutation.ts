@@ -27,12 +27,13 @@ export function palindromePermutation(str) {
   let oddCharCount = 0;
   const frequencyRecord = {};
   for (let i = 0; i < str.length; i++) {
-    const curChar = str[i];
+    const curChar = str[i].toLowerCase();
     frequencyRecord[curChar] = frequencyRecord[curChar] || 0;
     frequencyRecord[curChar]++;
+    const charNumVal = curChar.charCodeAt();
     if (frequencyRecord[curChar] % 2 === 0) {
       oddCharCount--;
-    } else {
+    } else if (charNumVal > 96 && charNumVal < 123) {
       oddCharCount++;
     }
   }
@@ -40,3 +41,17 @@ export function palindromePermutation(str) {
   return oddCharCount < 2;
 }
 
+describe('lalindrome permutation', () => {
+  it('should return true for "aaabbbb"', () => {
+    const str = 'aaabbbb';
+    expect(palindromePermutation(str)).to.be.true;
+  });
+  it('should return false for "aaabbb"', () => {
+    const str = 'aaabbb';
+    expect(palindromePermutation(str)).to.be.false;
+  });
+  it('should return true for "Tact Coa"', () => {
+    const str = 'Tact Coa';
+    expect(palindromePermutation(str)).to.be.true;
+  });
+});
