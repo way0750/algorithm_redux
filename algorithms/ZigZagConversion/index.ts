@@ -38,6 +38,9 @@
  */
 
 export function zigzagConversion(str, lineCount) {
+  if (lineCount === 1) {
+    return str;
+  }
   let downward = true;
   let curLineNum = 0;
   const lines = [];
@@ -68,9 +71,14 @@ describe('zig zag', () => {
     const expected = 'PAHNAPLSIIGYIR';
     expect(zigzagConversion(str, 3)).to.equal(expected);
   });
-  it('should PAYPALISHIRING return PAHNAPLSIIGYIR', () => {
+  it('should PAYPALISHIRING return PINALSIGYAHRPI', () => {
     const str = 'PAYPALISHIRING';
     const expected = 'PINALSIGYAHRPI';
     expect(zigzagConversion(str, 4)).to.equal(expected);
+  });
+  it('should AB return AB', () => {
+    const str = 'AB';
+    const expected = 'AB';
+    expect(zigzagConversion(str, 1)).to.equal(expected);
   });
 });
