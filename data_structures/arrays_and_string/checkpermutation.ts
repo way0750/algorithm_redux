@@ -30,6 +30,9 @@
  */
 
 export function arePermutations(str1, str2) {
+  if (str1.length !== str2.length) {
+    return false;
+  }
   const freqRecord = {};
   for (let i = 0; i < str1.length; i++) {
     const curChar = str1[i];
