@@ -21,9 +21,12 @@ export function oneAway(str1, str2) {
   }
 
   if (str1.length === str2.length) {
+    let usedOneEdit = false;
     for (let i = 0; i < str1.length; i++) {
-      if (str1[i] !== str2[i]) {
+      if (usedOneEdit && (str1[i] !== str2[i])) {
         return false;
+      } else if (!usedOneEdit && (str1[i] !== str2[i])) {
+        usedOneEdit = true;
       }
     }
   } else {
@@ -54,3 +57,30 @@ export function oneAway(str1, str2) {
   return true;
 }
 
+describe('One Away', () => {
+  it('should return true for pale, ple', () => {
+    const str1 = 'pale';
+    const str2 = 'ple';
+    expect(oneAway(str1, str2)).to.be.true;
+  });
+  it('should return true for pales, pale', () => {
+    const str1 = 'pales';
+    const str2 = 'pale';
+    expect(oneAway(str1, str2)).to.be.true;
+  });
+  it('should return true for pale, bale', () => {
+    const str1 = 'pale';
+    const str2 = 'bale';
+    expect(oneAway(str1, str2)).to.be.true;
+  });
+  it('should return false for pale, bake', () => {
+    const str1 = 'pale';
+    const str2 = 'bake';
+    expect(oneAway(str1, str2)).to.be.false;
+  });
+  it('should return false for paleee, bake', () => {
+    const str1 = 'paleee';
+    const str2 = 'bake';
+    expect(oneAway(str1, str2)).to.be.false;
+  });
+});
