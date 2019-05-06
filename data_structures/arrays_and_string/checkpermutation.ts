@@ -28,3 +28,22 @@
  *  space: if all chars are unique then the frequency record would be the same
  *  length as both string. so n again
  */
+
+export function arePermutations(str1, str2) {
+  const freqRecord = {};
+  for (let i = 0; i < str1.length; i++) {
+    const curChar = str1[i];
+    freqRecord[curChar] = freqRecord[curChar] || 0;
+    freqRecord[curChar]++;
+  }
+
+  for (let i = 0; i < str2.length; i++) {
+    const curChar = str2[i];
+    freqRecord[curChar] = freqRecord[curChar] || 0;
+    freqRecord[curChar]--;
+    if (freqRecord[curChar] < 0) {
+      return false;
+    }
+  }
+  return true;
+}
