@@ -22,3 +22,19 @@
 
     return void for this
  */
+
+export function partition(list, n) {
+  let swappableNode  = list.head;
+  let runner = list.head;
+  while (runner) {
+    if(runner.value < n) {
+      const runnerValue = runner.value;
+      runner.value = swappableNode.value;
+      swappableNode.value = runnerValue;
+    }
+    runner = runner.next;
+    if (swappableNode.value < n) {
+      swappableNode = swappableNode.next;
+    }
+  }
+}
