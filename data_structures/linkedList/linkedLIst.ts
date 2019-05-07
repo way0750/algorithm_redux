@@ -31,6 +31,15 @@ export class LinkedList {
       this.tail = newNode;
     }
   }
+
+  public forEach(callBack) {
+    let curNode = this.head;
+    let pos = 0;
+    while(curNode) {
+      callBack(curNode, pos++, this);
+      curNode = curNode.next;
+    }
+  }
 }
 
 describe('Single Linked List', () => {
@@ -48,5 +57,15 @@ describe('Single Linked List', () => {
     expect(newList.head.value).to.eql(11);
     expect(newList.head.next.value).to.eql(22);
     expect(newList.tail.value).to.eql(22);
+  });
+  it('should loop through the list', () => {
+    const newList = new LinkedList();
+    newList.appendToTail(11);
+    newList.appendToTail(22);
+    const vals = [];
+    newList.forEach((node) => {
+      vals.push(node.value);
+    });
+    expect(vals).to.eql([11, 22]);
   });
 });
