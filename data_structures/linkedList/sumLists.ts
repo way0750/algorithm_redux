@@ -15,3 +15,22 @@
  * but of course you have to keep track of carry over
  * so at the end add one more node if there is carry over left
  */
+
+import { LinkedList } from './linkedList';
+export function sumLists(list1, list2): LinkedList {
+  const sumList = new LinkedList();
+  let carryOver = 0;
+  while (list1 || list2) {
+    list1 = list1 || { value: 0, next: null };
+    list2 = list2 || { value: 0, next: null };
+    const sum = list1.value + list2.value + carryOver;
+    sumList.appendToTail(sum % 10);
+    carryOver = Math.floor(sum/10);
+  }
+
+  if (carryOver) {
+    sumList.appendToTail(1);
+  }
+
+  return sumList;
+}
