@@ -23,17 +23,53 @@ export function isIntersection(list1: LinkedList, list2: LinkedList): boolean {
   if (!nodeA || !nodeB) {
     return false;
   }
-  while (nodeA || nodeB) {
-    nodeA = nodeA || {};
-    nodeB = nodeB || {};
-    if(nodeA.isVisited || nodeB.isVisited) {
+  while (nodeA) {
+    if(nodeA.isVisited) {
       return true;
     }
     nodeA.isVisited = true;
     nodeA = nodeA.next;
+  }
 
+  while (nodeB) {
+    if(nodeB.isVisited) {
+      return true;
+    }
     nodeB.isVisited = true;
     nodeB = nodeB.next;
   }
   return false;
 }
+
+describe('intersection', () => {
+  it('should return true for 12345 and 883', () => {
+    const list1 = new LinkedList();
+    list1.appendToTail(1);
+    list1.appendToTail(2);
+    list1.appendToTail(3);
+    list1.appendToTail(4);
+    list1.appendToTail(5);
+
+    const list2 = new LinkedList();
+    list2.appendToTail(8);
+    list2.appendToTail(8);
+    list2.head.next.next = list1.head.next.next;
+    const list2Vals = list2.mapToArray(({ value }) => value);
+    expect(list2Vals).to.eql([8, 8, 3, 4, 5]);
+    expect(isIntersection(list1, list2)).to.be.true;
+  });
+  it('should return false for 12345 and 889', () => {
+    const list1 = new LinkedList();
+    list1.appendToTail(1);
+    list1.appendToTail(2);
+    list1.appendToTail(3);
+    list1.appendToTail(4);
+    list1.appendToTail(5);
+
+    const list2 = new LinkedList();
+    list2.appendToTail(8);
+    list2.appendToTail(8);
+    list2.appendToTail(9);
+    expect(isIntersection(list1, list2)).to.be.false;
+  });
+});
