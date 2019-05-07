@@ -30,3 +30,20 @@
   time: you will go through half of all nodes so 1/2N which is N
   space: constant space anyway
  */
+
+import { LinkedList } from './linkedList';
+
+export function deleteMiddleNode(list: LinkedList): void {
+  let previousNode = null;
+  let nodeA = list.head;
+  let nodeB = nodeA ? nodeA.next: null;
+  while (nodeB && nodeB.next) {
+    previousNode = nodeA;
+    nodeA = nodeA.next;
+    nodeB = nodeB.next ? nodeB.next.next : null;
+  }
+
+  if (previousNode) {
+    previousNode.next = nodeA.next;
+  }
+}
