@@ -20,7 +20,7 @@
  * space: you are not using extra space so constant
  */
 
-import { LinkedList } from './linkedLIst';
+import { LinkedList } from './linkedList';
 
 export function removeDupBufferOk(linkedList): LinkedList {
   const freqRecord = {};
