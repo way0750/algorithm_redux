@@ -23,8 +23,9 @@
     return void for this
  */
 
+import { LinkedList } from './linkedList';
 export function partition(list, n) {
-  let swappableNode  = list.head;
+  let swappableNode = list.head;
   let runner = list.head;
   while (runner) {
     if(runner.value < n) {
@@ -38,3 +39,45 @@ export function partition(list, n) {
     }
   }
 }
+
+describe('partition', () => {
+  it('should return 3 2 1 5 10 5 8 for 3 5 8 5 10 2 1', () => {
+    const list = new LinkedList();
+    list.appendToTail(3);
+    list.appendToTail(5);
+    list.appendToTail(8);
+    list.appendToTail(5);
+    list.appendToTail(10);
+    list.appendToTail(2);
+    list.appendToTail(1);
+    partition(list, 5);
+    const result = list.mapToArray(({ value }) => value);
+    expect(result).to.eql([3,2,1,5,10,5,8]);
+  });
+  it('should return 3 5 8 5 10 2 1 for 3 5 8 5 10 2 1', () => {
+    const list = new LinkedList();
+    list.appendToTail(3);
+    list.appendToTail(5);
+    list.appendToTail(8);
+    list.appendToTail(5);
+    list.appendToTail(10);
+    list.appendToTail(2);
+    list.appendToTail(1);
+    partition(list, 50);
+    const result = list.mapToArray(({ value }) => value);
+    expect(result).to.eql([3, 5, 8, 5, 10, 2, 1]);
+  });
+  it('should return 3 5 8 5 10 2 1 for 3 5 8 5 10 2 1', () => {
+    const list = new LinkedList();
+    list.appendToTail(3);
+    list.appendToTail(5);
+    list.appendToTail(8);
+    list.appendToTail(5);
+    list.appendToTail(10);
+    list.appendToTail(2);
+    list.appendToTail(1);
+    partition(list, 0);
+    const result = list.mapToArray(({ value }) => value);
+    expect(result).to.eql([3, 5, 8, 5, 10, 2, 1]);
+  });
+});
