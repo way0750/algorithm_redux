@@ -47,3 +47,39 @@ export function deleteMiddleNode(list: LinkedList): void {
     previousNode.next = nodeA.next;
   }
 }
+
+describe('delete middle node', () => {
+  it('should turn 1, 2, 3 to 1, 3', () => {
+    const list = new LinkedList();
+    list.appendToTail(1);
+    list.appendToTail(2);
+    list.appendToTail(3);
+    deleteMiddleNode(list);
+    const result = list.mapToArray(({ value }) => value );
+    expect(result).to.eql([1,3]);
+  });
+  it('should turn 1, 2, 3, 4 to 1, 3, 4', () => {
+    const list = new LinkedList();
+    list.appendToTail(1);
+    list.appendToTail(2);
+    list.appendToTail(3);
+    list.appendToTail(4);
+    deleteMiddleNode(list);
+    const result = list.mapToArray(({ value }) => value );
+    expect(result).to.eql([1,3,4]);
+  });
+  it('should not delete head and tail', () => {
+    const list = new LinkedList();
+    list.appendToTail(1);
+    list.appendToTail(2);
+    deleteMiddleNode(list);
+    const result = list.mapToArray(({ value }) => value );
+    expect(result).to.eql([1,2]);
+  });
+  it('should not delete head and tail', () => {
+    const list = new LinkedList();
+    deleteMiddleNode(list);
+    const result = list.mapToArray(({ value }) => value );
+    expect(result).to.eql([]);
+  });
+});
