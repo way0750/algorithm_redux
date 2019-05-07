@@ -40,6 +40,15 @@ export class LinkedList {
       curNode = curNode.next;
     }
   }
+
+  public mapToArray(callBack) {
+    const values = [];
+    this.forEach((node, pos, list) => {
+      values.push(callBack(node, pos, list));
+    });
+
+    return values;
+  }
 }
 
 describe('Single Linked List', () => {
@@ -67,5 +76,14 @@ describe('Single Linked List', () => {
       vals.push(node.value);
     });
     expect(vals).to.eql([11, 22]);
+  });
+  it('should loop through the list', () => {
+    const newList = new LinkedList();
+    newList.appendToTail(11);
+    newList.appendToTail(22);
+    const values = newList.mapToArray((node) => {
+      return node.value;
+    });
+    expect(values).to.eql([11, 22]);
   });
 });

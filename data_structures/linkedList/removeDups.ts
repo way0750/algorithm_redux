@@ -46,20 +46,14 @@ describe('remove dups', () => {
     list.appendToTail(2);
     list.appendToTail(3);
     const result = removeDupBufferOk(list);
-    const values = [];
-    result.forEach(({ value }) => {
-      values.push(value);
-    });
+    const values = result.mapToArray(({ value }) => value);
     expect(values).to.eql([1,2,3]);
   });
   it('should return 1', () => {
     const list = new LinkedList();
     list.appendToTail(1);
     const result = removeDupBufferOk(list);
-    const values = [];
-    result.forEach(({ value }) => {
-      values.push(value);
-    });
+    const values = result.mapToArray(({ value }) => value);
     expect(values).to.eql([1]);
   });
 });
