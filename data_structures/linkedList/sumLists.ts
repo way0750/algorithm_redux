@@ -6,5 +6,12 @@
   Input: (7-) 1 -) 6) + (5 -) 9 -) 2).Thatis,617 + 295. Output: 2 -) 1 -) 9.That is, 912.
   FOLLOW UP
   Suppose the digits are stored in forward order. Repeat the above problem. EXAMPLE
-  Input: (6 -) 1 -) 7) + (2 -) 9 -) 5).Thatis,617 + 295. Output: 9 -) 1 -) 2.That is, 912.
+ * Input: (6 -) 1 -) 7) + (2 -) 9 -) 5).Thatis,617 + 295. Output: 9 -) 1 -)
+ * 2.That is, 912.
+  
+ solution 1
+ * well just create a new linked list and keep the sum of two nodes of same
+ * position to that new node to the new linked list
+ * but of course you have to keep track of carry over
+ * so at the end add one more node if there is carry over left
  */
