@@ -26,6 +26,8 @@ export function sumLists(list1, list2): LinkedList {
     const sum = list1.value + list2.value + carryOver;
     sumList.appendToTail(sum % 10);
     carryOver = Math.floor(sum/10);
+    list1 = list1.next;
+    list2 = list2.next;
   }
 
   if (carryOver) {
@@ -34,3 +36,49 @@ export function sumLists(list1, list2): LinkedList {
 
   return sumList;
 }
+
+describe('sum lists', () => {
+  it('should return 2 1 9 for 7 1 6 + 5 9 2', () => {
+    const list1 = new LinkedList();
+    list1.appendToTail(7);
+    list1.appendToTail(1);
+    list1.appendToTail(6);
+    const list2 = new LinkedList();
+    list2.appendToTail(5);
+    list2.appendToTail(9);
+    list2.appendToTail(2);
+
+    const sumList = sumLists(list1.head, list2.head);
+    const result = sumList.mapToArray(({ value }) => value);
+    expect(result).to.eql([2,1,9]);
+  });
+  it('should return 7 8 8 1 for 999 + 888', () => {
+    const list1 = new LinkedList();
+    list1.appendToTail(9);
+    list1.appendToTail(9);
+    list1.appendToTail(9);
+    const list2 = new LinkedList();
+    list2.appendToTail(8);
+    list2.appendToTail(8);
+    list2.appendToTail(8);
+
+    const sumList = sumLists(list1.head, list2.head);
+    const result = sumList.mapToArray(({ value }) => value);
+    expect(result).to.eql([7,8,8,1]);
+  });
+  it('should return 7 8 8 0 1 for 9999 + 888', () => {
+    const list1 = new LinkedList();
+    list1.appendToTail(9);
+    list1.appendToTail(9);
+    list1.appendToTail(9);
+    list1.appendToTail(9);
+    const list2 = new LinkedList();
+    list2.appendToTail(8);
+    list2.appendToTail(8);
+    list2.appendToTail(8);
+
+    const sumList = sumLists(list1.head, list2.head);
+    const result = sumList.mapToArray(({ value }) => value);
+    expect(result).to.eql([7,8,8,0,1]);
+  });
+});
