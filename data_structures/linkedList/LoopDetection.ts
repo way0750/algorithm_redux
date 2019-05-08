@@ -1,3 +1,5 @@
+import { LinkedList } from "./linkedList";
+
 /**
  * Loop Detection: Given a circular linked list, implement an algorithm that returns the node at the
   beginning of the loop.
@@ -16,7 +18,7 @@
  *  fast one, that means there a loop
  */
 
-export function isLoop(list) {
+export function findLoop(list) {
   let slow = list.head;
   let fast = list.head;
   let keepLooping = true;
@@ -40,3 +42,33 @@ export function isLoop(list) {
     return null;
   }
 }
+
+describe('loop detection', () => {
+  it('should detect loop', () => {
+    const list = new LinkedList();
+    list.appendToTail(1);
+    list.appendToTail(2);
+    list.appendToTail(3);
+    list.appendToTail(4);
+    list.appendToTail(5);
+    list.appendToTail(6);
+    const lastNode = list.getNthNode(6);
+    const thirdNode = list.getNthNode(3);
+    lastNode.next = thirdNode;
+    expect(findLoop(list)).to.equal(thirdNode);
+  });
+  it('should not detect loop', () => {
+    const list = new LinkedList();
+    list.appendToTail(1);
+    list.appendToTail(2);
+    list.appendToTail(3);
+    list.appendToTail(4);
+    list.appendToTail(5);
+    list.appendToTail(6);
+    expect(findLoop(list)).to.equal(null);
+  });
+  it('should not detect loop', () => {
+    const list = new LinkedList();
+    expect(findLoop(list)).to.equal(null);
+  });
+});
