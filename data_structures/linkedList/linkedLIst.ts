@@ -49,6 +49,15 @@ export class LinkedList {
 
     return values;
   }
+
+  public getNthNode(nth) {
+    let curNode = this.head;
+    while (--nth && curNode) {
+      curNode = curNode.next;
+    }
+
+    return curNode;
+  }
 }
 
 describe('Single Linked List', () => {
