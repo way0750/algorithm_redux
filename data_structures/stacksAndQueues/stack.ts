@@ -37,7 +37,7 @@ export class Stack {
   }
 
   public peek() {
-    return this.store[0];
+    return this.store[this.addAbleIndex - 1];
   }
 }
 
@@ -72,10 +72,11 @@ describe('Stack Class', () => {
     stack.push(1);
     expect(stack.isEmpty()).to.be.false;
   });
-  it('should return the first element', () => {
+  it('should return the last element', () => {
     const stack = new Stack();
     expect(stack.peek()).to.equal(undefined);
     stack.push(1);
-    expect(stack.peek()).to.equal(1);
+    stack.push(2);
+    expect(stack.peek()).to.equal(2);
   });
 });
