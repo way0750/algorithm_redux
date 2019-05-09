@@ -34,5 +34,46 @@ export class StackMin {
     this.mins.pop();
     return this.store.pop();
   }
+
+  public min() {
+    return this.mins.peek();
+  }
 }
 
+describe('Stack Min', () => {
+  it('should work for 1,2,3,4,5', () => {
+    const stackMin = new StackMin();
+    stackMin.push(5);
+    expect(stackMin.min()).to.eql(5);
+    stackMin.push(4);
+    expect(stackMin.min()).to.eql(4);
+    stackMin.push(3);
+    expect(stackMin.min()).to.eql(3);
+    stackMin.push(2);
+    expect(stackMin.min()).to.eql(2);
+    stackMin.push(1);
+    expect(stackMin.min()).to.eql(1);
+  });
+  it('should work for 1,2,3,4,5', () => {
+    const stackMin = new StackMin();
+    stackMin.push(5);
+    expect(stackMin.min()).to.eql(5);
+    stackMin.push(4);
+    expect(stackMin.min()).to.eql(4);
+    stackMin.push(3);
+    expect(stackMin.min()).to.eql(3);
+    stackMin.push(2);
+    expect(stackMin.min()).to.eql(2);
+    stackMin.push(1);
+    expect(stackMin.min()).to.eql(1);
+
+    stackMin.pop();
+    expect(stackMin.min()).to.eql(2);
+    stackMin.pop();
+    expect(stackMin.min()).to.eql(3);
+    stackMin.pop();
+    expect(stackMin.min()).to.eql(4);
+    stackMin.pop();
+    expect(stackMin.min()).to.eql(5);
+  });
+});
