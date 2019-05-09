@@ -1,3 +1,5 @@
+import { Stack } from "./stack";
+
 /**
  * Stack Min: How would you design a stack which, in addition to push and pop
  * has a function min which returns the minimum element? Push, pop and min should all operate in 0(1) time.
@@ -15,5 +17,22 @@
  */
 
 export class StackMin {
+  private store: Stack = new Stack();
+  private mins: Stack = new Stack();
+  
+  public push(val) {
+    this.store.push(val);
+    if (this.mins.isEmpty()) {
+      this.mins.push(val);
+    } else {
+      const newMin = Math.min(this.mins.peek(), val);
+      this.mins.push(newMin);
+    }
+  }
 
+  public pop() {
+    this.mins.pop();
+    return this.store.pop();
+  }
 }
+
