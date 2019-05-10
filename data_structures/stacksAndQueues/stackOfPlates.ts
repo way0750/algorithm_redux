@@ -70,7 +70,7 @@ export class SetOfStacks {
       // to handle the last stack being empty after popping
       // so if right this round popping, if the user wants to pop again
       // we will pop from 2nd to last stack
-      if (targetStack.isEmpty) {
+      if (targetStack.isEmpty()) {
         this.store.splice(stackId, 1);
       }
       return poppedVal;
@@ -81,3 +81,50 @@ export class SetOfStacks {
     return this.popAt(this.store.length - 1);
   }
 }
+
+describe('Stack of Plates', () => {
+  it('Should be able to push new values', () => {
+    const set = new SetOfStacks();
+    set.push(1);
+    set.push(2);
+    expect(set.length()).to.equal(2);
+    set.push(3);
+    set.push(4);
+    expect(set.length()).to.equal(4);
+  });
+
+  it('Should be able to pop values', () => {
+    const set = new SetOfStacks();
+    set.push(1);
+    set.push(2);
+    set.push(3);
+    set.push(4);
+    let pv = set.pop();
+    expect(pv).to.equal(4);
+    pv = set.pop();
+    expect(pv).to.equal(3);
+  });
+
+  it('Should be able to popAt specific stack', () => {
+    const set = new SetOfStacks(2);
+    set.push(1);
+    set.push(2);
+
+    set.push(3);
+    set.push(4);
+
+    set.push(5);
+    set.push(6);
+
+    set.push(7);
+    set.push(8);
+
+    expect((set as any).store.length).to.eql(4);
+    let pv = set.popAt(1);
+    expect(pv).to.eql(4);
+
+    pv = set.popAt(1);
+    expect(pv).to.eql(3);
+    expect((set as any).store.length).to.eql(3);
+  });
+});
