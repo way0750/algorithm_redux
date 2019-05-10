@@ -41,7 +41,7 @@ export class MyQueue {
       return undefined;
     } else {
       this.totalLength--;
-      this.stack2.pop();
+      return this.stack2.pop();
     }
   }
 
@@ -49,3 +49,26 @@ export class MyQueue {
     return this.totalLength;
   }
 }
+
+describe('Queue via Stacks', () => {
+  it('should add new values', () => {
+    const q = new MyQueue();
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    q.push(4);
+    expect(q.length()).to.eql(4);
+  });
+  it('should pop values', () => {
+    const q = new MyQueue();
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    q.push(4);
+    let pv = q.pop();
+    expect(q.length()).to.eql(3);
+    expect(pv).to.eql(1);
+    pv = q.pop();
+    expect(pv).to.eql(2);
+  });
+});
