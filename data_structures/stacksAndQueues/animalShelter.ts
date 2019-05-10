@@ -6,4 +6,9 @@
  * specific animal they would like. Create the data structures to maintain this system
  * and implement operations such as enqueue, dequeueAny, dequeueDog, and dequeueCat.
  * You may use the built-in Linked L is t data structure.
+ * 
+ * solution 1:
+ * just use two queues: one for dogs, one for cats.
+ * but do time stamp each animal in case we have to dequeue randomly
+ * so save the animal as an object with a rank
  */
