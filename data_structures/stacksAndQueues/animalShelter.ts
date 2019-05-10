@@ -43,8 +43,8 @@ export class AnimalShelter {
   }
 
   public dequeueAny() {
-    const peekCat = this.catStore.peek();
-    const peekDog = this.dogStore.peek();
+    const peekCat = this.catStore.peek() || { name: undefined, animalId: Infinity};
+    const peekDog = this.dogStore.peek() || { name: undefined, animalId: Infinity};
     let animal = { name: undefined };
     if (this.dogStore.isEmpty() && this.catStore.isEmpty()) {
       animal = undefined;
@@ -126,6 +126,32 @@ describe('Animal Shelter', () => {
     shelter.enqueue(CAT);
     expect(shelter.dequeueAny()).to.eql(CAT);
     expect(shelter.dequeueAny()).to.eql(CAT);
+    expect(shelter.dequeueAny()).to.eql(DOG);
+  });
+  it('Should dequeue only cat when no dogs', () => {
+    const shelter = new AnimalShelter();
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    expect(shelter.dequeueAny()).to.eql(CAT);
+    expect(shelter.dequeueAny()).to.eql(CAT);
+    expect(shelter.dequeueAny()).to.eql(CAT);
+  });
+  it('Should dequeue only cat when no cats', () => {
+    const shelter = new AnimalShelter();
+    shelter.enqueue(DOG);
+    shelter.enqueue(DOG);
+    shelter.enqueue(DOG);
+    shelter.enqueue(DOG);
+    shelter.enqueue(DOG);
+    shelter.enqueue(DOG);
+    shelter.enqueue(DOG);
+    expect(shelter.dequeueAny()).to.eql(DOG);
+    expect(shelter.dequeueAny()).to.eql(DOG);
     expect(shelter.dequeueAny()).to.eql(DOG);
   });
 });
