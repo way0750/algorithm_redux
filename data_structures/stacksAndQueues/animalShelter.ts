@@ -45,22 +45,26 @@ export class AnimalShelter {
   public dequeueAny() {
     const peekCat = this.catStore.peek();
     const peekDog = this.dogStore.peek();
+    let animal = { name: undefined };
     if (this.dogStore.isEmpty() && this.catStore.isEmpty()) {
-      return undefined;
+      animal = undefined;
     } else if (this.dogStore.isEmpty() || peekCat.animalId < peekDog.animalId) {
       this.totalAmount--;
-      return this.catStore.pop();
+      animal = this.catStore.pop();
     } else {
       this.totalAmount--;
-      return this.dogStore.pop();
+      animal = this.dogStore.pop();
     }
+
+    return animal.name;
   }
   public dequeueCat() {
     if (this.catStore.isEmpty()) {
       return undefined;
     } else {
       this.totalAmount--;
-      return this.catStore.pop();
+      const animal = this.catStore.pop();
+      return animal.name
     }
   }
 
@@ -69,7 +73,59 @@ export class AnimalShelter {
       return undefined;
     } else {
       this.totalAmount--;
-      return this.dogStore.pop();
+      const animal = this.dogStore.pop();
+      return animal.name
     }
   }
 }
+
+const CAT = 'cat';
+const DOG = 'dog'
+describe('Animal Shelter', () => {
+  it('Should enqueue', () => {
+    const shelter = new AnimalShelter();
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    shelter.enqueue(DOG);
+    expect(shelter.length()).to.equal(3);
+  });
+  it('Should dequeue only cat', () => {
+    const shelter = new AnimalShelter();
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    shelter.enqueue(DOG);
+    shelter.enqueue(CAT);
+    shelter.enqueue(DOG);
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    expect(shelter.dequeueCat()).to.eql(CAT);
+    expect(shelter.dequeueCat()).to.eql(CAT);
+    expect(shelter.dequeueCat()).to.eql(CAT);
+  });
+  it('Should dequeue only dog', () => {
+    const shelter = new AnimalShelter();
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    shelter.enqueue(DOG);
+    shelter.enqueue(CAT);
+    shelter.enqueue(DOG);
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    expect(shelter.dequeueDog()).to.eql(DOG);
+    expect(shelter.dequeueDog()).to.eql(DOG);
+    expect(shelter.dequeueDog()).to.eql(undefined);
+  });
+  it('Should dequeue any', () => {
+    const shelter = new AnimalShelter();
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    shelter.enqueue(DOG);
+    shelter.enqueue(CAT);
+    shelter.enqueue(DOG);
+    shelter.enqueue(CAT);
+    shelter.enqueue(CAT);
+    expect(shelter.dequeueAny()).to.eql(CAT);
+    expect(shelter.dequeueAny()).to.eql(CAT);
+    expect(shelter.dequeueAny()).to.eql(DOG);
+  });
+});
