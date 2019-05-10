@@ -77,3 +77,17 @@ describe('Stack Min', () => {
     expect(stackMin.min()).to.eql(5);
   });
 });
+
+function containDup(arr) {
+  let freqCount = {};
+  for (let i = 0; i < arr.length; i++) {
+    const curNum = arr[i];
+    freqCount[curNum] = freqCount[curNum] || 0;
+    ++freqCount[curNum];
+    if (freqCount[curNum] > 1) {
+      return true;
+    }
+  }
+
+  return false;
+}
