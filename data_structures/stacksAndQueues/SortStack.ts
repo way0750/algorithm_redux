@@ -25,7 +25,7 @@ import { Stack } from "./stack";
 export function sortStack(s1: Stack): Stack {
   const s2 = new Stack();
   const s3 = new Stack();
-  while(!s1.isEmpty) {
+  while(!s1.isEmpty()) {
     const s1Peek = s1.peek();
     let s2Peek = s2.peek();
     if (s2.isEmpty() || s1Peek <= s2Peek) {
@@ -50,3 +50,26 @@ export function sortStack(s1: Stack): Stack {
 
   return s1;
 }
+
+describe('Sort Stack', () => {
+  it('should return sorted 1', () => {
+    const s = new Stack();
+    s.push(4);
+    s.push(3);
+    s.push(5);
+    s.push(1);
+    const result = sortStack(s);
+    expect((result as any).store).to.eql({0: 1, 1: 3, 2: 4, 3: 5});
+  });
+  it('should return sorted 2', () => {
+    const s = new Stack();
+    s.push(4);
+    s.push(3);
+    s.push(5);
+    s.push(1);
+    s.push(81);
+    s.push(111);
+    const result = sortStack(s);
+    expect((result as any).store).to.eql({0: 1, 1: 3, 2: 4, 3: 5, 4: 81, 5: 111});
+  });
+});
