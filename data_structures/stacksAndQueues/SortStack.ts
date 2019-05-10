@@ -1,3 +1,5 @@
+import { Stack } from "./stack";
+
 /**
  * Write a program to sort a stack such that the smallest items are on the top.
  * You can use an additional temporary stack, but you may not copy the elements
@@ -19,3 +21,32 @@
  * 
  * at the very end pop all values from s2 and push them into s1
  */
+
+export function sortStack(s1: Stack): Stack {
+  const s2 = new Stack();
+  const s3 = new Stack();
+  while(!s1.isEmpty) {
+    const s1Peek = s1.peek();
+    let s2Peek = s2.peek();
+    if (s2.isEmpty() || s1Peek <= s2Peek) {
+      s2.push(s1.pop());
+    } else {
+      s3.push(s1.pop());
+    }
+
+    while(!s3.isEmpty()) {
+      s2Peek = s2.peek();
+      const s3Peek = s3.peek();
+      if (s2Peek < s3Peek) {
+        s1.push(s2.pop());
+      } else {
+        s1.push(s3.pop());
+      }
+    }
+  }
+  while (!s2.isEmpty()) {
+    s1.push(s2.pop());
+  }
+
+  return s1;
+}
