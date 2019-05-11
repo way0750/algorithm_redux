@@ -21,8 +21,8 @@ export class BinaryTree extends GenericTree {
   public isSearchTree: Boolean = false;
   public isBinaryTree: Boolean = true;
 
-  constructor({ isSearchTree }) {
-    super();
+  constructor(value, { isSearchTree }) {
+    super(value);
     this.isBinaryTree = isSearchTree;
   }
 
@@ -83,6 +83,30 @@ export function toArray(tree, order = ORDERS.PRE_ORDER) {
   return array;
 }
 
+/**
+ * self value, then all the children
+ */
+export function depthFirstTreeSearch(tree, callBack) {
+  if (!tree) {
+    return false;
+  } else if (callBack(tree)) {
+    return true;
+  }
+
+  return tree.children.some((childNode) => {
+    return depthFirstTreeSearch(childNode, callBack);
+  });
+}
+
+export function depthFirstTreeTraversal(tree, callBack) {
+  const keepLooping = (node) => {
+    callBack(node);
+    return false;
+  };
+
+  depthFirstTreeSearch(tree, keepLooping);
+}
+
 export function nodeCount(tree) {
   if (!tree) {
     return 0;
@@ -140,6 +164,29 @@ describe('Tree', () => {
       // post order
       valArr = toArray(tree1, ORDERS.POST_ORDER);
       expect(valArr).to.eql([6,8,9,10,7,5,2,3,4,1]);
+    });
+    it('Should be able to traversal through a tree', () => {
+      const tree1 = new GenericTree(1);
+      const tree2 = new GenericTree(2);
+      const tree3 = new GenericTree(3);
+      const tree4 = new GenericTree(4);
+      const tree5 = new GenericTree(5);
+      const tree6 = new GenericTree(6);
+      const tree7 = new GenericTree(7);
+      const tree8 = new GenericTree(8);
+      const tree9 = new GenericTree(9);
+      const tree10 = new GenericTree(10);
+
+      tree1.children.push(tree2, tree3, tree4);
+      tree2.children.push(tree5);
+      tree5.children.push(tree6, tree7);
+      tree7.children.push(tree8, tree9, tree10);
+      const values = [];
+      depthFirstTreeTraversal(tree1, (node) => {
+        values.push(node.value);
+      });
+      expect(values).to.eql([1,2,5,6,7,8,9,10,3,4]);
+      expect(depthFirstTreeSearch(tree1, (node) => node.value === 10 )).to.be.true;
     });
   });
   describe('Binary Tree', () => {
