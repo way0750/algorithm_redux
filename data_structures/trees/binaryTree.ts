@@ -63,34 +63,6 @@ export function toArray(tree, order = ORDERS.PRE_ORDER) {
   return arr;
 }
 
-// export function toArrayOld(tree, order = ORDERS.PRE_ORDER) {
-//   if (!tree) {
-//     return [];
-//   }
-
-//   // only binary trees can do in order traversal
-//   if (order === ORDERS.IN_ORDER && tree.isBinaryTree) {
-//     const leftSubArray = toArrayOld(tree.leftChild, order);
-//     const rightSubArray = toArrayOld(tree.rightChild, order);
-//     return [...leftSubArray, tree.value, ...rightSubArray] ;
-//   }
-  
-//   const array = [];
-//   const allSubArray = tree.children.reduce((array, childNode) => {
-//     const subArray = toArrayOld(childNode, order);
-//     array.push(...subArray);
-//     return array;
-//   }, []);
-
-//   if (order === ORDERS.PRE_ORDER) {
-//     array.push(tree.value, ...allSubArray);
-//   } else if (order === ORDERS.POST_ORDER) {
-//     array.push(...allSubArray, tree.value);
-//   }
-
-//   return array;
-// }
-
 export function treeTraversal(tree, callBack = (...args) => {}, order = ORDERS.PRE_ORDER) {
   if (!tree) {
     return;
@@ -237,4 +209,4 @@ describe('Tree', () => {
       expect(found).to.be.false;
     });
   });
-})
+});
