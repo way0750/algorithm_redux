@@ -75,6 +75,25 @@ export class Tries {
     const subSearchResult = childNode && childNode.searchWord(str.slice(1));
     return !!subSearchResult;
   }
+
+  public toArray(): Array<string> {
+    if (this.value === '*') {
+      return [''];
+    }
+    const childKeys = Object.keys(this.children);
+    const childResults: Array<Array<string>> = childKeys.map((childKey) => {
+      const childNode = this.children[childKey];
+      return childNode.toArray();
+    });
+
+    return childResults.reduce((finalResults, childResultsArr) => {
+      const addedCurVal = childResultsArr.map((childResult) => {
+        return `${this.value || ''}${childResult}`;
+      });
+      finalResults.push(...addedCurVal);
+      return finalResults;
+    }, []);
+  }
 }
 
 describe('Tries', () => {
@@ -101,7 +120,9 @@ describe('Tries', () => {
     const t = new Tries();
     t.add('world');
     t.add('word');
-    expect(t.searchWord('word')).to.be.true;
-    expect(t.searchWord('words')).to.be.false;
+    t.add('apple');
+    t.add('apple');
+    t.add('zoolander');
+    expect(t.toArray()).to.eql(['world', 'word', 'apple', 'zoolander']);
   });
 });
