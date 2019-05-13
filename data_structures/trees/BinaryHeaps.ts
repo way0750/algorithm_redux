@@ -21,6 +21,8 @@ export class BinaryHeap {
       this.compareFunc = this.isMinHeap
       ? function isSmaller (child, parent) { return child <= parent } 
       : function isBigger (child, parent) { return parent <= child } 
+    } else {
+      this.compareFunc = compareFunc;
     }
   }
 
@@ -135,6 +137,7 @@ describe('Binary Heaps', () => {
       expect(min).to.eql(99);
     });
   });
+
   describe('Max heap', () => {
     let heap;
     beforeEach(() => {
@@ -175,6 +178,56 @@ describe('Binary Heaps', () => {
 
       max = heap.extract();
       expect(max).to.eql(1);
+    });
+  });
+  describe('Provide Custom Function', () => {
+    let heap;
+    beforeEach(() => {
+      function smallByStringLength(s1, s2) {
+        return s1.length <= s2.length;
+      }
+
+      heap = new BinaryHeap({
+        isMinHeap: false,
+        compareFunc: smallByStringLength
+      });
+
+      heap.add('a');
+      heap.add('bt');
+      heap.add('456');
+      heap.add('wowow');
+      heap.add('hey!');
+      heap.add('done!!!');
+      heap.add('9');
+    })
+    it('Should be able to create min heap', () => {
+      expect((heap as any).store.length).to.equal(7);
+      const head = (heap as any).store[0];
+      const max = heap.extract();
+      expect(head).to.equal(max);
+    });
+
+    it('Should be able to extra in order', () => {
+      let max = heap.extract();
+      expect(max).to.eql('9');
+
+      max = heap.extract();
+      expect(max).to.eql('a');
+
+      max = heap.extract();
+      expect(max).to.eql('bt');
+
+      max = heap.extract();
+      expect(max).to.eql('456');
+
+      max = heap.extract();
+      expect(max).to.eql('hey!');
+
+      max = heap.extract();
+      expect(max).to.eql('wowow');
+
+      max = heap.extract();
+      expect(max).to.eql('done!!!');
     });
   });
 });
