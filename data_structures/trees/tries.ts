@@ -50,6 +50,32 @@ export class Tries {
     }
   }
 
+  public remove (str) {
+    const childKey = str[0] || '*';
+    if (childKey === '*') {
+      if (this.children[childKey]) {
+        delete this.children['*'];
+        return true;
+      } else {
+        return false
+      }
+    }
+
+    const childNode = this.children[childKey];
+    if (!childNode) {
+      return false;
+    } else {
+      const isGrandchildDeleted = childNode.remove(str.slice(1));
+      const grandChildren = Object.keys(childNode.children);
+      if (isGrandchildDeleted && grandChildren.length === 0) {
+        delete this.children[childKey];
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   public countWords() {
     if (this.value === '*') {
       return 1;
@@ -114,6 +140,30 @@ describe('Tries', () => {
 
     t.add('zoolander');
     expect(t.countWords()).to.equal(6);
+  });
+
+  it('Should be able to remove words', () => {
+    const t = new Tries();
+    t.add('abcde');
+    t.add('abcd');
+    t.add('abc');
+    t.add('ab');
+    t.add('a');
+    expect(t.toArray()).to.eql(['abcde', 'abcd', 'abc', 'ab', 'a']);
+
+    t.remove('abcd');
+    expect(t.toArray()).to.eql(['abcde', 'abc', 'ab', 'a']);
+
+    t.remove('a');
+    expect(t.toArray()).to.eql(['abcde', 'abc', 'ab']);
+
+    t.remove('abcde');
+    expect(t.toArray()).to.eql(['abc', 'ab']);
+
+
+    t.remove('abc');
+    t.remove('ab');
+    expect(t.toArray()).to.eql([]);
   });
 
   it('Should be able to search Tries', () => {
