@@ -54,20 +54,25 @@ export class BinaryHeap {
     let { left, right } = this.getChildIndexes(parentIndex);
     const storeLength = this.store.length;
     while(left < storeLength || right < storeLength) {
-      const parentVal = this.store[parentIndex];
-      const leftChild = this.store[left];
-      const rightChild = this.store[right];
+      let parentVal = this.store[parentIndex];
+      let leftChild = this.store[left];
+      let rightChild = this.store[right];
+      let newParentIndex;
       if (this.compareFunc(leftChild, parentVal)) {
         this.store[parentIndex] = leftChild;
         this.store[left] = parentVal;
-        parentIndex = left;
-      } else if (right < storeLength && this.compareFunc(rightChild, parentVal)) {
+        newParentIndex = left;
+        parentVal = this.store[parentIndex];
+      }
+
+      if (right < storeLength && this.compareFunc(rightChild, parentVal)) {
         this.store[parentIndex] = rightChild;
         this.store[right] = parentVal;
-        parentIndex = right;
+        newParentIndex = right;
       } else {
-        parentIndex = left;
+        newParentIndex = left;
       }
+      parentIndex = newParentIndex;
       const newChildrenIndexes = this.getChildIndexes(parentIndex);
       left = newChildrenIndexes.left;
       right = newChildrenIndexes.right;
@@ -87,3 +92,53 @@ export class BinaryHeap {
     };
   }
 }
+
+describe('Binary Heaps', () => {
+  describe('Min heap', () => {
+    it('Should be able to create min heap', () => {
+      const heap = new BinaryHeap({ isMinHeap: true });
+      heap.add(4);
+      heap.add(9);
+      heap.add(3);
+      heap.add(99);
+      heap.add(4);
+      heap.add(2);
+      heap.add(1);
+      expect((heap as any).store.length).to.equal(7);
+      const head = (heap as any).store[0];
+      const min = heap.extract();
+      expect(head).to.equal(min);
+    });
+    it('Should be able to extra in order', () => {
+      const heap = new BinaryHeap({ isMinHeap: true });
+      heap.add(4);
+      heap.add(9);
+      heap.add(3);
+      heap.add(99);
+      heap.add(4);
+      heap.add(2);
+      heap.add(1);
+
+      let min = heap.extract();
+      expect(min).to.eql(1);
+
+      min = heap.extract();
+      expect(min).to.eql(2);
+
+      min = heap.extract();
+      expect(min).to.eql(3);
+
+      min = heap.extract();
+      expect(min).to.eql(4);
+
+      min = heap.extract();
+      expect(min).to.eql(4);
+
+      min = heap.extract();
+      expect(min).to.eql(9);
+
+      min = heap.extract();
+      expect(min).to.eql(99);
+    });
+  });
+});
