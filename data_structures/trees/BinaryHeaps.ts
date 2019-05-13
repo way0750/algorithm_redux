@@ -95,8 +95,9 @@ export class BinaryHeap {
 
 describe('Binary Heaps', () => {
   describe('Min heap', () => {
-    it('Should be able to create min heap', () => {
-      const heap = new BinaryHeap({ isMinHeap: true });
+    let heap;
+    beforeEach(() => {
+      heap = new BinaryHeap({ isMinHeap: true });
       heap.add(4);
       heap.add(9);
       heap.add(3);
@@ -104,21 +105,14 @@ describe('Binary Heaps', () => {
       heap.add(4);
       heap.add(2);
       heap.add(1);
+    })
+    it('Should be able to create min heap', () => {
       expect((heap as any).store.length).to.equal(7);
       const head = (heap as any).store[0];
       const min = heap.extract();
       expect(head).to.equal(min);
     });
     it('Should be able to extra in order', () => {
-      const heap = new BinaryHeap({ isMinHeap: true });
-      heap.add(4);
-      heap.add(9);
-      heap.add(3);
-      heap.add(99);
-      heap.add(4);
-      heap.add(2);
-      heap.add(1);
-
       let min = heap.extract();
       expect(min).to.eql(1);
 
@@ -139,6 +133,48 @@ describe('Binary Heaps', () => {
 
       min = heap.extract();
       expect(min).to.eql(99);
+    });
+  });
+  describe('Max heap', () => {
+    let heap;
+    beforeEach(() => {
+      heap = new BinaryHeap({ isMinHeap: false });
+      heap.add(4);
+      heap.add(9);
+      heap.add(3);
+      heap.add(99);
+      heap.add(4);
+      heap.add(2);
+      heap.add(1);
+    })
+    it('Should be able to create min heap', () => {
+      expect((heap as any).store.length).to.equal(7);
+      const head = (heap as any).store[0];
+      const max = heap.extract();
+      expect(head).to.equal(max);
+    });
+
+    it('Should be able to extra in order', () => {
+      let max = heap.extract();
+      expect(max).to.eql(99);
+
+      max = heap.extract();
+      expect(max).to.eql(9);
+
+      max = heap.extract();
+      expect(max).to.eql(4);
+
+      max = heap.extract();
+      expect(max).to.eql(4);
+
+      max = heap.extract();
+      expect(max).to.eql(3);
+
+      max = heap.extract();
+      expect(max).to.eql(2);
+
+      max = heap.extract();
+      expect(max).to.eql(1);
     });
   });
 });
