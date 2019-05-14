@@ -1,4 +1,4 @@
-import { BinarySearchTree } from "./binaryTree";
+import { BinarySearchTree, toArray, ORDERS } from "./binaryTree";
 
 /**
  * Minimal Tree: Given a sorted (increasing order) array with unique integer elements, write an algorithm to create a binary search tree with minimal height.
@@ -18,6 +18,11 @@ import { BinarySearchTree } from "./binaryTree";
  *   take center value and make it the center node
  *   call left side of the array
  *   call right side of the array
+ * 
+ * time and space:
+ * time, you will go through every node so N
+ * space: the depth of recursion will be logN, and the final space will be N
+ * N > logN so N
  */
 
 export function minimalTree(numbers): BinarySearchTree {
@@ -34,3 +39,16 @@ export function minimalTree(numbers): BinarySearchTree {
 
   return centerNode;
 }
+
+describe('Minimal Tree', () => {
+  it('should return null for empty array', () => {
+    const numbers = [];
+    expect(minimalTree(numbers)).to.eql(null);
+  });
+  it('should return correctly for 1 2 3 4 5 6 7', () => {
+    const numbers = [1,2,3,4,5,6,7];
+    const tree = minimalTree(numbers);
+    const treeToArray = toArray(tree, ORDERS.IN_ORDER);
+    expect(treeToArray).to.eql(numbers);
+  });
+});

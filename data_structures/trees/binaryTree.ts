@@ -51,7 +51,7 @@ export class BinarySearchTree extends BinaryTree {
  * combind return array with current array
  */
 
-const ORDERS = {
+export const ORDERS = {
   IN_ORDER: 'in_order',
   PRE_ORDER: 'pre_order',
   POST_ORDER: 'post_order'
