@@ -40,6 +40,10 @@ export class Graph {
     this.biDirection = biDirection;
   }
 
+  public getNode(nodeId) {
+    return this.nodes[nodeId];
+  }
+
   public addNode(value: any, edges: Array<number> = []) {
     const newNode = new GraphNode({ id: this.newNodeId, value });
     this.nodes[this.newNodeId] = newNode;
