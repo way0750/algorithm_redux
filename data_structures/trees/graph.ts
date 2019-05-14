@@ -22,7 +22,7 @@
 export class GraphNode {
   public value: any;
   public nodeId: number;
-  public hasBeenVisited: Boolean = false;
+  public hasBeenVisited: Boolean | String = false;
   public edges: Array<number> = [];
   constructor({ id, value, edges }: { id: number, value: any, edges?: Array<number>}){
     this.nodeId = id;
@@ -196,5 +196,9 @@ describe('Graph Class', () => {
     expect(sum).to.eql(10);
     expect(sum).to.not.eql(11);
     expect((graph as any).nodes[0].hasBeenVisited).to.be.false;
+
+    const nodeOrder = [];
+    graph.forEach((node) => nodeOrder.push(node.nodeId));
+    expect(nodeOrder).to.eql([ 0, 2, 3, 9, 4, 5, 6, 7, 8, 1 ]);
   });
 });
