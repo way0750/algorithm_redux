@@ -1,3 +1,5 @@
+import { BinarySearchTree } from "./binaryTree";
+
 /**
  * Minimal Tree: Given a sorted (increasing order) array with unique integer elements, write an algorithm to create a binary search tree with minimal height.
  * 
@@ -17,3 +19,18 @@
  *   call left side of the array
  *   call right side of the array
  */
+
+export function minimalTree(numbers): BinarySearchTree {
+  if (!numbers.length) {
+    return null;
+  }
+
+  const centerIndex = Math.floor(numbers.length / 2);
+  const centerNode = new BinarySearchTree(numbers[centerIndex]);
+  const leftChild = minimalTree(numbers.slice(0, centerIndex));
+  const rightChild = minimalTree(numbers.slice(centerIndex + 1));
+  centerNode.addLeftChild(leftChild);
+  centerNode.addRightChild(rightChild);
+
+  return centerNode;
+}
