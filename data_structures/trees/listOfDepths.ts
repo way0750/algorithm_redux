@@ -31,9 +31,54 @@ export function listOfDepths(binaryTree: BinaryTree): Array<LinkedList> {
       if(rightChild) {
         nextLevelNodes.push(rightChild);
       }
-      linkLists.push(curLevelLinkList);
-      curLevel = nextLevelNodes;;
     });
+    linkLists.push(curLevelLinkList);
+    curLevel = nextLevelNodes;;
   }
   return linkLists;
 }
+
+describe('List of Depths', () => {
+  it('Should return 3 link lists', () => {
+    const n1 = null;
+    const lists = listOfDepths(n1);
+    expect(lists.length).to.eql(0);
+  });
+  it('Should return 3 link lists', () => {
+    const n1 = new BinaryTree(1);
+    const n2 = new BinaryTree(2);
+    const n3 = new BinaryTree(3);
+    const n4 = new BinaryTree(4);
+    const n5 = new BinaryTree(5);
+    const n6 = new BinaryTree(6);
+    const n7 = new BinaryTree(7);
+    n1.addLeftChild(n2);
+    n1.addRightChild(n3);
+    n2.addLeftChild(n4);
+    n2.addRightChild(n5);
+    n3.addLeftChild(n6);
+    n3.addRightChild(n7);
+    const lists = listOfDepths(n1);
+    expect(lists.length).to.eql(3);
+  });
+  it('Should return 7 link lists', () => {
+    const n1 = new BinaryTree(1);
+    const n2 = new BinaryTree(2);
+    const n3 = new BinaryTree(3);
+    const n4 = new BinaryTree(4);
+    const n5 = new BinaryTree(5);
+    const n6 = new BinaryTree(6);
+    const n7 = new BinaryTree(7);
+    n1.addLeftChild(n2);
+    n2.addLeftChild(n3);
+    n3.addLeftChild(n4);
+    n4.addLeftChild(n5);
+    n5.addLeftChild(n6);
+    n5.addLeftChild(n6);
+    n5.addRightChild(n7);
+    const lists = listOfDepths(n1);
+    expect(lists.length).to.eql(6);
+    const lastNodeInLastList = lists[lists.length - 1].getNthNode(2).value;
+    expect(lastNodeInLastList.value).to.eql(7);
+  });
+});
