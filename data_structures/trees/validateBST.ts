@@ -1,3 +1,6 @@
+import { BinaryTree } from "./binaryTree";
+import { search } from "../../algorithms/alienDictionary/main";
+
 /**
  * Validate BST: Implement a function to check if a binary tree is a binary search tree.
  * 
@@ -42,3 +45,35 @@
  * space:
  * the recursive stack.....logN done!
  */
+const invalidMinMax = { min: Infinity, max: -Infinity, isBalanced: false };
+function balanceSearch(tree: BinaryTree) {
+  const minMax = { min: tree.value, max: tree.value, isBalanced: true };
+  if(tree.leftChild) {
+    const leftMinMax = balanceSearch(tree.leftChild);
+    if (!leftMinMax.isBalanced || leftMinMax.max > tree.value) {
+      return invalidMinMax;
+    } else {
+      minMax.min = leftMinMax.min;
+    }
+  }
+
+  if(tree.rightChild) {
+    const rightMinMax = balanceSearch(tree.rightChild);
+    if (!rightMinMax.isBalanced || rightMinMax.min < tree.value) {
+      return invalidMinMax;
+    } else {
+      minMax.max = rightMinMax.max;
+    }
+  }
+
+  return minMax;
+}
+
+export function validateBST(tree) {
+  if (!tree) {
+    return true;
+  }
+
+  const searchResult = balanceSearch(tree);
+  return searchResult.isBalanced;
+}
