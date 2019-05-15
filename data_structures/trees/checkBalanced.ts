@@ -54,3 +54,43 @@ export function checkBalanced(binaryTree): Boolean {
   return (max - min) < 2;
 }
 
+describe('Check Balanced', () => {
+  it('should return true for a balanced tree', () => {
+    const n1 = new BinaryTree(1);
+    const n2 = new BinaryTree(2);
+    const n3 = new BinaryTree(3);
+    const n4 = new BinaryTree(4);
+    const n5 = new BinaryTree(5);
+    const n6 = new BinaryTree(6);
+    const n7 = new BinaryTree(7);
+    n1.addLeftChild(n2);
+    n1.addRightChild(n3);
+    n2.addLeftChild(n4);
+    n2.addRightChild(n5);
+    n3.addLeftChild(n6);
+    n3.addRightChild(n7);
+    expect(checkBalanced(n1)).to.be.true;
+  });
+  it('should return false for a un-balanced tree', () => {
+    const n1 = new BinaryTree(1);
+    const n2 = new BinaryTree(2);
+    const n4 = new BinaryTree(4);
+    const n5 = new BinaryTree(5);
+    n1.addLeftChild(n2);
+    n2.addLeftChild(n4);
+    n2.addRightChild(n5);
+    expect(checkBalanced(n1)).to.be.false;
+  });
+  it('should return true for a tree that is unbalanced by only 1', () => {
+    const n1 = new BinaryTree(1);
+    const n2 = new BinaryTree(2);
+    const n3 = new BinaryTree(3);
+    const n4 = new BinaryTree(4);
+    const n5 = new BinaryTree(5);
+    n1.addLeftChild(n2);
+    n1.addRightChild(n3);
+    n2.addLeftChild(n4);
+    n2.addRightChild(n5);
+    expect(checkBalanced(n1)).to.be.true;
+  });
+});
