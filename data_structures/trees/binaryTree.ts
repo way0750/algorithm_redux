@@ -3,7 +3,7 @@
  * with these methods:
  * traversal: depth first, breadth first
  * search: depth first search, breadth first search
- * to Array: parent then all chilren left to right, this will make testing easier
+ * to Array: parent then all children left to right, this will make testing easier
  * nodeCount: return the amount of nodes, to make it easier to test later
  */
 

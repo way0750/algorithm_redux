@@ -1,3 +1,6 @@
+import { LinkedList } from "../linkedList/linkedList";
+import { BinaryTree } from "./binaryTree";
+
 /**
  * List of Depths
  * Given a binary tree, design an algorithm which creates a linked list of all the nodes
@@ -12,3 +15,25 @@
  * 
  * should return all of those link list in an array? object?
  */
+
+export function listOfDepths(binaryTree: BinaryTree): Array<LinkedList> {
+  const linkLists: Array<LinkedList> = [];
+  let curLevel = binaryTree ? [binaryTree] : [];
+  while (curLevel.length) {
+    const curLevelLinkList = new LinkedList();
+    const nextLevelNodes = [];
+    curLevel.forEach((node) => {
+      curLevelLinkList.appendToTail(node);
+      const { leftChild, rightChild } = node;
+      if (leftChild) {
+        nextLevelNodes.push(leftChild)
+      }
+      if(rightChild) {
+        nextLevelNodes.push(rightChild);
+      }
+      linkLists.push(curLevelLinkList);
+      curLevel = nextLevelNodes;;
+    });
+  }
+  return linkLists;
+}
