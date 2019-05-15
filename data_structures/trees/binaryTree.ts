@@ -16,8 +16,8 @@ export class GenericTree {
 }
 
 export class BinaryTree extends GenericTree {
-  public leftChild: GenericTree = this.children[0];
-  public rightChild: GenericTree = this.children[1];
+  public leftChild: BinaryTree = this.children[0];
+  public rightChild: BinaryTree = this.children[1];
   public isBinaryTree: Boolean = true;
 
   constructor(value) {

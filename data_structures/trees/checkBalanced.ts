@@ -1,3 +1,5 @@
+import { BinaryTree } from "./binaryTree";
+
 /**
  * Check Balanced: Implement a function to check if a binary tree is balanced.
  * For the purposes of this question, a balanced tree is defined to be a tree
@@ -31,3 +33,24 @@
  * space
  * recursion will take as much space as depth + 1 so logN + 1
  */
+
+function getMinMax(binaryTree: BinaryTree) {
+  if (!binaryTree) {
+    return { min: 0, max: 0 };
+  }
+
+  const leftMinMax = getMinMax(binaryTree.leftChild);
+  const rightMinMax = getMinMax(binaryTree.rightChild);
+  const newMin = Math.min(leftMinMax.min, leftMinMax.max, rightMinMax.min, rightMinMax.max);
+  const newMax = Math.max(leftMinMax.min, leftMinMax.max, rightMinMax.min, rightMinMax.max);
+  return {
+    min: newMin + 1,
+    max: newMax + 1
+  };
+}
+
+export function checkBalanced(binaryTree): Boolean {
+  const { min, max } = getMinMax(binaryTree);
+  return (max - min) < 2;
+}
+
