@@ -34,4 +34,11 @@
  * the main function: call the recursive search function, and then just return
  * the isBalanced value
  * what if the tree is null? just short cut return isBalanced: true to save time
+ * 
+ * time and space:
+ * time: for the recursive function: you are searching through every single node
+ * so n for the amount of node
+ * and you don't really do any loop or anything anyway...
+ * space:
+ * the recursive stack.....logN done!
  */
