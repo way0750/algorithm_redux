@@ -14,6 +14,11 @@ import { BinaryTree } from "./binaryTree";
  * link list per level, and put them as level nodes into that linklist
  * 
  * should return all of those link list in an array? object?
+ * 
+ * time and space:
+ * time: you will go through each node so N
+ * space: creating an array with bunch of link list, but the total amount of
+ * link list nodes would be the same as the amount of tree nodes, so N again
  */
 
 export function listOfDepths(binaryTree: BinaryTree): Array<LinkedList> {
