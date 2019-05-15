@@ -1,5 +1,4 @@
 import { BinaryTree } from "./binaryTree";
-import { search } from "../../algorithms/alienDictionary/main";
 
 /**
  * Validate BST: Implement a function to check if a binary tree is a binary search tree.
@@ -77,3 +76,43 @@ export function validateBST(tree) {
   const searchResult = balanceSearch(tree);
   return searchResult.isBalanced;
 }
+
+describe('Validate BST', () => {
+  it('Should return true for null', () => {
+    expect(validateBST(null)).to.be.true;
+  });
+  it('Should return true for a binary search tree', () => {
+    const n1 = new BinaryTree(1);
+    const n2 = new BinaryTree(2);
+    const n3 = new BinaryTree(3);
+    const n4 = new BinaryTree(4);
+    const n5 = new BinaryTree(5);
+    const n6 = new BinaryTree(6);
+    const n7 = new BinaryTree(7);
+    n4.addLeftChild(n2);
+    n4.addRightChild(n6);
+    n2.addLeftChild(n1);
+    n2.addRightChild(n3);
+    n6.addLeftChild(n5);
+    n6.addRightChild(n7);
+
+    expect(validateBST(n4)).to.be.true;
+  });
+  it('Should return false for not a binary search tree', () => {
+    const n0 = new BinaryTree(0);
+    const n1 = new BinaryTree(1);
+    const n2 = new BinaryTree(2);
+    const n3 = new BinaryTree(3);
+    const n4 = new BinaryTree(4);
+    const n5 = new BinaryTree(5);
+    const n6 = new BinaryTree(6);
+    n4.addLeftChild(n2);
+    n4.addRightChild(n6);
+    n2.addLeftChild(n1);
+    n2.addRightChild(n3);
+    n6.addLeftChild(n5);
+    n6.addRightChild(n0);
+
+    expect(validateBST(n4)).to.be.false;
+  });
+});
