@@ -22,7 +22,7 @@ import { BinaryTree } from "./binaryTree";
  *   check self again A and B, then recursively call left and right
  */
 
-export function getFirstCommonAncesotr(tree: BinaryTree, nodeA: BinaryTree, nodeB: BinaryTree)  {
+export function getFirstCommonAncestor(tree: BinaryTree, nodeA: BinaryTree, nodeB: BinaryTree)  {
   let nodeSearchCount = 2;
   function search(tree) {
     const foundNodes = [];
@@ -31,14 +31,14 @@ export function getFirstCommonAncesotr(tree: BinaryTree, nodeA: BinaryTree, node
       nodeSearchCount--;
     }
 
-    if (nodeSearchCount) {
+    if (nodeSearchCount && tree.leftChild) {
       let leftReturnNode = search(tree.leftChild);
       if (leftReturnNode) {
         foundNodes.push(leftReturnNode);
       }
     }
 
-    if(nodeSearchCount) {
+    if(nodeSearchCount && tree.rightChild) {
       let rightReturnNode = search(tree.rightChild);
       if(rightReturnNode) {
         foundNodes.push(rightReturnNode);
@@ -51,4 +51,71 @@ export function getFirstCommonAncesotr(tree: BinaryTree, nodeA: BinaryTree, node
       return null;
     }
   }
+
+  return tree ? search(tree) : null;
 }
+
+describe('First common ancestor', () => {
+  let tree1;
+  let tree2;
+  let tree3;
+  let tree4;
+  let tree5;
+  let tree6;
+  let tree7;
+  let tree8;
+  let tree9;
+  let tree10;
+  let tree11;
+  let tree12;
+  let tree13;
+  let tree14;
+  let tree15;
+  beforeEach(() => {
+    tree1 = new BinaryTree(1);
+    tree2 = new BinaryTree(2);
+    tree3 = new BinaryTree(3);
+    tree4 = new BinaryTree(4);
+    tree5 = new BinaryTree(5);
+    tree6 = new BinaryTree(6);
+    tree7 = new BinaryTree(7);
+    tree8 = new BinaryTree(8);
+    tree9 = new BinaryTree(9);
+    tree10 = new BinaryTree(10);
+    tree11 = new BinaryTree(11);
+    tree12 = new BinaryTree(12);
+    tree13 = new BinaryTree(13);
+    tree14 = new BinaryTree(14);
+    tree15 = new BinaryTree(15);
+    tree1.addLeftChild(tree2);
+    tree1.addRightChild(tree3);
+    tree2.addLeftChild(tree4);
+    tree2.addRightChild(tree5);
+    tree4.addLeftChild(tree8);
+    tree4.addRightChild(tree9);
+    tree5.addLeftChild(tree10);
+    tree5.addRightChild(tree11);
+    tree3.addLeftChild(tree6);
+    tree3.addRightChild(tree7);
+    tree6.addLeftChild(tree12);
+    tree6.addRightChild(tree13);
+    tree7.addLeftChild(tree14);
+    tree7.addRightChild(tree15);
+  });
+  it('should return right ancestor', () => {
+    const result = getFirstCommonAncestor(tree1, tree8, tree5);
+    expect(result.value).to.eql(2);
+  });
+  it('should return right ancestor', () => {
+    const result = getFirstCommonAncestor(tree1, tree8, tree15);
+    expect(result.value).to.eql(1);
+  });
+  it('should return right ancestor', () => {
+    const result = getFirstCommonAncestor(tree1, tree12, tree15);
+    expect(result.value).to.eql(3);
+  });
+  it('should return right ancestor', () => {
+    const result = getFirstCommonAncestor(null, null, null);
+    expect(result).to.eql(null);
+  });
+});
