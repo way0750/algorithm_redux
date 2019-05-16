@@ -37,23 +37,37 @@ import { Graph, GraphNode } from "./graph";
  *   eventually return that
  * how to make problem smaller: recursively call the edges
  * 
+ * time and space:
+ * time:
+ *   go through each node
+ *   recursively search through each un-visited node
+ *   so N (N is the amount of node)
+ * space:
+ *   the recursion: worst case the graph is a linklist, so N
+ *   the amount of nodes in the final build order: N
+ *   so N
  */
 
-function search(graph: Graph, graphNode: GraphNode): Array<number> {
+function search(graph: Graph, graphNode: GraphNode): Array<any> {
   const buildOrder = [];
   graphNode.hasBeenVisited = true;
+  graphNode.cacheArray = [];
   graphNode.edges.forEach((edgeNodeId) => {
     const edgeNode = graph.getNode(edgeNodeId);
     if (!edgeNode.hasBeenVisited){
-      const subBuildOrder: Array<number> = search(graph, edgeNode);
+      const subBuildOrder: Array<any> = search(graph, edgeNode);
       buildOrder.push(...subBuildOrder);
+    } else if (edgeNode.cacheArray.length) {
+      // pick up existing sub build order created previously
+      buildOrder.push(...edgeNode.cacheArray);
+      edgeNode.cacheArray = [];
     }
   });
   buildOrder.push(graphNode.value);
   return buildOrder;
 }
 
-export function makeBuildOrder(vertices: Array<number>, dependencies: Array<Array<number>>) {
+export function makeBuildOrder(vertices: Array<any>, dependencies: Array<Array<any>>) {
   const graph = new Graph();
   vertices.forEach((newNodeId) => graph.addNode(newNodeId));
   dependencies.forEach(([targetId, connectedTo]) => graph.linkNodes({ targetId, edges: [connectedTo]}));
@@ -62,9 +76,37 @@ export function makeBuildOrder(vertices: Array<number>, dependencies: Array<Arra
   graph.forEach((node: GraphNode) => {
     if (!node.hasBeenVisited) {
       const subBuildOrder = search(graph, node);
-      finalBuildOrder.push(...subBuildOrder);
+      node.cacheArray = subBuildOrder;
     }
+  });
+
+  // make sure to revert the flag
+  graph.forEach((node: GraphNode) => {
+    finalBuildOrder.push(...node.cacheArray);
+    node.hasBeenVisited = false
+    node.cacheArray = [];
   });
 
   return finalBuildOrder;
 }
+
+describe('Build Order', () => {
+  it('Should return empty array for empty graph', () => {
+    const vertices = [];
+    const edges = [];
+    expect(makeBuildOrder(vertices, edges)).to.eql([]);
+  });
+  it('Should return correct order for the example', () => {
+    //                 0    1    2    3    4    5
+    const vertices = ['a', 'b', 'c', 'd', 'e', 'f'];
+    const edges = [[3, 0], [1, 5], [3, 1], [0, 5], [2, 3]];
+    expect(makeBuildOrder(vertices, edges)).to.eql([ 'f', 'a', 'b', 'd', 'c', 'e' ]);
+  });
+
+  it('Should return correct order for a graph that is made of all isolated nodes', () => {
+    //                 0    1    2    3    4    5
+    const vertices = ['a', 'b', 'c', 'd', 'e', 'f'];
+    const edges = [];
+    expect(makeBuildOrder(vertices, edges)).to.eql(vertices);
+  });
+});

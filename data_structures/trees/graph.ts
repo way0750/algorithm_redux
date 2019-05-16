@@ -22,7 +22,8 @@
 export class GraphNode {
   public value: any;
   public nodeId: number;
-  public hasBeenVisited: Boolean | String = false;
+  public hasBeenVisited: Boolean = false;
+  public cacheArray: Array<any> = [];
   public edges: Array<number> = [];
   constructor({ id, value, edges }: { id: number, value: any, edges?: Array<number>}){
     this.nodeId = id;
