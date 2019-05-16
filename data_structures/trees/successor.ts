@@ -1,3 +1,5 @@
+import { BinarySearchTree, BinaryTree } from "./binaryTree";
+
 /**
  * Write an algorithm to find the "next" node (i.e., in-order successor) of a given node in a
  * binary search tree. You may assume that each node has a link to its parent.
@@ -18,3 +20,38 @@
  * 
  * space, we will just maintain a handful a state, so constant.
  */
+
+function getFurthestLeftChild(tree: BinaryTree) {
+  let curLeft = tree;
+  let nextLeft = tree.leftChild;
+  while(nextLeft) {
+    curLeft = nextLeft;
+    nextLeft = curLeft.leftChild;
+  }
+
+  return curLeft;
+}
+
+function getFurthestRightParent(tree: BinaryTree) {
+  let curNode = tree;
+  let curParent = tree.parent;
+  while (curParent) {
+    //if current node is the leftChild of the parent
+    if (curNode === curParent.leftChild) {
+      return curNode;
+    } else {
+      curNode = curParent;
+      curParent = curNode.parent;
+    }
+  }
+
+  return null;
+}
+
+export function successor (tree: BinarySearchTree) {
+  if (tree.leftChild) {
+    return getFurthestLeftChild(tree.leftChild);
+  } else {
+    return getFurthestRightParent(tree);
+  }
+}

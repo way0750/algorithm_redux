@@ -10,6 +10,7 @@
 export class GenericTree {
   public value: any;
   public children: Array<any> = [];
+  public parent?: any;
   constructor(value) {
     this.value = value;
   }
