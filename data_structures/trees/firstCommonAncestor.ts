@@ -1,3 +1,5 @@
+import { BinaryTree } from "./binaryTree";
+
 /**
  * Design an algorithm and write code to find the first common ancestor of
  * two nodes in a binary tree. Avoid storing additional nodes in a
@@ -19,3 +21,34 @@
  * how to make problem smaller:
  *   check self again A and B, then recursively call left and right
  */
+
+export function getFirstCommonAncesotr(tree: BinaryTree, nodeA: BinaryTree, nodeB: BinaryTree)  {
+  let nodeSearchCount = 2;
+  function search(tree) {
+    const foundNodes = [];
+    if (tree === nodeA || tree === nodeB) {
+      foundNodes.push(tree);
+      nodeSearchCount--;
+    }
+
+    if (nodeSearchCount) {
+      let leftReturnNode = search(tree.leftChild);
+      if (leftReturnNode) {
+        foundNodes.push(leftReturnNode);
+      }
+    }
+
+    if(nodeSearchCount) {
+      let rightReturnNode = search(tree.rightChild);
+      if(rightReturnNode) {
+        foundNodes.push(rightReturnNode);
+      }
+    }
+
+    if (foundNodes.length) {
+      return foundNodes.length === 2 ? tree : foundNodes.pop();
+    } else {
+      return null;
+    }
+  }
+}
