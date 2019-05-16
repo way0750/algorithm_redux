@@ -1,3 +1,5 @@
+import { Graph, GraphNode } from "./graph";
+
 /**
  * You are given a list of projects and a list of dependencies
  * (which is a list of pairs of projects, where the second project is dependent on
@@ -36,3 +38,33 @@
  * how to make problem smaller: recursively call the edges
  * 
  */
+
+function search(graph: Graph, graphNode: GraphNode): Array<number> {
+  const buildOrder = [];
+  graphNode.hasBeenVisited = true;
+  graphNode.edges.forEach((edgeNodeId) => {
+    const edgeNode = graph.getNode(edgeNodeId);
+    if (!edgeNode.hasBeenVisited){
+      const subBuildOrder: Array<number> = search(graph, edgeNode);
+      buildOrder.push(...subBuildOrder);
+    }
+  });
+  buildOrder.push(graphNode.value);
+  return buildOrder;
+}
+
+export function makeBuildOrder(vertices: Array<number>, dependencies: Array<Array<number>>) {
+  const graph = new Graph();
+  vertices.forEach((newNodeId) => graph.addNode(newNodeId));
+  dependencies.forEach(([targetId, connectedTo]) => graph.linkNodes({ targetId, edges: [connectedTo]}));
+  
+  const finalBuildOrder = [];
+  graph.forEach((node: GraphNode) => {
+    if (!node.hasBeenVisited) {
+      const subBuildOrder = search(graph, node);
+      finalBuildOrder.push(...subBuildOrder);
+    }
+  });
+
+  return finalBuildOrder;
+}
