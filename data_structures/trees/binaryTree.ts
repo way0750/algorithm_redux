@@ -10,9 +10,13 @@
 export class GenericTree {
   public value: any;
   public children: Array<any> = [];
-  public parent?: any;
+  public parent?: GenericTree = null;
   constructor(value) {
     this.value = value;
+  }
+
+  public addParent(node: GenericTree) {
+    this.parent = node;
   }
 }
 
@@ -20,6 +24,7 @@ export class BinaryTree extends GenericTree {
   public leftChild: BinaryTree = this.children[0];
   public rightChild: BinaryTree = this.children[1];
   public isBinaryTree: Boolean = true;
+  public parent?: BinaryTree = null;
 
   constructor(value) {
     super(value);

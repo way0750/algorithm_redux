@@ -38,7 +38,7 @@ function getFurthestRightParent(tree: BinaryTree) {
   while (curParent) {
     //if current node is the leftChild of the parent
     if (curNode === curParent.leftChild) {
-      return curNode;
+      return curParent;
     } else {
       curNode = curParent;
       curParent = curNode.parent;
@@ -50,8 +50,44 @@ function getFurthestRightParent(tree: BinaryTree) {
 
 export function successor (tree: BinarySearchTree) {
   if (tree.leftChild) {
-    return getFurthestLeftChild(tree.leftChild);
+    return getFurthestLeftChild(tree.rightChild);
   } else {
     return getFurthestRightParent(tree);
   }
 }
+
+describe('Successor', () => {
+  let tree4;
+  let tree3;
+  let tree7;
+  beforeEach(() => {
+    let tree1 = new BinaryTree(1);
+    let tree2 = new BinaryTree(2);
+    tree3 = new BinaryTree(3);
+    tree4 = new BinaryTree(4);
+    let tree5 = new BinaryTree(5);
+    let tree6 = new BinaryTree(6);
+    tree7 = new BinaryTree(7);
+    tree4.addLeftChild(tree2);
+    tree4.addRightChild(tree6);
+    tree2.addParent(tree4);
+    tree2.addLeftChild(tree1);
+    tree2.addRightChild(tree3);
+    tree6.addParent(tree4);
+    tree6.addLeftChild(tree5);
+    tree6.addRightChild(tree7);
+    tree1.addParent(tree2);
+    tree3.addParent(tree2);
+    tree5.addParent(tree6);
+    tree7.addParent(tree6);
+  });
+  it('Should return the right child furthest left child as next successor', () => {
+    expect(successor(tree4).value).to.eql(5);
+  });
+  it('Should return the first parent on the right as next successor', () => {
+    expect(successor(tree3).value).to.eql(4);
+  });
+  it('Should return null as next successor', () => {
+    expect(successor(tree7)).to.eql(null);
+  });
+});
