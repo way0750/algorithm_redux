@@ -1,3 +1,5 @@
+import { BinarySearchTree } from "./binaryTree";
+
 /**
  * A binary search tree was created by traversing through an array from
  * left to right and inserting each element. Given a binary search
@@ -22,3 +24,35 @@
  * 
  * return the main array
  */
+
+function mergeArrays (fromArrs: Array<any>, toArrs: Array<any>) {
+  const mergedArrs = [];
+  fromArrs.forEach((fromArr) => {
+    if (toArrs.length) {
+      toArrs.forEach((toArr) => {
+        mergedArrs.push([...fromArr, ...toArr]);
+      });
+    } else {
+      mergedArrs.push(fromArr);
+    }
+  });
+
+  return mergedArrs;
+}
+
+export function BSTSequences (tree: BinarySearchTree) {
+  if (!tree) {
+    return [];
+  }
+
+  let leftSidePatterns = BSTSequences(tree.leftChild as BinarySearchTree);
+  let rightSidePatterns = BSTSequences(tree.rightChild as BinarySearchTree);
+  leftSidePatterns = mergeArrays(leftSidePatterns, rightSidePatterns);
+  leftSidePatterns = leftSidePatterns.map((pattern) => [tree.value, ...pattern]);
+  rightSidePatterns = mergeArrays(rightSidePatterns, leftSidePatterns);
+  rightSidePatterns = rightSidePatterns.map((pattern) => [tree.value, ...pattern]);
+  
+  return !leftSidePatterns.length && !rightSidePatterns.length
+    ? [[tree.value]]
+    : [...leftSidePatterns, ...rightSidePatterns];
+}
