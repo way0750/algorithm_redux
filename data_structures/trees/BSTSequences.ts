@@ -23,6 +23,10 @@ import { BinarySearchTree } from "./binaryTree";
  * do the same with right side returns
  * 
  * return the main array
+ * 
+ * time and space:
+ * space: 2NDepth**2
+ * time: !(2NDepth**2)
  */
 
 function mergeArrays (fromArrs: Array<any>, toArrs: Array<any>) {
