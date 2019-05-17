@@ -50,9 +50,10 @@ function search(t1, t2) {
 
 export function checkSubtree(t1: BinaryTree, t2) {
   if (!t1 && t2) {
-    return false;
-  } else if (!t1 && !t2) {
-    return true
+    // if t1 doesn't exist, but t2 does then there is no way to find t2 in t1
+    // return false
+    // if both t1 and t2 are null, then return true
+    return !t2
   }
   return !!depthFirstTreeSearch(t1, (curNode) => {
     if (curNode.value === t2.value) {
