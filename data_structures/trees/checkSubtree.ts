@@ -1,3 +1,5 @@
+import { BinarySearchTree, BinaryTree, depthFirstTreeSearch } from "./binaryTree";
+
 /**
  * T l and T2 are two very large binary trees, with T l much bigger than T2. Create an
  * algorithm to determine if T2 is a subtree of Tl. A tree T2 is a subtree of T1 
@@ -36,3 +38,20 @@
  * depth search T2, so space fot that would logM
  * logN + logM
  */
+
+function search(t1, t2) {
+  if (!t1 || !t2) {
+    return t1 === t2;
+  }
+  return t1.value ===t2.value
+    && search(t1.leftChild, t2.leftChild)
+    && search(t1.rightChild, t2.rightChild);
+}
+
+export function checkSubtree(t1: BinaryTree, t2) {
+  return !!depthFirstTreeSearch(t1, (curNode) => {
+    if (curNode.value === t2.value) {
+      return search(curNode, t2);
+    }
+  });
+}
