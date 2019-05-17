@@ -49,9 +49,59 @@ function search(t1, t2) {
 }
 
 export function checkSubtree(t1: BinaryTree, t2) {
+  if (!t1 && t2) {
+    return false;
+  } else if (!t1 && !t2) {
+    return true
+  }
   return !!depthFirstTreeSearch(t1, (curNode) => {
     if (curNode.value === t2.value) {
       return search(curNode, t2);
     }
   });
 }
+
+describe('Check Subtree', () => {
+  it('should return true for two empty trees', () => {
+    const t1 = null;
+    const t2 = null;
+    expect(checkSubtree(t1, t2)).to.be.true;
+  });
+  it('should return true for two trees', () => {
+    const n1 = new BinarySearchTree(1);
+    const n2 = new BinarySearchTree(2);
+    const n3 = new BinarySearchTree(3);
+    const n4 = new BinarySearchTree(4);
+    const n5 = new BinarySearchTree(5);
+    const n6 = new BinarySearchTree(6);
+    const n7 = new BinarySearchTree(7);
+    n4.addLeftChild(n2);
+    n4.addRightChild(n6)
+    n2.addLeftChild(n1);
+    n2.addRightChild(n3);
+    n6.addLeftChild(n5);
+    n6.addRightChild(n7)
+    expect(checkSubtree(n4, n6)).to.be.true;
+  });
+  it('should return false for two trees', () => {
+    const n1 = new BinarySearchTree(1);
+    const n2 = new BinarySearchTree(2);
+    const n3 = new BinarySearchTree(3);
+    const n4 = new BinarySearchTree(4);
+    const n5 = new BinarySearchTree(5);
+    const n6 = new BinarySearchTree(6);
+    const n7 = new BinarySearchTree(7);
+    n4.addLeftChild(n2);
+    n4.addRightChild(n6)
+    n2.addLeftChild(n1);
+    n2.addRightChild(n3);
+    n6.addLeftChild(n5);
+    n6.addRightChild(n7)
+
+    const tree1 = n4;
+    const tree2 = new BinarySearchTree(2);
+    tree2.addLeftChild(new BinarySearchTree(1));
+    tree2.addRightChild(new BinarySearchTree(4));
+    expect(checkSubtree(tree1, tree2)).to.be.false;
+  });
+});
