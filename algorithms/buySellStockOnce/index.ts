@@ -16,4 +16,15 @@
   Input: [7,6,4,3,1]
   Output: 0
   Explanation: In this case, no transaction is done, i.e. max profit = 0.
+  
+  solution 1:
+  set two pointers: one slow, one fast to 0 index
+  set curMax value to 0;
+  loop through the array
+  the fast one moves by one index each loop
+ * the sow pointer takes the index of fast pointer whenever value at fast -
+ * value at slow is 0 or less
+ * whenever fast - slow is larger than curMax, update curMax
+ * 
+ * return curMax
  */
