@@ -48,3 +48,26 @@ export function buySellStockOnce (prices: Array<number>): number {
   }
   return curMax;
 }
+
+describe('buy sell stock once', () => {
+  it('should return 0 for no possible profit', () => {
+    const prices = [9,8,7,6,5,4,3,2,1,0];
+    const profit = buySellStockOnce(prices);
+    expect(profit).to.equal(0);
+  });
+  it('should return 0 for empty array', () => {
+    const prices = [];
+    const profit = buySellStockOnce(prices);
+    expect(profit).to.equal(0);
+  });
+  it('should return 8', () => {
+    const prices = [7,8,5,6,1,2,3,4,9,8,7,9,6,5,-1,-2,4,4,4];
+    const profit = buySellStockOnce(prices);
+    expect(profit).to.equal(8);
+  });
+  it('should return 5 for example', () => {
+    const prices = [7,1,5,3,6,4];
+    const profit = buySellStockOnce(prices);
+    expect(profit).to.equal(5);
+  });
+});
