@@ -27,4 +27,24 @@
  * whenever fast - slow is larger than curMax, update curMax
  * 
  * return curMax
+ * 
+ * time and space:
+ * time: looping through the array once, within each loop, you might end up call
+ * Math.max through out the entire array. So worst case it's 2N which is N
+ * space: constant
  */
+
+export function buySellStockOnce (prices: Array<number>): number {
+  let curMax = 0;
+  let buyIndex = 0;
+  for (let sellIndex = 0; sellIndex < prices.length; sellIndex++) {
+    const buyPrice = prices[buyIndex];
+    const sellPrice = prices[sellIndex];
+    if (sellPrice < buyPrice) {
+      buyIndex = sellIndex;
+    } else {
+      curMax = Math.max(curMax, sellPrice - buyPrice);
+    }
+  }
+  return curMax;
+}
