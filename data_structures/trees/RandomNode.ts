@@ -112,6 +112,12 @@ export class BinaryTree {
     // first reassign replaceNode's old parent's child reference and
     // old child's parent reference
     // then detach replaceNode's parent and right child
+    if (replacementNode.parent && replacementNode.parent.leftChild === replacementNode) {
+      replacementNode.parent.leftChild = null;
+    } else if (replacementNode.parent && replacementNode.parent.leftChild === replacementNode) {
+      replacementNode.parent.rightChild = null;
+    }
+
     replacementNode.parent = deleteNode.parent;
     if (deleteNode.parent && deleteNode.parent.leftChild === deleteNode) {
       deleteNode.parent.leftChild = replacementNode;
@@ -132,68 +138,9 @@ export class BinaryTree {
     deleteNode.leftChild = null;
     deleteNode.rightChild = null;
     deleteNode.parent = null;
-  }
-
-  public deleteNodeV1(deleteNode: TreeNode) {
-    // get replacementNode:
-    let replacementNode = this.getFurthestLeftNode(deleteNode.rightChild) || deleteNode.leftChild;
-    // if can't find a replacement node
-    // and deleteNode is the top most node, then it's the only node left
-    // but if it is not the top most node, then it is the only at that path
-    if (!replacementNode) {
-      if (deleteNode === this.treeTop) {
-        this.treeTop = null;
-      } else {
-        if (deleteNode === deleteNode.parent.leftChild) {
-          deleteNode.parent.leftChild = null;
-        } else {
-          deleteNode.parent.rightChild = null;
-        }
-        deleteNode.parent = null
-      }
-      // short cut the return, nothing more to do anyway
-      return;
-    }
-    // the replacement node will not have a left child, but might have right
-    const replacementNodeRight = replacementNode.rightChild;
-    if (replacementNodeRight) {
-      replacementNodeRight.parent = replacementNode.parent;
-      if (replacementNode.parent.leftChild === replacementNode) {
-        replacementNode.parent.leftChild = replacementNodeRight;
-      } else {
-        replacementNode.parent.rightChild = replacementNodeRight;
-      }
-    } else {
-      // replacementNode has not child
-      if (replacementNode.parent.leftChild === replacementNode) {
-        replacementNode.parent.leftChild = null;
-      } else {
-        replacementNode.parent.rightChild = null;
-      }
-    }
-
-    // replacementNode assume the delete node's parent and children
-    // both children will assume replacementNode as parent
-    replacementNode.parent = deleteNode.parent
-    if (deleteNode.parent && deleteNode.parent.leftChild === deleteNode) {
-      deleteNode.parent.leftChild = replacementNode;
-    } else if (deleteNode.parent && deleteNode.parent.rightChild === deleteNode) {
-      deleteNode.parent.rightChild = replacementNode;
-    }
-    // replacementNode takes deleteNode's children
-    if (deleteNode.leftChild !== replacementNode) {
-      replacementNode.leftChild = deleteNode.leftChild;
-    }
-    if (deleteNode.rightChild !== replacementNode) {
-      replacementNode.rightChild = deleteNode.rightChild;
-    }
     if (deleteNode === this.treeTop) {
       this.treeTop = replacementNode;
     }
-
-    // clean up the reference
-    deleteNode.leftChild = null;
-    deleteNode.rightChild = null;
   }
 
   private getFurthestLeftNode(node) {
@@ -257,13 +204,22 @@ describe('Binary Search Tree', () => {
       tree.deleteNode(nodeToDelete);
       arr = tree.toArray();
       expect(arr).to.eql([4,5,7]);
-      console.log(tree.treeTop);
 
       nodeToDelete = (tree as any).treeTop;
       tree.deleteNode(nodeToDelete);
-
       arr = tree.toArray();
       expect(arr).to.eql([5,7]);
+
+      nodeToDelete = (tree as any).treeTop.rightChild;
+      tree.deleteNode(nodeToDelete);
+      arr = tree.toArray();
+      expect(arr).to.eql([5]);
+
+
+      nodeToDelete = (tree as any).treeTop;
+      tree.deleteNode(nodeToDelete);
+      arr = tree.toArray();
+      expect(arr).to.eql([]);
     });
   });
 });
