@@ -52,15 +52,37 @@ export class BinaryTree {
     }
   }
 
-  // provide a node reference and delete if from the tree
-  public deleteNode(node: TreeNode) {
-    if (node.leftChild && node.rightChild) {
-      const replacementNode = this.getFurthestLeftNodeOnRight(node.rightChild);
-    } else if (!node.leftChild) {
-
-    } else if (!node.rightChild) {
-
+  public deleteNode(deleteNode: TreeNode) {
+    // get replacementNode:
+    let replacementNode = this.getFurthestLeftNodeOnRight(deleteNode.rightChild) || deleteNode.leftChild;
+    // if can't find a replacement node, that means the deleteNode is the top
+    // most node. so delete the 
+    if (!replacementNode) {
+      this.treeTop = null;
+      return;
     }
+    // the replacement node will not have a left child, but might have right
+    const replacementNodeRight = replacementNode.rightChild;
+    if (replacementNodeRight) {
+      replacementNodeRight.parent = replacementNode.parent;
+      if (replacementNode.parent.leftChild === replacementNode) {
+        replacementNode.parent.leftChild = replacementNodeRight;
+      } else {
+        replacementNode.parent.rightChild = replacementNodeRight;
+      }
+    }
+
+    // replacementNode assume the delete node's parent and children
+    // both children will assume replacementNode as parent
+    replacementNode.parent = deleteNode.parent
+    if (deleteNode.parent && deleteNode.parent.leftChild === deleteNode) {
+      deleteNode.parent.leftChild = replacementNode;
+    } else if (deleteNode.parent && deleteNode.parent.rightChild === deleteNode) {
+      deleteNode.parent.rightChild = replacementNode;
+    }
+    // replacementNode takes deleteNode's children
+    replacementNode.leftChild = deleteNode.leftChild;
+    replacementNode.rightChild = deleteNode.rightChild;
   }
 
   private getFurthestLeftNodeOnRight(node) {
