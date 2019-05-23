@@ -22,16 +22,24 @@ class TreeNode {
     if (newNode.value > this.value) {
       if (!this.rightChild) {
         this.rightChild = newNode;
+        newNode.parent = this;
       } else {
         this.rightChild.insert(newNode);
       }
     } else {
       if (!this.leftChild) {
         this.leftChild = newNode;
+        newNode.parent = this;
       } else {
         this.leftChild.insert(newNode);
       }
     }
+  }
+
+  public find(callBack) {
+    return callBack(this)
+      || (this.leftChild && this.leftChild.find(callBack))
+      || (this.rightChild && this.rightChild.find(callBack));
   }
 }
 
@@ -47,9 +55,19 @@ export class BinaryTree {
       newNode.parent = null;
       this.treeTop = newNode;
     } else {
-      newNode.parent = this;
       this.treeTop.insert(newNode);
     }
+  }
+
+  public toArray() {
+    const arr = [];
+    if (this.treeTop) {
+      this.treeTop.find((node) => {
+        arr.push(node.value);
+        return false; // to keep the loop going;
+      });
+    }
+    return arr;
   }
 
   public deleteNode(deleteNode: TreeNode) {
