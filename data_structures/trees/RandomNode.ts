@@ -60,6 +60,10 @@ export class BinaryTree {
     }
   }
 
+  public find(callBack) {
+    return this.treeTop ? this.treeTop.find(callBack) : false;
+  }
+
   public toArray() {
     const arr = [];
     if (this.treeTop) {
@@ -109,16 +113,17 @@ export class BinaryTree {
       replacementNode.rightChild = null;
     }
 
-    // first reassign replaceNode's old parent's child reference and
-    // old child's parent reference
-    // then detach replaceNode's parent and right child
+    // detach the link between replacementNode and it's parent
     if (replacementNode.parent && replacementNode.parent.leftChild === replacementNode) {
       replacementNode.parent.leftChild = null;
     } else if (replacementNode.parent && replacementNode.parent.leftChild === replacementNode) {
       replacementNode.parent.rightChild = null;
     }
-
     replacementNode.parent = deleteNode.parent;
+
+    // let replacementNode take deleteNode children
+    // and let those same children link to replacementNode
+    // then we can detach deleteNode from all of its parent and children
     if (deleteNode.parent && deleteNode.parent.leftChild === deleteNode) {
       deleteNode.parent.leftChild = replacementNode;
     }
@@ -220,6 +225,10 @@ describe('Binary Search Tree', () => {
       tree.deleteNode(nodeToDelete);
       arr = tree.toArray();
       expect(arr).to.eql([]);
+    });
+    it('should be able to find a node with value 7', () => {
+      expect(tree.find((node) => node.value === 7)).to.be.true;
+      expect(tree.find((node) => node.value === 77)).to.be.false;
     });
   });
 });
