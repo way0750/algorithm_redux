@@ -28,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/way0750/algorithm_redux/issues"
   },
-  "homepage": "https://github.com/way0750/algorithm_redux#readme"
+  "homepage": "https://github.com/way0750/algorithm_redux#readme",
+  "devDependencies": {
+    "sinon": "^7.3.2"
+  }
 }

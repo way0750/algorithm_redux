@@ -257,4 +257,9 @@ describe('Binary Search Tree', () => {
       expect(tree.find((node) => node.value === 77)).to.be.false;
     });
   });
+  describe('get random node', () => {
+    it('should return', () => {
+      
+    });
+  });
 });
