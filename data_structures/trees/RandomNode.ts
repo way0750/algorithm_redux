@@ -8,20 +8,20 @@
  * insert just recursively insert new value, but of course, if value should go
  * left but there isn't a left child, then just simply make it the left child
  * to get random node
- turn the tree into an in order tree
- and then do the usual, get a random number, and map it over to the length of the
- array, this gives you the random index, return element at that index
+  turn the tree into an in order tree
+  and then do the usual, get a random number, and map it over to the length of the
+  array, this gives you the random index, return element at that index
 
- time and and space:
- time: generation the array will essentially go through all the nodes
- so if there are n nodes, the time would be n
- space:
- if you recursive turn the tree into array, then it would be of depth logN
- and you will have an array size of n
- so logN + N
+  time and and space:
+  time: generation the array will essentially go through all the nodes
+  so if there are n nodes, the time would be n
+  space:
+  if you recursive turn the tree into array, then it would be of depth logN
+  and you will have an array size of n
+  so logN + N
 
- this is not the fastest way to do it, but I am bored of this, and just want
- to get it done and over with
+  this is not the fastest way to do it, but I am bored of this, and just want
+  to get it done and over with
  */
 
 class TreeNode {
@@ -171,8 +171,8 @@ export class BinaryTree {
 
   public getRandomNode() {
     const randomIndex = Math.floor(Math.random() * this.length);
-    const nodes = this.toArray();
-    return nodes[randomIndex];
+    const nodeValues = this.toArray();
+    return nodeValues[randomIndex];
   }
 
   private getFurthestLeftNode(node) {
@@ -258,8 +258,30 @@ describe('Binary Search Tree', () => {
     });
   });
   describe('get random node', () => {
+    let tree
+    beforeEach(() => {
+      tree = new BinaryTree();
+      tree.insert(4);
+      tree.insert(2);
+      tree.insert(6);
+      tree.insert(1);
+      tree.insert(3);
+      tree.insert(5);
+      tree.insert(7);
+    });
     it('should return', () => {
-      
+      let randomNum = sandbox.stub(Math, 'random').returns(0);
+      const nodeArr = tree.toArray();
+      let value = tree.getRandomNode();
+      expect(nodeArr[0]).to.eql(value);
+
+      randomNum.returns(0.99);
+      value = tree.getRandomNode();
+      expect(nodeArr[6]).to.eql(value);
+
+      randomNum.returns(0.5);
+      value = tree.getRandomNode();
+      expect(nodeArr[3]).to.eql(value);
     });
   });
 });

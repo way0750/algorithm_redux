@@ -1,4 +1,4 @@
 const chai = require('chai');
-var sinon = require('sinon');
+const sinon = require('sinon');
 Object.assign(global, chai);
-Object.assign(global, sinon);
+global.sandbox = sinon.createSandbox();
