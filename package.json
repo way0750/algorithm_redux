@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/way0750/algorithm_redux#readme",
   "devDependencies": {
+    "@types/sinon": "^7.0.12",
     "sinon": "^7.3.2"
   }
 }
