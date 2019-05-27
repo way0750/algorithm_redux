@@ -59,3 +59,18 @@
  *   then before returning, -1 for current running sum
  * how to make problem smaller: recursively call left and right
  */
+
+export function pathWithSum(tree, k, record = { 0: 1 }, runningSum = 0) {
+  if (!tree) {
+    return 0;
+  }
+
+  runningSum += tree.value;
+  record[runningSum] = record[runningSum] || 0;
+  record[runningSum]++;
+  let totalPatterns = record[ runningSum - k ] || 0;
+  totalPatterns += pathWithSum(tree.leftChild, k, record, runningSum);
+  totalPatterns += pathWithSum(tree.rightChild, k, record, runningSum);
+  record[runningSum]--;
+  return totalPatterns;
+}
