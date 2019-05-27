@@ -1,3 +1,5 @@
+import { BinaryTree } from "./binaryTree";
+
 /**
  * Paths with Sum: You are given a binary tree in which each node
  * contains an integer value (which might be positive or negative).
@@ -74,3 +76,29 @@ export function pathWithSum(tree, k, record = { 0: 1 }, runningSum = 0) {
   record[runningSum]--;
   return totalPatterns;
 }
+
+describe('path with sum', () => {
+  it('should return 3 for the example', () => {
+    let tree1 = new BinaryTree(10);
+    let tree2 = new BinaryTree(5);
+    let tree3 = new BinaryTree(-3);
+    let tree4 = new BinaryTree(3);
+    let tree5 = new BinaryTree(1);
+    let tree6 = new BinaryTree(11);
+    let tree7 = new BinaryTree(3);
+    let tree8 = new BinaryTree(-2);
+    let tree9 = new BinaryTree(2);
+
+    tree1.addLeftChild(tree2);
+    tree1.addRightChild(tree3);
+    tree2.addLeftChild(tree4);
+    tree2.addRightChild(tree5);
+    tree3.addRightChild(tree6);
+    tree4.addLeftChild(tree7);
+    tree4.addRightChild(tree8);
+    tree5.addRightChild(tree9);
+
+    const result = pathWithSum(tree1, 8);
+    expect(result).to.eql(3);
+  });
+});
