@@ -59,27 +59,27 @@ describe('all sub array sum up to k', () => {
     const k = 0;
     const results = allSubArrays(nums, k);
     const expected = [
-      [0],
+      [0], // the first 0
       [0,0],
-      [0],
+      [0], // the second 0
       [0,0,0],
       [0,0],
-      [0],
+      [0], // the third 0
       [0,0,0,0],
       [0,0,0],
       [0,0],
-      [0],
+      [0], // the forth 0
       [0,0,0,0,0],
       [0,0,0,0],
       [0,0,0],
       [0,0],
-      [0],
+      [0], // the fifth 0
       [0,0,0,0,0,0],
       [0,0,0,0,0],
       [0,0,0,0],
       [0,0,0],
       [0,0],
-      [0]
+      [0] // the last 0
     ];
     expect(expected).to.eql(results);
   });
