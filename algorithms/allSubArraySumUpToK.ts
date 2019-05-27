@@ -26,3 +26,83 @@
  * space: same as time
  *   that is a lot of space
  */
+
+export function allSubArrays(nums: Array<number>, k) {
+  let runningSum = 0;
+  const cache = { 0: [-1] };
+  const allPatterns = [];
+  nums.forEach((num, index) => {
+    runningSum += num;
+    cache[runningSum] = cache[runningSum] || [];
+    cache[runningSum].push(index);
+    const subPatterns = cache[runningSum - k];
+    if (subPatterns) {
+      subPatterns.forEach((patIndex) => {
+        const startIndex = patIndex + 1;
+        const endIndex = index + 1;
+        // during const subPatterns = cache[runningSum - k];
+        // you might end up getting a value that's the same as the current index
+        // that would end up giving you and empty array during slicing
+        if (startIndex !== endIndex) {
+          allPatterns.push(nums.slice(startIndex, endIndex));
+        }
+      });
+    }
+  });
+
+  return allPatterns;
+}
+
+describe('all sub array sum up to k', () => {
+  it('should return all possible patterns for all 0s and k = 0', () => {
+    const nums = [0,0,0,0,0,0];
+    const k = 0;
+    const results = allSubArrays(nums, k);
+    const expected = [
+      [0],
+      [0,0],
+      [0],
+      [0,0,0],
+      [0,0],
+      [0],
+      [0,0,0,0],
+      [0,0,0],
+      [0,0],
+      [0],
+      [0,0,0,0,0],
+      [0,0,0,0],
+      [0,0,0],
+      [0,0],
+      [0],
+      [0,0,0,0,0,0],
+      [0,0,0,0,0],
+      [0,0,0,0],
+      [0,0,0],
+      [0,0],
+      [0]
+    ];
+    expect(expected).to.eql(results);
+  });
+
+  it('should return correctly', () => {
+    const nums = [10,7,-17,17,-17,17,-17,21,-21,4,0];
+    const k = 4;
+    const result = allSubArrays(nums, k);
+    const expected = [
+      [-17,17,-17,17,-17,21],
+      [-17,17,-17,21],
+      [-17,21],
+      [10,7,-17,17,-17,17,-17,21,-21,4],
+      [17,-17,17,-17,21,-21,4],
+      [17,-17,21,-21,4],
+      [21,-21,4],
+      [4],
+      [10,7,-17,17,-17,17,-17,21,-21,4,0],
+      [17,-17,17,-17,21,-21,4,0],
+      [17,-17,21,-21,4,0],
+      [21,-21,4,0],
+      [4,0]
+    ];
+    expect(result).to.eql(expected);
+  });
+});
