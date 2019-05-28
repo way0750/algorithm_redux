@@ -26,3 +26,18 @@ export function getAllSet(nums) {
     return mainSet;
   }, [[]]);
 }
+
+describe('Get all sets', () => {
+  it('should return [[]] for empty input set', () => {
+    const arr = [];
+    expect(getAllSet(arr)).to.eql([[]]);
+  });
+  it('should return [[], [1]] for input set with 1 value', () => {
+    const arr = [1];
+    expect(getAllSet(arr)).to.eql([[], [1]]);
+  });
+  it('should return correctly for input set of multiple numbers', () => {
+    const arr = [1,2,3];
+    expect(getAllSet(arr)).to.eql([[],[1],[2],[2,1],[3],[3,1],[3,2],[3,2,1]]);
+  });
+});
