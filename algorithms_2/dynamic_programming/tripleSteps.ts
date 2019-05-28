@@ -26,8 +26,20 @@
  *     if anything is return, add to totalPatterns
  *     if not, then see which stepPattern can go to the end (n)
  *   set cache[current n value] to totalPatterns
+ *   delete old result because we will never need results that far away
+ *   delete stairIndex + 3
  * 
  * return totalPatterns by returning cache[1] or 0;
+ * 
+ * time and space:
+ * time: looping through n, that is n, and for each loop, there coule at max 3
+ * rounds of inner loop, so 3n which means n
+ * if we have other stepping patterns (K), then it is nK
+ * 
+ * space: 
+ *   if we delete older results that are far away ( > stairIndex + 3)
+ *   then we will only 3 results in cache
+ *   so constant O(1)
  */
 
 export function findAllWaysToStep(n) {
