@@ -40,3 +40,22 @@
  * space: we are using recursion, so the depth: logN will be the amount of space
  * we will be using
  */
+
+export function findMaigcIndex(arr = [], minIndex = 0, maxIndex = arr.length-1) {
+  if (!arr.length || minIndex > maxIndex) {
+    return -1;
+  }
+  const minValue = arr[minIndex];
+  const maxValue = arr[maxIndex];
+
+  const newMinIndex = Math.max(minIndex, minValue);
+  const newMaxIndex = Math.min(maxIndex, maxValue);
+
+  const midIndex = Math.floor(newMinIndex + (newMaxIndex - newMinIndex)/2);
+  if (arr[minIndex] === minIndex) {
+    return minIndex;
+  } else {
+    return findMaigcIndex(arr, newMinIndex, minIndex-1)
+    || findMaigcIndex(arr, midIndex+1, newMaxIndex);
+  }
+}
