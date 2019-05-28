@@ -59,6 +59,51 @@ function findPath(matrix = []) {
   return search(matrix, rowIndex, columnIndex);
 }
 
+/**
+ * using dynamic programming:
+ * go from last row and up, and keeping rolling paths upward
+ * 
+ * time and space:
+ * time: still N * M width * height
+ * space: as you are rolling rows upward: you will have N cell per row
+ * and each cell can contain a N + M size array (a path)
+ */
+
+function searchDP(matrix) {
+
+}
+
+function findPathDP(matrix = []) {
+  matrix = (matrix && matrix.length) ? matrix : [[]];
+
+  const lastRow = matrix[matrix.length - 1];
+  let cacheRow = Array(lastRow.length);
+  
+  const finalRow = matrix.reduceRight((DPRow, curRow, rowIndex) => {
+    curRow = curRow.slice();
+    for (let cellIndex = curRow.length - 1; cellIndex > -1; cellIndex--) {
+      const curCell = curRow[cellIndex];
+      if (!curCell) {
+        curRow[cellIndex] = [];
+      } else if (rowIndex === matrix.length - 1 && cellIndex === curRow.length - 1) {
+        curRow[cellIndex] = [curCell];
+      } else {
+        const rightResult = curRow[cellIndex + 1] || [];
+        if (rightResult.length) {
+          curRow[cellIndex] = [curCell, ...rightResult];
+        } else {
+          const bottomResult = DPRow[cellIndex] || [];
+          curRow[cellIndex] = bottomResult.length ? [curCell, ...bottomResult] : [];
+        }
+      }
+    }
+
+    return curRow;
+  }, cacheRow);
+
+  return finalRow[0] || [];
+}
+
 // set > 0 to passable,  = 0 to not passable
 describe('robot in a grid', () => {
   it('should return [] for empty matrix', () => {
@@ -90,5 +135,38 @@ describe('robot in a grid', () => {
       [13,0,15,16],
     ];
     expect(findPath(matrix)).to.eql([]);
+  });
+});
+
+describe('robot in a grid with DP', () => {
+  it('should return [] for empty matrix', () => {
+    const matrix = null;
+    expect(findPathDP(matrix)).to.eql([]);
+  });
+  it('should return [] for empty matrix', () => {
+    const matrix = [];
+    expect(findPathDP(matrix)).to.eql([]);
+  });
+  it('should return [] for empty matrix', () => {
+    const matrix = [[]];
+    expect(findPathDP(matrix)).to.eql([]);
+  });
+  it('should return a correct result for matrix', () => {
+    const matrix = [
+      [1, 2, 3, 4],
+      [5, 0, 7, 8],
+      [9, 0,11,12],
+      [13,0,15,16],
+    ];
+    expect(findPathDP(matrix)).to.eql([1,2,3,4,8,12,16]);
+  });
+  it('should return [] for impossable matrix', () => {
+    const matrix = [
+      [1, 0, 3, 4],
+      [5, 0, 7, 8],
+      [9, 0,11,12],
+      [13,0,15,16],
+    ];
+    expect(findPathDP(matrix)).to.eql([]);
   });
 });
