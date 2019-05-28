@@ -16,3 +16,13 @@
  * 2**n+1 or 2**n
  * space: simply 2**n
  */
+
+export function getAllSet(nums) {
+  return nums.reduce((mainSet, num) => {
+    const newSets = mainSet.map((set) => {
+      return [num, ...set];
+    });
+    mainSet.push(...newSets);
+    return mainSet;
+  }, [[]]);
+}
