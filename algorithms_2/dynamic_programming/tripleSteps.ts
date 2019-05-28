@@ -46,6 +46,8 @@ export function findAllWaysToStep(n) {
       }
     }
     cache[stairIndex] = totalPatterns;
+    // we will never need cached result that far anymore
+    delete cache[stairIndex+3];
   }
 
   return cache[0] || 0;
