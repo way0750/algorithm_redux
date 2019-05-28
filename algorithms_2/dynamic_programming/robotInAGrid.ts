@@ -25,7 +25,7 @@
  */ 
 
 export function search(matrix, rowIndex, columnIndex) {
-  const curRow = matrix[rowIndex];
+  const curRow = matrix[rowIndex] || [];
   const curCell = curRow[columnIndex];
   const rowCount = (matrix).length;
   const rowLength = curRow.length;
@@ -44,7 +44,7 @@ export function search(matrix, rowIndex, columnIndex) {
     return [curCell, ...leftResult];
   } 
 
-  const bottomResult = search(matrix, rowIndex, columnIndex + 1);
+  const bottomResult = search(matrix, rowIndex + 1, columnIndex);
   if (bottomResult.length) {
     return [curCell, ...bottomResult];
   } 
@@ -55,8 +55,40 @@ export function search(matrix, rowIndex, columnIndex) {
 function findPath(matrix = []) {
   const rowIndex = 0;
   const columnIndex = 0;
-  matrix = matrix.length ? matrix : [[]];
+  matrix = (matrix && matrix.length) ? matrix : [[]];
   return search(matrix, rowIndex, columnIndex);
 }
 
-// set 1 to passable, 0 to not passable
+// set > 0 to passable,  = 0 to not passable
+describe('robot in a grid', () => {
+  it('should return [] for empty matrix', () => {
+    const matrix = null;
+    expect(findPath(matrix)).to.eql([]);
+  });
+  it('should return [] for empty matrix', () => {
+    const matrix = [];
+    expect(findPath(matrix)).to.eql([]);
+  });
+  it('should return [] for empty matrix', () => {
+    const matrix = [[]];
+    expect(findPath(matrix)).to.eql([]);
+  });
+  it('should return a correct result for matrix', () => {
+    const matrix = [
+      [1, 2, 3, 4],
+      [5, 0, 7, 8],
+      [9, 0,11,12],
+      [13,0,15,16],
+    ];
+    expect(findPath(matrix)).to.eql([1,2,3,4,8,12,16]);
+  });
+  it('should return [] for impossable matrix', () => {
+    const matrix = [
+      [1, 0, 3, 4],
+      [5, 0, 7, 8],
+      [9, 0,11,12],
+      [13,0,15,16],
+    ];
+    expect(findPath(matrix)).to.eql([]);
+  });
+});
