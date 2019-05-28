@@ -29,3 +29,24 @@
  * 
  * return totalPatterns by returning cache[1] or 0;
  */
+
+export function findAllWaysToStep(n) {
+  // initialize the last step to have only 1 possible way to step
+  const cache = {};
+  // loop backward from n-1 to 0
+  // there will be n rounds of looping
+  for (let stairIndex = n - 1; stairIndex >= 0; stairIndex--) {
+    let totalPatterns = 0;
+    for (let stepPattern = 1; stepPattern <= 3; stepPattern ++) {
+      const previousCount = cache[stairIndex + stepPattern] || 0;
+      if (previousCount) {
+        totalPatterns += previousCount;
+      } else if (stairIndex + stepPattern === n) {
+        totalPatterns++;
+      }
+    }
+    cache[stairIndex] = totalPatterns;
+  }
+
+  return cache[0] || 0;
+}
