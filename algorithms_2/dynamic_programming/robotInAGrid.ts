@@ -23,3 +23,40 @@
  * space: N+M because you can only go right or bottom
  * so the possible path will always be N + M
  */ 
+
+export function search(matrix, rowIndex, columnIndex) {
+  const curRow = matrix[rowIndex];
+  const curCell = curRow[columnIndex];
+  const rowCount = (matrix).length;
+  const rowLength = curRow.length;
+  // at the last cell
+  if (rowIndex === rowCount-1 && columnIndex === rowLength-1) {
+    return [curCell];
+  } else if (!curCell) {
+    // current cell is not passable
+    return []
+  }
+
+  // keep searching
+  // right then bottom
+  const leftResult = search(matrix, rowIndex, columnIndex + 1);
+  if (leftResult.length) {
+    return [curCell, ...leftResult];
+  } 
+
+  const bottomResult = search(matrix, rowIndex, columnIndex + 1);
+  if (bottomResult.length) {
+    return [curCell, ...bottomResult];
+  } 
+
+  return [];
+}
+
+function findPath(matrix = []) {
+  const rowIndex = 0;
+  const columnIndex = 0;
+  matrix = matrix.length ? matrix : [[]];
+  return search(matrix, rowIndex, columnIndex);
+}
+
+// set 1 to passable, 0 to not passable
