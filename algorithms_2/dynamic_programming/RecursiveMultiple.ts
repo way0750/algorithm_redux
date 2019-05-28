@@ -21,4 +21,42 @@
  * how to make problem smaller
  *   get new multiplier by oldMultiplier/2 and then floor it
  *   pass num and new multiplier to next function call
+ * 
+ * time and space
+ * time: you keep halving halving and halving so see that as a upside down
+ * binary tree. logN, N is the multiplier
+ * space logN, that's the 'depth' of the tree, the size of the recursive stack
+ * will use
  */
+
+export function recursiveMultiple(base, multiplier) {
+  if (multiplier === 2) {
+    return base + base;
+  } else if (multiplier === 1) {
+    return base;
+  } else if (multiplier === 0) {
+    return 0;
+  }
+  const newMultiplier = Math.floor(multiplier / 2);
+  let subProduct = recursiveMultiple(base, newMultiplier);
+  subProduct += subProduct;
+  return subProduct + (multiplier % 2 === 0 ? 0 : base);
+}
+
+describe('Recursive Multiple', () => {
+  it('should return 0', () => {
+    const base = 9;
+    const multiplier = 0;
+    expect(recursiveMultiple(base, multiplier)).to.eql(0);
+  });
+  it('should return 9', () => {
+    const base = 9;
+    const multiplier = 1;
+    expect(recursiveMultiple(base, multiplier)).to.eql(9);
+  });
+  it('should return 81', () => {
+    const base = 9;
+    const multiplier = 9;
+    expect(recursiveMultiple(base, multiplier)).to.eql(81);
+  });
+});
