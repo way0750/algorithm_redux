@@ -42,20 +42,58 @@
  */
 
 export function findMaigcIndex(arr = [], minIndex = 0, maxIndex = arr.length-1) {
-  if (!arr.length || minIndex > maxIndex) {
+  if (!arr.length) {
     return -1;
   }
+
+  // get overlap section indexes:
   const minValue = arr[minIndex];
   const maxValue = arr[maxIndex];
-
   const newMinIndex = Math.max(minIndex, minValue);
   const newMaxIndex = Math.min(maxIndex, maxValue);
 
+  if (newMinIndex > newMaxIndex) {
+    return -1;
+  }
+
   const midIndex = Math.floor(newMinIndex + (newMaxIndex - newMinIndex)/2);
-  if (arr[minIndex] === minIndex) {
-    return minIndex;
+  if (arr[midIndex] === midIndex) {
+    return midIndex;
   } else {
-    return findMaigcIndex(arr, newMinIndex, minIndex-1)
-    || findMaigcIndex(arr, midIndex+1, newMaxIndex);
+    const resultOnLeft = findMaigcIndex(arr, newMinIndex, midIndex-1)
+    if (resultOnLeft > -1) {
+      return resultOnLeft;
+    }
+    const resultOnRight = findMaigcIndex(arr, midIndex+1, newMaxIndex);
+    if (resultOnRight > -1) {
+      return resultOnRight;
+    }
+    return -1;
   }
 }
+
+describe('Magic Index', () => {
+  it('should return -1', () => {
+    const arr = [7,8,9];
+    expect(findMaigcIndex(arr)).to.eql(-1);
+  });
+  it('should return -1', () => {
+    const arr = [-7,-8,-9];
+    expect(findMaigcIndex(arr)).to.eql(-1);
+  });
+  it('should return 3', () => {
+    //           0,1,2,3,4,5,6,7,8,9
+    const arr = [3,3,3,3,3,3,3,3,3,3];
+    expect(findMaigcIndex(arr)).to.eql(3);
+  });
+  it('should return 8', () => {
+    //           0,1,2,3,4,5,6,7,8,9
+    const arr = [3,3,3,8,8,8,8,8,8,9];
+    expect(findMaigcIndex(arr)).to.eql(8);
+  });
+  it('should return 9', () => {
+    //           0,1,2,3,4,5,6,7,8,9
+    const arr = [3,3,3,8,8,8,8,8,9,9];
+    expect(findMaigcIndex(arr)).to.eql(9);
+  });
+});
