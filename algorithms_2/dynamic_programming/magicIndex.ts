@@ -34,4 +34,9 @@
  *   get mid point
  *   check point index and its value, if same return index
  *   else recursively call array with min index and max index
+ * 
+ * time and space complexity
+ * this is just the same as merge sort, so NLogN
+ * space: we are using recursion, so the depth: logN will be the amount of space
+ * we will be using
  */
