@@ -9,3 +9,25 @@
  * curChar is 'b'
  * you get 'ba' and 'ab'
  */
+
+export function getPermutations(str) {
+  const visitedChars = {};
+  let finalPermutations = [];
+  for (let i = 0; i < str.length; i++) {
+    const curChar = str[i];
+    if (!finalPermutations.length) {
+      finalPermutations.push(curChar);
+    } else if (!visitedChars[curChar]) {
+      visitedChars[curChar] = true;
+      finalPermutations = finalPermutations.reduce((curPermu, previousPermu) => {
+        for(let j = 0; j <= previousPermu.length; j++) {
+          const leftStr = previousPermu.slice(0, j);
+          const rightStr = previousPermu.slice(j);
+          curPermu.push(`${leftStr}${curChar}${rightStr}`);
+        }
+      }, []);
+    }
+  }
+
+  return finalPermutations;
+}
