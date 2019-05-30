@@ -24,11 +24,13 @@
  * square root of N * 4 - 4
  */
 
-export function painMatrix(matrix: Array<any> = [], position: Array<number> = [0,0], newColor: string) {
-  if (!matrix.length || !matrix[0][0]) {
-    return matrix
+export function paintMatrix(matrix: Array<any> = [], position: Array<number> = [0,0], newColor: string) {
+  if (!matrix || !matrix.length || !matrix[0][0]) {
+    return [];
+  } else if (!matrix[position[0]] || !matrix[position[0]][position[1]]) {
+    return [];
   }
-  const targetColor = matrix[0][0];
+  const targetColor = matrix[position[0]][position[1]];
   let points: Array<Array<number>> = [position];
   while(points.length) {
     points = points.reduce((nextRound: Array<Array<number>>, point) => {
@@ -59,3 +61,84 @@ export function painMatrix(matrix: Array<any> = [], position: Array<number> = [0
     }, []);
   }
 }
+
+describe('Paint Fill', () => {
+  it('should handle empty matrix', () => {
+    const matrix = null;
+    expect(paintMatrix(matrix, [1,2], 'g')).to.eql([]);
+  });
+  it('should handle empty matrix', () => {
+    const matrix = [];
+    expect(paintMatrix(matrix, [1,2], 'g')).to.eql([]);
+  });
+  it('should a 3 * 3 matrix', () => {
+    const matrix = [
+      ['r', 'r', 'r'],
+      ['b', 'r', 'b'],
+      ['b', 'b', 'b'],
+    ];
+
+    const expected = [
+      ['b', 'b', 'b'],
+      ['b', 'b', 'b'],
+      ['b', 'b', 'b'],
+    ];
+    paintMatrix(matrix, [1,1], 'b');
+    expect(matrix).to.eql(expected);
+  });
+  it('should a 3 * 4 matrix', () => {
+    const matrix = [
+      ['r', 'r', 'r'],
+      ['b', 'r', 'b'],
+      ['b', 'b', 'b'],
+      ['b', 'b', 'b']
+    ];
+
+    const expected = [
+      ['b', 'b', 'b'],
+      ['b', 'b', 'b'],
+      ['b', 'b', 'b'],
+      ['b', 'b', 'b']
+    ];
+    paintMatrix(matrix, [1,1], 'b');
+    expect(matrix).to.eql(expected);
+  });
+  it('should return empty array for invalid positions', () => {
+    const matrix = [
+      ['r', 'r', 'r', 'g'],
+      ['b', 'r', 'b', 'g'],
+      ['b', 'b', 'b', 'g'],
+      ['b', 'b', 'b', 'g'],
+      ['b', 'b', 'b', 'g']
+    ];
+
+    const expected = [
+      ['r', 'r', 'r', 'g'],
+      ['b', 'r', 'b', 'g'],
+      ['b', 'b', 'b', 'g'],
+      ['b', 'b', 'b', 'g'],
+      ['b', 'b', 'b', 'g']
+    ];
+    paintMatrix(matrix, [5,5], 'r');
+    expect(matrix).to.eql(expected);
+  });
+  it('should return empty array for invalid positions', () => {
+    const matrix = [
+      ['r', 'r', 'r', 'g'],
+      ['b', 'r', 'b', 'g'],
+      ['b', 'b', 'b', 'g'],
+      ['b', 'b', 'b', 'g'],
+      ['b', 'b', 'b', 'g']
+    ];
+
+    const expected = [
+      ['r', 'r', 'r', 'g'],
+      ['r', 'r', 'r', 'g'],
+      ['r', 'r', 'r', 'g'],
+      ['r', 'r', 'r', 'g'],
+      ['r', 'r', 'r', 'g']
+    ];
+    paintMatrix(matrix, [4,2], 'r');
+    expect(matrix).to.eql(expected);
+  });
+});
