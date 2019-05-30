@@ -23,3 +23,39 @@
  * if N is the amount of cells, and the shape of the image is a square then 
  * square root of N * 4 - 4
  */
+
+export function painMatrix(matrix: Array<any> = [], position: Array<number> = [0,0], newColor: string) {
+  if (!matrix.length || !matrix[0][0]) {
+    return matrix
+  }
+  const targetColor = matrix[0][0];
+  let points: Array<Array<number>> = [position];
+  while(points.length) {
+    points = points.reduce((nextRound: Array<Array<number>>, point) => {
+      const curRow = point[0];
+      const curCol = point[1];
+      if (matrix[curRow][curCol] !== targetColor) {
+        return nextRound;
+      }
+
+      matrix[curRow][curCol] = newColor;
+      // now get the surrounding cells
+      // first the top row 3
+      // then the bottom row 3
+      // then left and right
+      const rowIndexes = [curRow-1, curRow, curRow+1];
+      const colIndexes = [curCol-1, curCol, curCol+1];
+      rowIndexes.forEach((rowIndex: number) => {
+        if (matrix[rowIndex]) {
+          colIndexes.forEach((colIndex: number) => {
+            const cellColor = matrix[rowIndex][colIndex];
+            if (cellColor && cellColor === targetColor) {
+              nextRound.push([rowIndex, colIndex]);
+            }
+          });
+        }
+      });
+      return nextRound;
+    }, []);
+  }
+}
