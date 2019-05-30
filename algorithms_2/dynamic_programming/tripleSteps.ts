@@ -65,30 +65,74 @@ export function findAllWaysToStep(n) {
   return cache[0] || 0;
 }
 
+/**
+ * time and space:
+ * time n * amount of steppings
+ * space same as time
+ */
+function findAllWaysToStep002 (n, steppings = [1,2,3]) {
+  const cache = { 0: 0 };
+  for (let count = 1; count <= n; count++) {
+    cache[count] = steppings.reduce((sum, stepping) => {
+      return sum += stepping === count ? 1 : cache[count-stepping] || 0;
+    }, 0);
+  }
+  return cache[n];
+}
+
 describe('Find all ways to step', () => {
-  it('should return 0 for n = 0', () => {
-    const n = 0;
-    const ways = findAllWaysToStep(n);
-    expect(ways).to.eql(0);
-  });
-  it('should return 1 for n = 1', () => {
-    const n = 1;
-    const ways = findAllWaysToStep(n);
-    expect(ways).to.eql(1);
-  });
-  it('should return 2 for n = 2', () => {
-    const n = 2;
-    const ways = findAllWaysToStep(n);
-    expect(ways).to.eql(2);
-  });
-  it('should return 4 for n = 3', () => {
-    const n = 3;
-    const ways = findAllWaysToStep(n);
-    expect(ways).to.eql(4);
-  });
-  it('should return 13 for n = 5', () => {
-    const n = 5;
-    const ways = findAllWaysToStep(n);
-    expect(ways).to.eql(13);
+  describe('First implementation', () => {
+    it('should return 0 for n = 0', () => {
+      const n = 0;
+      const ways = findAllWaysToStep(n);
+      expect(ways).to.eql(0);
+    });
+    it('should return 1 for n = 1', () => {
+      const n = 1;
+      const ways = findAllWaysToStep(n);
+      expect(ways).to.eql(1);
+    });
+    it('should return 2 for n = 2', () => {
+      const n = 2;
+      const ways = findAllWaysToStep(n);
+      expect(ways).to.eql(2);
+    });
+    it('should return 4 for n = 3', () => {
+      const n = 3;
+      const ways = findAllWaysToStep(n);
+      expect(ways).to.eql(4);
+    });
+    it('should return 13 for n = 5', () => {
+      const n = 5;
+      const ways = findAllWaysToStep(n);
+      expect(ways).to.eql(13);
+    });
+  })
+  describe('Second implementation', () => {
+    it('should return 0 for n = 0', () => {
+      const n = 0;
+      const ways = findAllWaysToStep002(n);
+      expect(ways).to.eql(0);
+    });
+    it('should return 1 for n = 1', () => {
+      const n = 1;
+      const ways = findAllWaysToStep002(n);
+      expect(ways).to.eql(1);
+    });
+    it('should return 2 for n = 2', () => {
+      const n = 2;
+      const ways = findAllWaysToStep002(n);
+      expect(ways).to.eql(2);
+    });
+    it('should return 4 for n = 3', () => {
+      const n = 3;
+      const ways = findAllWaysToStep002(n);
+      expect(ways).to.eql(4);
+    });
+    it('should return 13 for n = 5', () => {
+      const n = 5;
+      const ways = findAllWaysToStep002(n);
+      expect(ways).to.eql(13);
+    });
   });
 });
