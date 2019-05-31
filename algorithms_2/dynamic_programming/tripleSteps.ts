@@ -70,7 +70,7 @@ export function findAllWaysToStep(n) {
  * time n * amount of steppings
  * space same as time
  */
-function findAllWaysToStep002 (n, steppings = [1,2,3]) {
+function findAllWaysToStep002 (n, steppings = [3,1,2]) {
   const cache = {};
   for (let count = 0; count <= n; count++) {
     cache[count] = steppings.reduce((sum, stepping) => {
