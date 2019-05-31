@@ -42,8 +42,34 @@
  *          
  * 
  * time and space complexity:
- * time n * coin types
+ * time n * coin types (k)
+ * and if you sort the coin types then kLogk + nk
  * space same as time but you can simplify to n because you just need to have
  * one row of cache result
  * 
  */
+
+export function allWaysToMakeChange(coins, n) {
+  if (n < 1) {
+    1;
+  }
+  coins = coins.sort();
+  const finalRowOfCacheResults = coins.reduce((preRowCacheResult, coinType, coinTypeIndex) => {
+    const curRowCacheResult = Array(n+1);
+    preRowCacheResult.forEach((countForNotUsingCurCoinType, newN) => {
+      let result;
+      if (newN === 0) {
+        result = 1;
+      } else if (coinTypeIndex === 0) {
+        // this is the first time we calculating results:
+        result = newN%coinType === 0 ? 1 : 0;
+      } else {
+        const countForUsingCurCoinTypeOnce = curRowCacheResult[newN - coinType] || 0;
+        result = countForNotUsingCurCoinType + countForUsingCurCoinTypeOnce;
+      }
+      curRowCacheResult[newN] = result;
+    });
+    return curRowCacheResult;
+  }, Array(n+1));
+  return finalRowOfCacheResults[finalRowOfCacheResults.length - 1];
+}
