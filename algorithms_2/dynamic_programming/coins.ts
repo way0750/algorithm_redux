@@ -70,6 +70,27 @@ export function allWaysToMakeChange(coins, n) {
       curRowCacheResult[newN] = result;
     });
     return curRowCacheResult;
-  }, Array(n+1));
+  }, Array(n+1).fill(0));
   return finalRowOfCacheResults[finalRowOfCacheResults.length - 1];
 }
+
+describe('All the ways to give coins', () => {
+  it('Should return 1 for n =0', () => {
+    const n = 0;
+    const coins = [1,3,7];
+    const ways = allWaysToMakeChange(coins, n);
+    expect(ways).to.eql(1);
+  });
+  it('Should return 3 for n = 3', () => {
+    const n = 3;
+    const coins = [1,3,7];
+    const ways = allWaysToMakeChange(coins, n);
+    expect(ways).to.eql(2);
+  });
+  it('Should return 10 for n = 15', () => {
+    const n = 15;
+    const coins = [1,3,7];
+    const ways = allWaysToMakeChange(coins, n);
+    expect(ways).to.eql(10);
+  });
+});
