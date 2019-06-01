@@ -136,3 +136,25 @@ describe('Find all ways to step', () => {
     });
   });
 });
+
+function anagram(s, t){
+  if(s.length != t.length){
+    return false;
+  }
+  const hash = {};
+  for (let i = 0; i < s.length; i++) {
+    const curChar = s[i];
+    hash[curChar] = hash[curChar] || 0;
+    hash[curChar]++;
+  }
+
+  for (let j = 0; j < t.length; j++) {
+    const curChar = t[j];
+    hash[curChar] = hash[curChar] || 0;
+    hash[curChar]--
+    if (hash[curChar] < 0) {
+      return false;
+    }
+  }
+  return true;
+}
