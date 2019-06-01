@@ -1,3 +1,5 @@
+import { nextInOrderSuccessor } from "../../algorithms_1/nextInOrderSuccessor";
+
 /*
   A message containing letters from A-Z is being encoded to numbers using the following mapping way:
 
@@ -79,4 +81,75 @@
       D: nn 
       convert it to number and see if < 27, if yes then 1 else 0
       so it can be just cached result + 1 or 0
+
+      when done, remove the key from cache string[curIndex + 3]
+      because we don't need those result anymore
 */
+
+export function decodeAllTheWays(str) {
+  const cache = {};
+  // go from the right to left
+  for (let index = str.length - 1; index > -1; index--) {
+    let ways = 0;
+    const curChar = str[index];
+    // if curChar is zero, it is depended on the char on its
+    // left. Also only 10 and 20 are possible because 0 by itself
+    // isn't a valid char numeric value
+    // so short cut the flow here to next loop
+    if (curChar === '0') {
+      continue;
+    }
+
+    // check only current char
+    // but if the next on the right is 0 then you should not check just
+    // the current char
+    const charOnRight = str[index+1];
+    if (charOnRight !== '0') {
+      // cur char here is only * or 1..9
+      const rightSubStr1 = str.slice(index+1);
+      // default to 1 in case cur char is the first on right
+      const rightSubStrCacheResult1 = cache[rightSubStr1] || 1;
+      const curWaysMultiplier = curChar === '*' ? 9 : 1;
+      ways += curWaysMultiplier * rightSubStrCacheResult1;
+    }
+
+    // check current char plus the next on the right
+    // also skip if the next on right is actually empty string
+    const nextChar = str[index+1];
+    const curAndNextChar = curChar + nextChar;
+    const rightSubStr2 = str.slice(index+2);
+    let curWaysMultiplier;
+    const rightSubStrCacheResult2 = cache[rightSubStr2] || 1;
+    if (curAndNextChar === '**') {
+      // ** that is 11..19(9) + 21..26(6) total 15
+      curWaysMultiplier = 15;
+    } else if (curChar === '*' && nextChar) {
+      // if there is only * and it is the curChar
+      // which means: *n
+      // and if n < 7 then you get ex: 16 and 26 so 2
+      // but if >= 7 you only get ex 17 so 1
+      curWaysMultiplier = Number(nextChar) < 7 ? 2 : 1;
+    } else if (nextChar === '*') {
+      // current char in here will never be 0, it would have already gone to
+      // next loop already
+      // if n*, then if n is 1 then you get 11..19 so 9
+      // if n is 2 then you get 21..26 so 6
+      // if n is larger than 2 then invalid
+      // so total can be 9 or 6 or 0
+      const possibleMultipliers = { 1: 9, 2: 6 };
+      curWaysMultiplier = possibleMultipliers[curChar] || 0;
+      // ways += (curWaysMultiplier * rightSubStrCacheResult2);
+    } else if (/\d\d/.test(curAndNextChar)) {
+      // nn 
+      // convert it to number and see if < 27, if yes then 1 else 0
+      // so it can be just cached result + 1 or 0
+      curWaysMultiplier = Number(curAndNextChar) < 27 ? 1 : 0
+    }
+    ways += (curWaysMultiplier * rightSubStrCacheResult2);
+    cache[str.slice(index)] = ways;
+    // we don't need cached result that far anymore
+    delete cache[str.slice(index+2)];
+  }
+
+  return cache[str];
+}
