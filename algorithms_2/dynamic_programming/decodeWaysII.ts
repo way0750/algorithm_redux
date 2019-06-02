@@ -1,5 +1,3 @@
-import { nextInOrderSuccessor } from "../../algorithms_1/nextInOrderSuccessor";
-
 /*
   A message containing letters from A-Z is being encoded to numbers using the following mapping way:
 
@@ -86,7 +84,7 @@ import { nextInOrderSuccessor } from "../../algorithms_1/nextInOrderSuccessor";
       because we don't need those result anymore
 */
 
-export function decodeAllTheWays(str) {
+export function numDecodings(str) {
   const cache = {};
   // go from the right to left
   for (let index = str.length - 1; index > -1; index--) {
@@ -100,6 +98,7 @@ export function decodeAllTheWays(str) {
       continue;
     }
 
+    let curWaysMultiplier;
     // check only current char
     // but if the next on the right is 0 then you should not check just
     // the current char
@@ -108,9 +107,12 @@ export function decodeAllTheWays(str) {
       // cur char here is only * or 1..9
       const rightSubStr1 = str.slice(index+1);
       // default to 1 in case cur char is the first on right
-      const rightSubStrCacheResult1 = cache[rightSubStr1] || 1;
-      const curWaysMultiplier = curChar === '*' ? 9 : 1;
-      ways += curWaysMultiplier * rightSubStrCacheResult1;
+      const rightSubStrCacheResult1 = cache.hasOwnProperty(rightSubStr1) 
+        ? cache[rightSubStr1]
+        : 1;
+
+      curWaysMultiplier = curChar === '*' ? 9 : 1;
+      ways += (curWaysMultiplier * rightSubStrCacheResult1);
     }
 
     // check current char plus the next on the right
@@ -118,8 +120,19 @@ export function decodeAllTheWays(str) {
     const nextChar = str[index+1];
     const curAndNextChar = curChar + nextChar;
     const rightSubStr2 = str.slice(index+2);
-    let curWaysMultiplier;
-    const rightSubStrCacheResult2 = cache[rightSubStr2] || 1;
+    let rightSubStrCacheResult2;
+    // if the index+2 is '0' that means the right sub string
+    // right next to curChar+nextChar
+    // actually has a 0 in front. that is an invalid pattern
+    if (str[index+2] === '0') {
+      rightSubStrCacheResult2 = 0;
+    } else {
+      rightSubStrCacheResult2 = cache.hasOwnProperty(rightSubStr2)
+        ? cache[rightSubStr2]
+        : 1;
+    }
+    // rest this for dealing with two chars
+    curWaysMultiplier = 0;
     if (curAndNextChar === '**') {
       // ** that is 11..19(9) + 21..26(6) total 15
       curWaysMultiplier = 15;
@@ -145,11 +158,67 @@ export function decodeAllTheWays(str) {
       // so it can be just cached result + 1 or 0
       curWaysMultiplier = Number(curAndNextChar) < 27 ? 1 : 0
     }
-    ways += (curWaysMultiplier * rightSubStrCacheResult2);
+
+    if (curWaysMultiplier) {
+      ways += (curWaysMultiplier * rightSubStrCacheResult2);
+    }
+
     cache[str.slice(index)] = ways;
     // we don't need cached result that far anymore
     delete cache[str.slice(index+2)];
   }
 
-  return cache[str];
+  console.log(JSON.stringify(cache, null, 2));
+  return cache[str] || 0 ;
 }
+
+describe('Find all the ways', () => {
+  // it('should return 9 for *', () => {
+  //   const str = '*';
+  //   expect(numDecodings(str)).to.eql(9);
+  // });
+  // it('should return 1 for 3', () => {
+  //   const str = '3';
+  //   expect(numDecodings(str)).to.eql(1);
+  // });
+  // it('should return 96 for **', () => {
+  //   const str = '**';
+  //   expect(numDecodings(str)).to.eql(96);
+  // });
+  // it('should return 1 for 99', () => {
+  //   const str = '99';
+  //   expect(numDecodings(str)).to.eql(1);
+  // });
+  // it('should return 2 for 12', () => {
+  //   const str = '12';
+  //   expect(numDecodings(str)).to.eql(2);
+  // });
+  // it('should return 1 for 10', () => {
+  //   const str = '10';
+  //   expect(numDecodings(str)).to.eql(1);
+  // });
+  // it('should return 1 for 101', () => {
+  //   const str = '101';
+  //   expect(numDecodings(str)).to.eql(1);
+  // });
+  // it('should return 18 for 1*', () => {
+  //   const str = '1*';
+  //   expect(numDecodings(str)).to.eql(18);
+  // });
+  // it('should return 11 for *1', () => {
+  //   const str = '*1';
+  //   expect(numDecodings(str)).to.eql(11);
+  // });
+  // it('should return 404 for *1*1*0', () => {
+  //   const str = '*1*1*0';
+  //   expect(numDecodings(str)).to.eql(404);
+  // });
+  it('should return 0 for 4960', () => {
+    const str = '4960';
+    expect(numDecodings(str)).to.eql(0);
+  });
+  it('should return a lot for *********', () => {
+    const str = '*********';
+    expect(numDecodings(str)).to.eql(291868912);
+  });
+});
