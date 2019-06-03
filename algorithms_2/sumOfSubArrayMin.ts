@@ -19,3 +19,14 @@
   time, this is going to be n
   space: O(1), you just need to keep sum and curMin;
  */
+
+export function sumSubarrayMins(nums: Array<number>) {
+  return nums.reduce((sum, num, startIndex) => {
+    let curMin = Infinity;
+    for (let curIndex = startIndex; curIndex < nums.length; curIndex++) {
+      curMin = Math.min(curMin, nums[curIndex]);
+      sum += curMin;
+    }
+    return sum;
+  }, 0);
+}
