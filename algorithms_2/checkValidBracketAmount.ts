@@ -17,19 +17,13 @@ import { count } from "../algorithms_1/allUniqueSteps/main";
 
 export function getBracketAmount(str) {
   const brackStack = [];
-  const openBrackets = {
-    '(': '(',
-    '[': '['
-  };
-  const closingBrackets = {
-    ')': ')',
-    ']': ']'
-  };
+  const openBrackets = { '(': '(', '[': '[' };
+  const closingBrackets = { ')': '(', ']': '[' };
   let bracketCount = 0;
   for (let i = 0; i < str.length; i++) {
     const curChar = str[i];
-    const isOpening = curChar === openBrackets[curChar];
-    const isClosing = curChar === closingBrackets[curChar];
+    const isOpening = !!openBrackets[curChar];
+    const isClosing = !!closingBrackets[curChar];
     if (isOpening) {
       brackStack.push(curChar);
       if (brackStack.length > str.length / 2) {
@@ -68,5 +62,9 @@ describe('count valid bracket', () => {
   it('004', () => {
     const str = '(((((((((((';
     expect(getBracketAmount(str)).to.eql(-1);
+  });
+  it('005', () => {
+    const str = ''
+    expect(getBracketAmount(str)).to.eql(0);
   });
 });
