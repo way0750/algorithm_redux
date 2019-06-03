@@ -65,3 +65,87 @@
 
   space: worst case it is the same as the input string
 */
+
+const GLOBAL_MIN = -2147483648;
+const GLOBAL_MAX = 2147483648;
+
+export function strToInt(str) {
+  let parsingInProgress = false;
+  let curNumStr = '';
+  for (let i = 0; i <= str.length; i++) {
+    const curChar = str[i];
+    if (parsingInProgress) {
+      // stop here dur find a invalid char after the parsing started
+      if (!/[\d]/.test(curChar)) {
+        // there might a chance that str is just simply '-'
+        return Number(curNumStr) || 0;
+      } else if (curChar === '-') {
+        // parsing already started below, which means the first valid char
+        // has already been saved, which means this is the second char in the
+        // numStr, there can't be any - after first char in the numStr!
+        return 0;
+      } else {
+        curNumStr += curChar;
+      }
+
+      // check if the num is within range
+      const curNumVal = Number(curNumStr);
+      if (curNumVal > GLOBAL_MAX || curNumVal < GLOBAL_MIN) {
+        return curNumVal > GLOBAL_MAX ? GLOBAL_MAX : GLOBAL_MIN;
+      }
+    } else {
+      // check char see if white space or -/0-9 or others
+      // if others, return 0
+      if (!/[\s\d-]/.test(curChar)) {
+        return 0;
+      } else if (/[\d-]/.test(curChar)) {
+        // legit char, add it to the curNumStr and
+        // switch parsingInProgress to true
+        // also, this is the only place where a - is counted as a 
+        // valid char
+        curNumStr += curChar;
+        parsingInProgress = true;
+      }
+    } 
+  }
+
+  return 0;
+}
+
+describe('String To Integer', () => {
+  it('Should return 0 for empty string', () => {
+    const str = '';
+    expect(strToInt(str)).to.eql(0);
+  });
+  it('Should return 0 for "-"', () => {
+    const str = '-';
+    expect(strToInt(str)).to.eql(0);
+  });
+  it('Should return 1 for "1"', () => {
+    const str = '1';
+    expect(strToInt(str)).to.eql(1);
+  });
+  it('Should handle leading spaces', () => {
+    const str = '       -1';
+    expect(strToInt(str)).to.eql(-1);
+  });
+  it('Should handle invalid leading chars', () => {
+    const str = 'a       -1';
+    expect(strToInt(str)).to.eql(0);
+  });
+  it('Should stop when invalid char found after parsing starts', () => {
+    const str = '       -12345    a';
+    expect(strToInt(str)).to.eql(-12345);
+  });
+  it('Should - by itself is 0', () => {
+    const str = '       - 12345    a';
+    expect(strToInt(str)).to.eql(0);
+  });
+  it('Should only return global min or max if out of range', () => {
+    let str = '       -99999999999999    a';
+    expect(strToInt(str)).to.eql(GLOBAL_MIN);
+
+    str = '       99999999999999    a';
+    expect(strToInt(str)).to.eql(GLOBAL_MAX);
+  });
+});
