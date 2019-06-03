@@ -9,4 +9,13 @@
   Output: 17
   Explanation: Subarrays are [3], [1], [2], [4], [3,1], [1,2], [2,4], [3,1,2], [1,2,4], [3,1,2,4]. 
   Minimums are 3, 1, 2, 4, 1, 1, 2, 1, 1, 1.  Sum is 17.
+
+  solution 1:
+  loop through each number
+  for each num, create sub array from there and on
+  keep record of current min
+
+  time and space:
+  time, this is going to be n
+  space: O(1), you just need to keep sum and curMin;
  */
