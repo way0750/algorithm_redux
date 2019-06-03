@@ -62,7 +62,7 @@ export class TicTacToe {
       this.gameOver = true;
       return lines[lineIndex][0];
     } else {
-      return null;
+      return '_';
     }
   }
 }
