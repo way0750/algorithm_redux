@@ -22,15 +22,13 @@ export function getBracketAmount(str) {
   let bracketCount = 0;
   for (let i = 0; i < str.length; i++) {
     const curChar = str[i];
-    const isOpening = !!openBrackets[curChar];
-    const isClosing = !!closingBrackets[curChar];
-    if (isOpening) {
+    if (openBrackets[curChar]) {
       brackStack.push(curChar);
       if (brackStack.length > str.length / 2) {
         // gone over half of the size
         return -1
       }
-    } else if (isClosing) {
+    } else if (closingBrackets[curChar]) {
       // pop and combine and check
       const opening = brackStack.pop();
       const pair = `${opening}${curChar}`;
