@@ -30,3 +30,14 @@ export function sumSubarrayMins(nums: Array<number>) {
     return sum;
   }, 0);
 }
+
+describe('Sum of sub array mins', () => {
+  it('should return 17 for example', () => {
+    const nums = [3,1,2,4];
+    expect(sumSubarrayMins(nums)).to.eql(17);
+  });
+  it('should return 17 for example', () => {
+    const nums = [1,1,1,1];
+    expect(sumSubarrayMins(nums)).to.eql(10);
+  });
+});
