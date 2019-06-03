@@ -18,9 +18,13 @@ export function matchPattern(s, p) {
     const char = s[i];
     const pChar = p[i];
     const nextPChar = p[i+1];
+    const nextSChar = s[i+1];
     if (nextPChar === '*') {
-      return matchPattern(s.slice(i+2), p.slice(i+2))
-        || matchPattern(s, p.slice(i+2));
+      let isMatch = false;
+      if (char === pChar && char === nextSChar) {
+        isMatch = matchPattern(s.slice(i+2), p.slice(i+2));
+      }
+      return isMatch || matchPattern(s, p.slice(i+2));
     } else if (char !== pChar && pChar !== '.') {
       return false;
     }
@@ -79,5 +83,10 @@ describe('basic regexp match', () => {
     const s = 'aab';
     const p = 'c*a*b';
     expect(matchPattern(s, p)).to.be.true;
+  });
+  it('009', () => {
+    const s = 'bbabc';
+    const p = 'a*abc';
+    expect(matchPattern(s, p)).to.be.false;
   });
 });
