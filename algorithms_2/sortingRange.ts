@@ -33,6 +33,22 @@
  }
 
  describe('Sorting Range', () => {
+   it('Should work with empty array', () => {
+    const arr = [];
+    expect(smallestSortingRange(arr)).to.eql([]);
+   });
+   it('Should work with array of 1 element', () => {
+    const arr = [2];
+    expect(smallestSortingRange(arr)).to.eql([]);
+   });
+   it('Should work with array of 2 element', () => {
+    const arr = [2, 3];
+    expect(smallestSortingRange(arr)).to.eql([]);
+   });
+   it('Should work with array of 2 out of ordered element', () => {
+    const arr = [3, 2];
+    expect(smallestSortingRange(arr)).to.eql([0,1]);
+   });
    it('Should work example', () => {
     const arr = [1, 3, 2, 4];
     expect(smallestSortingRange(arr)).to.eql([1,2]);
