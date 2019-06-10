@@ -80,3 +80,36 @@ export function eventPlanner(slotsA, slotsB, dur) {
 
   return [];
 }
+
+describe('Event Planner', () => {
+  it('Should return 60, 68', () => {
+    const slotsA = [[10, 50], [60, 120], [140, 210]]
+    const slotsB = [[0, 15], [60, 70]]
+    const dur = 8
+    expect(eventPlanner(slotsA, slotsB, dur)).to.eql([60,68]);
+  });
+  it('Should return an empty array', () => {
+    const slotsA = [[10, 50], [60, 120], [140, 210]]
+    const slotsB = [[0, 15], [60, 70]]
+    const dur = 12
+    expect(eventPlanner(slotsA, slotsB, dur)).to.eql([]);
+  });
+  it('Should return an empty array because one of the slots is empty', () => {
+    const slotsA = [[10, 50], [60, 120], [140, 210]]
+    const slotsB = []
+    const dur = 12
+    expect(eventPlanner(slotsA, slotsB, dur)).to.eql([]);
+  });
+  it('should return 5,7', () => {
+    const slotsA = [[1,10]]
+    const slotsB = [[2,3],[5,7]]
+    const dur = 2
+    expect(eventPlanner(slotsA, slotsB, dur)).to.eql([5,7]);
+  });
+  it('should return 5,7', () => {
+    const slotsA = [[0,5],[50,70],[120,125]];
+    const slotsB = [[0,50]];
+    const dur = 8
+    expect(eventPlanner(slotsA, slotsB, dur)).to.eql([]);
+  });
+});
