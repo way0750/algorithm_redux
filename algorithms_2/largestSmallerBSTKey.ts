@@ -70,8 +70,7 @@ function BinarySearchTree() {
   this.root = null;
 }
 
-// the function works on a tree (we traverse it)
-// param you called tree, is in fact a node
+// still working on this:
 BinarySearchTree.prototype.findLargestSmallerKey = function(num, node = this.root) {
   if (!node) {
     return -1
