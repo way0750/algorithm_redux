@@ -48,4 +48,35 @@
       if B, then do from B
   
   default return []
+
+  time and space:
+  time: n + m
+  space: constant
  */
+
+export function eventPlanner(slotsA, slotsB, dur) {
+  let slotsAIndex = 0;
+  let slotsBIndex = 0;
+  while(slotsAIndex < slotsA.length && slotsBIndex < slotsB.length) {
+    // check if there is overlapping range:
+    const rangeA = slotsA[slotsAIndex];
+    const rangeB = slotsB[slotsBIndex];
+    if (rangeA[0] < rangeB[1] || rangeA[1] > rangeB[0]) {
+      const newStart = Math.max(rangeA[0], rangeB[0]);
+      const newEnd = Math.min(rangeA[1], rangeB[1]);
+      if ((newEnd - newStart) >= dur) {
+        return [newStart, newStart+dur];
+      }
+    }
+
+    // if we ever get here, that means we need a new range for A/B
+    // check and see whose ending time is earlier
+    if (rangeA[1] < rangeB[1]) {
+      slotsAIndex++;
+    } else {
+      slotsBIndex++
+    }
+  }
+
+  return [];
+}
