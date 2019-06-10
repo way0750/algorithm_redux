@@ -28,3 +28,27 @@
  * time, loop through the input array twice, so 2N, which is N
  * space: N
  */
+
+export function makeJumbledArray(order) {
+  let numberFromBack = order.length - 1;
+  let numberFromFront = 0;
+  let returnArr = order.reduceRight((mappedArray, sign) => {
+    if (sign === '+' || sign === 'NONE') {
+      mappedArray.unshift(numberFromBack--);
+    } else {
+      mappedArray.unshift(sign);
+    }
+    return mappedArray;
+  }, []);
+
+  returnArr = returnArr.reduceRight((mappedArray, sign) => {
+    if (sign === '-') {
+      mappedArray.unshift(numberFromFront++);
+    } else {
+      mappedArray.unshift(sign);
+    }
+    return mappedArray;
+  }, returnArr);
+
+  return returnArr;
+}
