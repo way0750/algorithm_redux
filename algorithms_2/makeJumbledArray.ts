@@ -4,4 +4,27 @@
  * number is larger or smaller than the last. Given this information,
  * reconstruct an array that is consistent with it. For example,
  * given [None, +, +, -, +], you could return [1, 2, 3, 0, 4].
+ * 
+ * solution 1:
+ * you will have bunch of +, -, and 1 NONE in the array
+ * the thing about + signs is that, you can fill them up with just number
+ * incrementing by 1: 4,5,6,7,8,9
+ * for -: you can just fill them with: 9,8,7,6,5,4,3
+ *   and this solves the problem of multiple - signs: + - - - - - 
+ * 
+ * set numberFromBack to input array length -1 
+ * set numberFromFront to 0
+ * map the input array from right to left:
+ *   for each element, if it is + or NONE, replace it with numberFromBack
+ *   then decrement numberFromBack
+ * 
+ * map the input array from right to left again, but for filling 0s in
+ *   for each element, if it is -, replace it with numberFromFront
+ *   then increment numberFromFront
+ * 
+ * return the the mapped version of the input array
+ * 
+ * time and space:
+ * time, loop through the input array twice, so 2N, which is N
+ * space: N
  */
