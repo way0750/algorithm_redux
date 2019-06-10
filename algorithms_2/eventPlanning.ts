@@ -39,5 +39,13 @@
 
 
   solution 1:
+  get the first range from A and B, compare see if they even overlap
+  if yes get new range and see if it is large enough for the dur
+    if yes return newStart, newStart + dur
+  if they don't overlap, then check A and B and see who has the earliest
+    ending time
+    if A, then get the next time range from A
+      if B, then do from B
   
+  default return []
  */
