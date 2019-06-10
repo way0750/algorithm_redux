@@ -48,7 +48,18 @@ export function makeJumbledArray(order) {
       mappedArray.unshift(sign);
     }
     return mappedArray;
-  }, returnArr);
+  }, []);
 
   return returnArr;
 }
+
+describe('Make Jumbled Array', () => {
+  it('Should work with example', () => {
+    const order = ['NONE', '+', '+', '-', '+'];
+    expect(makeJumbledArray(order)).to.eql([1,2,3,0,4]);
+  });
+  it('Should return correctly for multiple - signs', () => {
+    const order = ['NONE', '+', '+', '-', '-', '-', '+'];
+    expect(makeJumbledArray(order)).to.eql([3,4,5,2,1,0,6]);
+  });
+});
