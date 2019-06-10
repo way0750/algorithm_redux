@@ -36,16 +36,7 @@ export function makeJumbledArray(order) {
     if (sign === '+' || sign === 'NONE') {
       mappedArray.unshift(numberFromBack--);
     } else {
-      mappedArray.unshift(sign);
-    }
-    return mappedArray;
-  }, []);
-
-  returnArr = returnArr.reduceRight((mappedArray, sign) => {
-    if (sign === '-') {
       mappedArray.unshift(numberFromFront++);
-    } else {
-      mappedArray.unshift(sign);
     }
     return mappedArray;
   }, []);
@@ -54,6 +45,10 @@ export function makeJumbledArray(order) {
 }
 
 describe('Make Jumbled Array', () => {
+  it('Should return empty array for empty input array', () => {
+    const order = [];
+    expect(makeJumbledArray(order)).to.eql([]);
+  });
   it('Should work with example', () => {
     const order = ['NONE', '+', '+', '-', '+'];
     expect(makeJumbledArray(order)).to.eql([1,2,3,0,4]);
