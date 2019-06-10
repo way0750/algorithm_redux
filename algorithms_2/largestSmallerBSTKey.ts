@@ -70,17 +70,16 @@ function BinarySearchTree() {
   this.root = null;
 }
 
-// still working on this:
 BinarySearchTree.prototype.findLargestSmallerKey = function(num, node = this.root) {
   if (!node) {
-    return -1
-  } else if (num <= node.key && !node.left) {
     return -1;
-  } else if (num > node.key && !node.right) {
-    return node.key
+  }
+
+  if (num <= node.key) {
+    return this.findLargestSmallerKey(num, node.left);
   } else {
-    var nextNode = num <= node.key ? node.left : node.right;
-    return this.findLargestSmallerKey(num, nextNode);
+    const rightSideReturn = this.findLargestSmallerKey(num, node.right);
+    return Math.max(node.key, rightSideReturn);
   }
 }
 
