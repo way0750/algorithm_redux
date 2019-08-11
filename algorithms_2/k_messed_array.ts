@@ -21,6 +21,12 @@
  * 
  * then return the holding array
  * 
+ * time and space
+ * time: you have to go through each element so that's n
+ * each time you loop, you do k amount of loop to find the smallest num
+ * so total it's nk
+ * 
+ * space: same as n
  */
 
 function sortKMessedArray(array, k) {
