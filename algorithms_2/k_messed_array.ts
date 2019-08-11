@@ -27,6 +27,12 @@
  * so total it's nk
  * 
  * space: same as n
+ * 
+ * 
+ * solution 2: optimizing the searching of the smallest num
+ * with in the subArray size of k
+ * you can just use a minHeap to do that
+ * and time would be reduced to nLogk
  */
 
 function sortKMessedArray(array, k) {
