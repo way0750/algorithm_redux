@@ -8,4 +8,16 @@
  * Example:
  * input:  arr = [1, 4, 5, 2, 3, 7, 8, 6, 10, 9], k = 2
  * output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+ * 
+ * solution 1:
+ * each element is at most k indexes away from current index
+ * another way to look at it would be: if current element is at the wrong index
+ * the element that should be at current index would be at most k indexes away
+ * staring from left to right of the array, k indexes can only be k indexes on
+ * right side of the current element
+ * 
+ * so loop from left to right, get k + 1 element + 1 means including current one
+ * and then just compare and get the smallest value and push it in an holding array
+ * 
+ * then return the holding array
  */
