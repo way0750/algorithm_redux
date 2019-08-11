@@ -20,4 +20,33 @@
  * and then just compare and get the smallest value and push it in an holding array
  * 
  * then return the holding array
+ * 
  */
+
+function sortKMessedArray(array, k) {
+  array = array.slice();
+  const sortedArray = [];
+  // don't want to mutate the input
+  let loopCount = array.length;
+  const kSubArray = array.splice(0, k+1);
+  while (loopCount--) {
+    const curSmallestVal = Math.min(...kSubArray);
+    sortedArray.push(curSmallestVal);
+
+    const removeIndex = kSubArray.indexOf(curSmallestVal);
+    kSubArray.splice(removeIndex, 1);
+    if (array.length) {
+      kSubArray.push(array.shift());
+    }
+  }
+
+  return sortedArray;
+}
+
+describe('k messed array', () => {
+  it('should work with example above:', () => {
+    const arr = [1, 4, 5, 2, 3, 7, 8, 6, 10, 9];
+    const k =2;
+    expect(sortKMessedArray(arr, k)).to.eql([1,2,3,4,5,6,7,8,9,10]);
+  });
+});
