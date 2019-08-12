@@ -6,10 +6,10 @@
 function binarySearch(arr, target) {
   let start = 0;
   let end = arr.length - 1;
-  while(end>start) {
+  while(end>=start) {
     let mid = start + Math.floor((end-start)/2);
     const midNum = arr[mid];
-    if (midNum === target ) {
+    if (midNum === target) {
       return true;
     } else if (midNum < target) {
       // move the search range to the right
@@ -38,5 +38,15 @@ describe('Binary Search', () => {
     const arr = [1,2,3,4,5,6,7,8];
     const target  = 14;
     expect(binarySearch(arr, target)).to.false;
+  });
+  it('should return correctly for 11 target: 11', () => {
+    const arr = [11];
+    const target  = 11;
+    expect(binarySearch(arr, target)).to.true;
+  });
+  it('should return correctly for 11 target: 11', () => {
+    const arr = [11];
+    const target  = 11;
+    expect(binarySearch(arr, target)).to.true;
   });
 });
