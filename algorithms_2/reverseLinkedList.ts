@@ -1,6 +1,19 @@
 /**
  * just reversed a linked list without using recursion
  */
+function reverse() {
+  let reveredList = this.head;
+  let newHead = this.head.next;
+  reveredList.next = null;
+  while(newHead) {
+    const temp = newHead.next;
+    newHead.next = reveredList;
+    reveredList = newHead;
+    newHead = temp;
+  }
+
+  this.head = reveredList;
+}
 
 function reverseLinkedList(linkedList) {
   let reveredList = linkedList;
