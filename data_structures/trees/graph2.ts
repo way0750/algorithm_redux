@@ -21,7 +21,6 @@ export class Graph {
       // check if it === target 
       // if yes then return
       const nodeId = nodeIds.shift();
-      console.log(nodeId);
       if (nodeId === target) {
         return true;
       }
@@ -55,6 +54,52 @@ export class Graph {
       }
     }
 
+    return false;
+  }
+
+  biDirectionalSearch(a, b) {
+    /**
+     * this is the same as the basic BFS, but here we will have two
+     * points, so instead of initializing one queue
+     * you should have 2
+     * and when comes to marking the visited value, add the starting id to tell
+     * who visited the node
+     * and when checking if a node has been visited, make sure to check if it
+     * has been visited by the same node id
+     */
+
+     if(!this.nodes[a] || !this.nodes[b]) {
+       return false;
+     } else if (a===b) {
+       return true;
+     }
+     const ANodes = [a];
+     const BNodes = [b];
+     while(ANodes.length && BNodes.length) {
+       const AResult = this.searchOneBreadth(ANodes, 'a', 'b');
+       const BResult = this.searchOneBreadth(BNodes, 'b', 'a');
+       if (AResult || BResult) {
+         return true;
+       }
+     }
+
+     return false;
+  }
+
+  private searchOneBreadth(queue, source, target) {
+    const nodeId = queue.shift();
+    if (this.nodes[nodeId].visited === target) {
+      return true;
+    }
+
+    this.nodes[nodeId].visited = source;
+    const edges = this.nodes[nodeId].edges;
+    edges.forEach((nodeId) => {
+      if (this.nodes[nodeId].visited !== source) {
+        this.nodes[nodeId].visited = source;
+        queue.push(nodeId);
+      }
+    });
     return false;
   }
 }
@@ -105,5 +150,39 @@ describe('Testing graph 2', () => {
     Object.assign((graph as any).nodes, nodes);
     expect(graph.breadthFirstSearchWithFragmentedGraph(10)).to.be.true;
     expect(graph.breadthFirstSearchWithFragmentedGraph(11)).to.be.false;
+  });
+  it('004, should return true', () => {
+    const graph = new Graph();
+    const nodes = {
+      1: { edges: [2,3,4]},
+      2: { edges: [3,4,5]},
+      3: { edges: [4,6]},
+      4: { edges: [5,1,2]},
+      5: { edges: [2,3]},
+      6: { edges: [5,4,7]},
+      7: { edges: [6,8]},
+      8: { edges: [7,9]},
+      9: { edges: [8,10]},
+      10: { edges: [9]}
+    };
+    Object.assign((graph as any).nodes, nodes);
+    expect(graph.biDirectionalSearch(1,10)).to.be.true;
+  });
+  it('005, should return false because graph is fragmented', () => {
+    const graph = new Graph();
+    const nodes = {
+      1: { edges: [2,3,4]},
+      2: { edges: [3,4,5]},
+      3: { edges: [4,6]},
+      4: { edges: [5,1,2]},
+      5: { edges: [2,3]},
+      6: { edges: [5,4,7]},
+      7: { edges: [6,8]},
+      8: { edges: []},
+      9: { edges: [8,10]},
+      10: { edges: [9]}
+    };
+    Object.assign((graph as any).nodes, nodes);
+    expect(graph.biDirectionalSearch(1,10)).to.be.false;
   });
 });
