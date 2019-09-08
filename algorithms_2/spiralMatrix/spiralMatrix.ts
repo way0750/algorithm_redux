@@ -52,16 +52,51 @@ export function spiralMatrix(matrix) {
     rightBound--;
 
     // loop bottom layer right to left:
+    // make sure that at this point, topBound has yet crossed bottomBound
     for (let col = rightBound; col >= leftBound && topBound <= bottomBound; col--) {
       array.push(matrix[bottomBound][col]);
     }
     bottomBound--;
 
     // loop left layer bottom to top:
+    // make sure that at this point,  rightBound has yet crossed leftBound
     for (let row = bottomBound; row >= topBound && leftBound <= rightBound; row--) {
       array.push(matrix[row][leftBound]);
     }
     leftBound++
+  }
+
+  return array;
+}
+
+function spiralMatrixSimpler(matrix) {
+  // make a copy first because we are going to mutate the matrix
+  matrix = matrix.map((row) => row.slice());
+  const array = [];
+  while(matrix.length) {
+    // get the top row:
+    const topRow = matrix.shift();
+    array.push(...topRow);
+
+    // get the right side element;
+    matrix.forEach((row) => {
+      array.push(row.pop())
+      if (!row.length) {
+        matrix.shift();
+      }
+    });
+
+    // get the bottom row:
+    const bottomRow = (matrix.pop() || []).reverse();
+    array.push(...bottomRow);
+
+    // get the left side elements
+    for (let row = matrix.length - 1; row < -1; row--) {
+      array.push(matrix[row].shift());
+      if (!matrix[row].length) {
+        matrix.pop();
+      }
+    }
   }
 
   return array;
