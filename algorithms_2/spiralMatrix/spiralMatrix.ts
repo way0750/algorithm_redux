@@ -30,3 +30,42 @@ time and space:
 time: going through each cell, meaning n*m
 space: return the same size array, so n*m
  */
+
+export function spiralMatrix(matrix) {
+  const array = [];
+  if (!matrix.length) {
+    return array;
+  };
+  let topBound = 0;
+  let rightBound = matrix[0].length-1;
+  let bottomBound = matrix.length-1;
+  let leftBound = 0;
+
+  while(topBound <= bottomBound && leftBound <= rightBound) {
+    // loop the top layer left to right;
+    for (let col = leftBound; col <= rightBound; col++) {
+      array.push(matrix[topBound][col]);
+    }
+    topBound++;
+
+    // loop right layer top to bottom:
+    for (let row = topBound; row <= bottomBound; row++) {
+      array.push(matrix[row][rightBound]);
+    }
+    rightBound--;
+
+    // loop bottom layer right to left:
+    for (let col = rightBound; col >= leftBound && topBound <= bottomBound; col--) {
+      array.push(matrix[bottomBound][col]);
+    }
+    bottomBound--;
+
+    // loop left layer bottom to top:
+    for (let row = bottomBound; row >= topBound && leftBound <= rightBound; row--) {
+      array.push(matrix[row][leftBound]);
+    }
+    leftBound++
+  }
+
+  return array;
+}
