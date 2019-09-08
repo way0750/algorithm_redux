@@ -12,4 +12,21 @@
 
 output: [1, 2, 3, 4, 5, 10, 15, 20, 19, 18, 17, 16, 11, 6, 7, 8, 9, 14, 13, 12]
 
+set top, right, bottom, and left bound
+just while loop as long as top <= bottom && left <= right
+each loop
+top left to right
+for loop from leftBound to < rightBound
+top right to bottom
+for loop from topBound to < bottomBound
+bottom right to left
+for loop from rightBound to < leftBound
+bottom left to top
+for loop from bottomBound to < topBound
+
+then top++, bottom--, left++, right--
+
+time and space:
+time: going through each cell, meaning n*m
+space: return the same size array, so n*m
  */
