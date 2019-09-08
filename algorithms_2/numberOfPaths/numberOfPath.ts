@@ -24,5 +24,85 @@ The car must abide by the following two rules: it cannot cross the diagonal bord
  each loop update the cache array value with value from immediate right
  plus self
 
- when done, return that cacheArray[0];
- */
+ when done, return that cacheArray[0]; 
+
+
+ or use recursion
+ time n**2
+ space n which is the same as the previous solution anyway
+
+  go from bottom left to top right
+  can only move horizontal or vertical
+  horizontal axis: i
+  vertical axis: j
+  i>=j
+  meaning every single has to be be 
+  you can't go to far up then right side
+             
+  final pos: i: 4, j: 4
+
+  n = 4
+  0,0 -> 3,3
+  
+  3,3
+  (2,3) (3,2)
+  
+  3,2
+  2,2 3,1
+  
+  2,2
+  
+  3,1
+  
+  
+  keep on asking until you hit starting point of 0,0
+  
+  use recursion to solve this:
+  base case:
+    two situation:
+      pos: 0,0 meaning we are all the way back at the beginning: pos
+        so that mena we found at least one valid path
+        so return 1
+      pos: -1,0, 0,-1
+        we are out of bound, return 0 for finding an in valid path
+      pos i < j return 0
+  what to always returns
+    always return a number
+  what to do with returns
+    since we will be creating 2 new pos each time, and we will recursively call on those
+    new positions, we are trying to find all possible valid paths
+    we will be summing all the return from those 2 new pos
+  how to make problem smaller:
+    current pos eith i-1, j; or i, j-1
+    becareful here: only recursively call the one that's i = j
+*/
+
+function getValidPathsFromPos(i, j){
+  if (i < j || i < 0 || j < 0) {
+    return 0;
+  } else if (i==0 && j==0){
+    return 1;
+  }
+    
+  // recursive search here:
+  return getValidPathsFromPos(i - 1, j) + getValidPathsFromPos(i, j - 1);
+}
+ 
+export function numOfPathsToDest(n) {
+  return getValidPathsFromPos(n-1, n-1);
+}
+
+describe('numberOfPaths', () => {
+  it('should return 0 for n = 0', () => {
+    expect(numOfPathsToDest(0)).to.eql(0);
+  });
+  it('should return 1 for n = 1', () => {
+    expect(numOfPathsToDest(1)).to.eql(1);
+  });
+  it('should return 5 for n = 4', () => {
+    expect(numOfPathsToDest(4)).to.eql(5);
+  });
+  it('should return 14 for n = 5', () => {
+    expect(numOfPathsToDest(5)).to.eql(14);
+  });
+});
