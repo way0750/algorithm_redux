@@ -16,5 +16,13 @@ The car must abide by the following two rules: it cannot cross the diagonal bord
  input:  n = 4
  output: 5
 
- 
+ see the image for more ideas
+
+ this is basically the same as other dynamic programming challenges
+ get one 1-d cache array and set it to all 0s, but the last one 1
+ loop through each sub array from top of matrix to bottom
+ each loop update the cache array value with value from immediate right
+ plus self
+
+ when done, return that cacheArray[0];
  */
