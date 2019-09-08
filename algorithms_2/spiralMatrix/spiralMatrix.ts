@@ -33,11 +33,8 @@ space: return the same size array, so n*m
 
 export function spiralMatrix(matrix) {
   const array = [];
-  if (!matrix.length) {
-    return array;
-  };
   let topBound = 0;
-  let rightBound = matrix[0].length-1;
+  let rightBound = (matrix[0] || []).length-1;
   let bottomBound = matrix.length-1;
   let leftBound = 0;
 
@@ -69,3 +66,50 @@ export function spiralMatrix(matrix) {
 
   return array;
 }
+
+describe('matrix spiral', () => {
+  it('should work with empty array', () => {
+    const matrix = [];
+    expect(spiralMatrix(matrix)).to.eql([]);
+  });
+
+  it('should work with total 1 element', () => {
+    const matrix = [[1]];
+    expect(spiralMatrix(matrix)).to.eql([1]);
+  });
+
+  it('should work with total 1 row', () => {
+    const matrix = [[1,2,3,4,5]];
+    expect(spiralMatrix(matrix)).to.eql([1,2,3,4,5]);
+  });
+
+  it('should work with total 1 colum', () => {
+    const matrix = [
+      [1],
+      [2],
+      [3],
+      [4],
+      [5]
+    ];
+    expect(spiralMatrix(matrix)).to.eql([1,2,3,4,5]);
+  });
+
+  it('should work with odd amount of rows', () => {
+    const matrix = [
+      [1,2,3],
+      [4,5,6],
+      [7,8,9]
+    ];
+    expect(spiralMatrix(matrix)).to.eql([1,2,3,6,9,8,7,4,5]);
+  });
+
+  it('should work with even amount of rows', () => {
+    const matrix = [
+      [1,2,3,4],
+      [5,6,7,8],
+      [9,10,11,12],
+      [13,14,15,16]
+    ];
+    expect(spiralMatrix(matrix)).to.eql([1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10]);
+  });
+});
