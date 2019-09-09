@@ -1,4 +1,4 @@
-import { GraphNode, Graph } from "./graph";
+import { GraphNode, Graph } from "./graph/graph";
 
 /**
  * Given a graph, and two nodes, find if there is a route between them
