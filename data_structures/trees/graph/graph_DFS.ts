@@ -16,15 +16,35 @@
  */
 
 
-export function DFS(graph, node, callBack) {
-  if (graph[node].visited) {
+// export function DFS(graph, node, callBack) {
+//   if (graph[node].visited) {
+//     return;
+//   }
+
+//   graph[node].visited = true;
+//   callBack(node);
+//   graph[node].edges.forEach((v) => {
+//     DFS(graph, v, callBack);
+//   });
+// }
+
+/**
+ * depth first... basically always check children before siblings
+ * // visit one node, mark it as visited to prevent revisit
+ * base case: no node left at the depth, or node has been visited
+ */
+
+export function DFS(graph, startingNode: number, callBack) {
+  const node = graph[startingNode];
+  if (node.visited) {
     return;
   }
+  node.visited = true;
+  callBack(startingNode);
 
-  graph[node].visited = true;
-  callBack(node);
-  graph[node].edges.forEach((v) => {
-    DFS(graph, v, callBack);
+  // go through other nodes
+  node.edges.forEach((linkNode: number) => {
+    DFS(graph, linkNode, callBack);
   });
 }
 
