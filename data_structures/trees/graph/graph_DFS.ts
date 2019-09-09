@@ -31,26 +31,30 @@
 /**
  * depth first... basically always check children before siblings
  * // visit one node, mark it as visited to prevent revisit
- * base case: no node left at the depth, or node has been visited
+ * 
+ * always marked the node to be visited right at the beginning of recursive call
+ *   but because you are not checking visited at the beginning anymore, that means
+ *   you should check for !visited before recursive call
  */
 
 export function DFS(graph, startingNode: number, callBack) {
   const node = graph[startingNode];
-  if (node.visited) {
-    return;
-  }
   node.visited = true;
   callBack(startingNode);
 
   // go through other nodes
   node.edges.forEach((linkNode: number) => {
-    DFS(graph, linkNode, callBack);
+    if (!graph[linkNode].visited) {
+      DFS(graph, linkNode, callBack);
+    }
   });
 }
 
 function DFSForDisconnectedGraph(graph, callBack) {
   for( let node in graph ) {
-    DFS(graph, +node, callBack);
+    if (!graph[node].visited) {
+      DFS(graph, +node, callBack);
+    }
   }
 }
 
