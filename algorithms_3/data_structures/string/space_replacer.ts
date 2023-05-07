@@ -17,3 +17,15 @@ export function spaceReplace(str) {
         return char === ' ' ? '%20' : char;
     }).join('');
 }
+
+describe('space replace', () => {
+    it('should return the same string if no space', () => {
+        const str = "abcedefaljfd";
+        expect(spaceReplace(str)).to.equal(str);
+    });
+    it('should return a string with space replaced', () => {
+        const str = "ab cedef  aljfd";
+        const str2 = "ab%20cedef%20%20aljfd";
+        expect(spaceReplace(str)).to.equal(str2);
+    });
+});
