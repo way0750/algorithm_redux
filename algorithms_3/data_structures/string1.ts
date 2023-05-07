@@ -14,6 +14,26 @@
  * 
  */
 
-export function checkDuplicate(str) {
-    
+export function checkUnique(str) {
+    const cache = {};
+    for (let i = 0; i < str.length; i++) {
+        const char = str[i];
+        if (cache[char]) {
+            return false;
+        } else {
+            cache[char] = true;
+        }
+    }
+    return true;
 }
+
+describe('test', () => {
+    it('should return true', () => {
+        const str = 'abcdefgh';
+        expect(checkUnique(str)).to.be.equal(true);
+    });
+    it('should return false', () => {
+        const str = 'aabcdefgh';
+        expect(checkUnique(str)).to.be.equal(false);
+    });
+});
