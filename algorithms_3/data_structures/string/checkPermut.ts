@@ -38,3 +38,21 @@ export function checkPermu(str1, str2) {
 
     return true;
 }
+
+describe('test check permu', () => {
+    it('should return false if two strings are not of the same length', () => {
+        const str1 = 'abcde';
+        const str2 = 'aaabcde';
+        expect(checkPermu(str1, str2)).to.equal(false);
+    })
+    it('should return true if two strings are permu of each other', () => {
+        const str1 = 'abcde';
+        const str2 = 'cdbea';
+        expect(checkPermu(str1, str2)).to.equal(true);
+    })
+    it('should return false if two strings are permu of each other', () => {
+        const str1 = 'mbcde';
+        const str2 = 'cdbea';
+        expect(checkPermu(str1, str2)).to.equal(false);
+    })
+});
