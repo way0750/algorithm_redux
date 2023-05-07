@@ -16,3 +16,25 @@
  * or there are unique chars
  * so no need to keep on going checking anything
  */
+
+export function checkPermu(str1, str2) {
+    if (str1.length !== str2.length) {
+        return false;
+    }
+    const freq = {};
+    for (let i = 0; i < str1.length; i++) {
+        const char = str1[i];
+        freq[char] = freq[char] || 0;
+        freq[char]++;
+    }
+    for (let j = 0; j < str2.length; j++) {
+        const char = str2[j];
+        if (!freq[char] || freq[char] < 1) {
+            return false;
+        } else {
+            freq[char]--;
+        }
+    }
+
+    return true;
+}
