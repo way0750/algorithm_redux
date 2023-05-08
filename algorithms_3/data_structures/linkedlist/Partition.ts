@@ -13,5 +13,20 @@
  */
 
 export function partition (list, partV) {
-    
+    let swabNode = list;
+    while(swabNode.value < partV) {
+        swabNode = swabNode.next;
+    }
+    let curNode = swabNode;
+    while (curNode) {
+        if (curNode.value < partV) {
+            const tempSwabVal = swabNode.value;
+            swabNode.value = curNode.value;
+            curNode.value = tempSwabVal;
+            swabNode = swabNode.next;
+        }
+        curNode = curNode.next;
+    }
+
+    return list;
 }
