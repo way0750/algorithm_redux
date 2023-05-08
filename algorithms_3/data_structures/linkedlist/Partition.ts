@@ -30,3 +30,35 @@ export function partition (list, partV) {
 
     return list;
 }
+
+describe('partition list', () => {
+    it('should swab', () => {
+        const n1 = { value: 9, next: null };
+        const n2 = { value: 8, next: null };
+        const n3 = { value: 7, next: null };
+        const n4 = { value: 3, next: null };
+        const n5 = { value: 2, next: null };
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        n4.next = n5; 
+        partition(n1, 5);
+        expect(n1.value).to.equal(3);
+        expect(n2.value).to.equal(2);
+    });
+    it('should swab', () => {
+        const n1 = { value: 1, next: null };
+        const n2 = { value: 8, next: null };
+        const n3 = { value: 7, next: null };
+        const n4 = { value: 3, next: null };
+        const n5 = { value: 2, next: null };
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        n4.next = n5; 
+        partition(n1, 5);
+        expect(n1.value).to.equal(1);
+        expect(n2.value).to.equal(3);
+        expect(n3.value).to.equal(2);
+    });
+});
