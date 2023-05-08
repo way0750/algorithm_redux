@@ -6,17 +6,35 @@
  * time: O(n), space: O(n);
  */
 
-export function removeDup (linkedList, cache = {}) {
+export function removeDupFirst (linkedList, cache = {}) {
     if (!linkedList) {
         return linkedList;
     }
     if (cache[linkedList.value]) {
-        return removeDup(linkedList.next, cache);
+        return removeDupFirst(linkedList.next, cache);
     } else {
         cache[linkedList.value] = true;
-        linkedList.next = removeDup(linkedList.next, cache);
+        linkedList.next = removeDupFirst(linkedList.next, cache);
         return linkedList;
     }
+}
+
+function removeDup (linkedList) {
+    const cache = {};
+    let curNode = linkedList;
+    let preNode = null;
+    while (curNode) {
+        if (cache[curNode.value]) {
+            preNode.next = curNode.next;
+            curNode.next = null;
+        } else {
+            cache[curNode.value] = true;
+            preNode = curNode;
+        }
+        curNode = curNode.next;
+    }
+
+    return linkedList;
 }
 
 describe('reove dups', () => {
