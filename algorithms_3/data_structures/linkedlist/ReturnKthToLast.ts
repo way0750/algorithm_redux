@@ -29,3 +29,15 @@ export function returnKthToLast (linkedlist, kth, cache = { length: null }, curr
     }
 }
 
+describe('return kth to last', () => {
+    it('should return 2nd to last', () => {
+        const n1 = { value: 1, next: null };
+        const n2 = { value: 2, next: null };
+        const n3 = { value: 3, next: null };
+        const n4 = { value: 4, next: null };
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        expect(returnKthToLast(n1, 2)).to.equal(n3);
+    });
+});
