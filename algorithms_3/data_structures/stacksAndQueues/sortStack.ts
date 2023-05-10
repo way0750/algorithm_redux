@@ -4,13 +4,21 @@
  * structure (such as an array). The stack supports the following operations: push, pop, peek, and
  * isEmpty.
  * 
- * have two stacks
- * values: []
- * temp: []
- * keep on pushing values to values[]
- *  also compare before puttting it in
- *  if value is larger than the top stack val
- *    then keep on popping values out and put into the temp one until reaching either the end or
- *      reaching a value that is bigger
- *      then push the new val into the values[], then push all the value from temp[] back to the values
+ * set smallVal to null;
+ * while stack.length do:
+ *  pop one value from stack, save it at smallVal
+ *  compare smallVal to tempStack, if bigger then push smallVal to tempStack
+ *      if smaller, then do another while loop, while the last value in tempStack is
+ *          larger than smallValue, pop tempStack one at the time and place into Stack
+ *          once found the last value is smaller than smallValue or end of tempStack
+ *          push smallValue into the temp stack
+ *   continue the outter while loop
+ * eventually the Stack is empty
+ *  then while loop to pop and push each value from tempStack back into the Stack
+ * 
+ * time: O(n^2) space: O(n)
  */
+
+export function sortStack(stack) {
+
+}
