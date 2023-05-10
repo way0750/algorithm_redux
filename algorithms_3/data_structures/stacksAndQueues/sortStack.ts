@@ -37,3 +37,11 @@ export function sortStack(stack) {
 
     return stack;
 }
+
+describe('sort stack', () => {
+    it('should sort an already sorted array in acending order', () => {
+        const stack = [1,2,3,4,5,6,7,8,9];
+        const expected = [1,2,3,4,5,6,7,8,9].reverse();
+        expect(sortStack(stack).toString()).to.equal(expected.join());
+    });
+});
