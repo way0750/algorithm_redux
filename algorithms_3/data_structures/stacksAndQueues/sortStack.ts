@@ -20,5 +20,20 @@
  */
 
 export function sortStack(stack) {
+    const tempStack = []
+    while(stack.length) {
+        let curVal = stack.pop();
+        let lastTempVal = tempStack.length ? tempStack[tempStack.length - 1] : -Infinity;
+        while (curVal < lastTempVal) {
+            stack.push(tempStack.pop());
+            lastTempVal = tempStack.length ? tempStack[tempStack.length - 1] : -Infinity;
+        }
+        tempStack.push(curVal);
+    }
 
+    while(tempStack.length) {
+        stack.push(tempStack.pop());
+    }
+
+    return stack;
 }
