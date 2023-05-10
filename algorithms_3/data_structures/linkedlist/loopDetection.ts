@@ -40,6 +40,19 @@ describe('is circular', () => {
         n5.next = n1;
         expect(isCircular(n1)).to.equal(true);
     });
+    it('should return true', () => {
+        const n1 = { next: null };
+        const n2 = { next: null };
+        const n3 = { next: null };
+        const n4 = { next: null };
+        const n5 = { next: null };
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        n4.next = n5;
+        n5.next = n3;
+        expect(isCircular(n1)).to.equal(true);
+    });
     it('should return false', () => {
         const n1 = { next: null };
         const n2 = { next: null };
