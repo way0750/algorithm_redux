@@ -66,7 +66,7 @@ function getPath (graph, node): any | number[] {
     });
     graph[node].isCollected = true;
     graph[node].isVisited = false;
-    return isCircular && [node, ...path];
+    return isCircular ? null : [node, ...path];
 }
 
 export function getBuildOrder(nodes, dependencies) {
@@ -88,9 +88,37 @@ export function getBuildOrder(nodes, dependencies) {
 
     const grandPath = [];
     nodes.forEach((node) => {
-        grandPath.unshift(...node.path);
+        grandPath.unshift(...graph[node].path);
     });
 
     return grandPath;
 }
 
+describe('make graph', () => {
+    it('should make graph', () => {
+        const projects = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+        const edges = [
+            ['a', 'd'],
+            ['f', 'b'],
+            ['b', 'd'],
+            ['f', 'a'],
+            ['d', 'c'],
+        ];
+        const graph = makeGraph(projects, edges);
+    });
+});
+
+describe('get order', () => {
+    it('should get order', () => {
+        const projects = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+        const edges = [
+            ['a', 'd'],
+            ['f', 'b'],
+            ['b', 'd'],
+            ['f', 'a'],
+            ['d', 'c'],
+        ];
+        const order = getBuildOrder(projects, edges);
+        debugger;
+    });
+});
