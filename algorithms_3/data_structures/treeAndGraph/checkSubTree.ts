@@ -16,6 +16,7 @@
 // it's better to do breadth first search because DFS you can end up
 // going all the way to a leaf of tree1 but there is no way you even
 // need to go that far because tree2 is tall too
+// time: O(n*m), space: O(2^(logN))
 export function isSubTree(tree1, tree2) {
     if (!tree2) return true;
     if (!tree1) return false;
