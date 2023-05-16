@@ -15,3 +15,27 @@
  * getRandomNode would just get a random index by math.random * length
  */
 
+export class TreeWithRandomNode {
+    private tree: number[];
+    constructor() {
+        this.tree = [];
+    }
+
+    insert(value) {
+        this.tree.push(value);
+    }
+
+    find(value) {
+        return this.tree.some((val) => val === value);
+    }
+
+    delete() {
+        const lastNode = this.tree[this.tree.length+1];
+        this.tree.splice(this.tree.length+1, 1);
+        return lastNode;
+    }
+    getRandomNode() {
+        const randomIndex = Math.floor(Math.random() * this.tree.length);
+        return this.tree[randomIndex];
+    }
+}
