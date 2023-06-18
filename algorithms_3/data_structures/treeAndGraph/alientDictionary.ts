@@ -82,3 +82,4 @@ describe('should work', () => {
         expect(getDict(words)).to.equal([]);
     });
 });
+
