@@ -35,3 +35,49 @@ queries[i].length == 2
 0 <= queries[i][0] <= queries[i][1] < nums.length
  */
 
+export function sumInRange(nums, queries) {
+    if (!nums.length || !queries.length) return 0;
+    const sortedQueries = queries.sort(([q1Start, q1End], [q2Start, q2End]) => {
+        if (q1Start - q2Start !== 0 ) {
+            return q1Start - q2Start;
+        } else {
+            return q1End - q2End;
+        }
+    });
+
+    let curSum = nums[0];
+    let totalSum = 0;
+    let windowStart = 0;
+    let windowEnd = 0;
+    for (let i = 0; i < sortedQueries.length; i++) {
+        const [qStart, qEnd] = sortedQueries[i];
+        // the windowStart index will always go forward or stay
+        // the windowEnd index will sometimes go forward, sometimes go backward
+        while(windowStart !== qStart) {
+            curSum -= nums[windowStart];
+            windowStart++;
+        }
+
+        while(windowEnd !== qEnd) {
+            if (qEnd < windowEnd) {
+                // if going backward, then - the value at current windowEnd index first
+                curSum -= nums[windowEnd];
+                windowEnd--;
+            } else {
+                windowEnd++;
+                curSum += nums[windowEnd];
+            }
+        }
+        totalSum += curSum;
+    }
+
+    return totalSum;
+}
+
+describe('test', () => {
+    it('should work', () => {
+        let nums = [3, 0, -2, 6, -3, 2];
+        let queries = [[0, 2], [2, 5], [0, 5]];
+        expect(sumInRange(nums, queries)).to.equal(10);
+    });
+});
