@@ -79,3 +79,43 @@ function maxSumToLeaf (tree) {
     }
     return search(tree);
 }
+
+/**
+ * set a stack, and always only add new char to the last item in the stack
+ * if running into a (
+ *  push that curret sub string into a stack
+ * if running into a latter, append it to current sub string
+ * if running into a )
+ *      reverse the current sub string
+ *      then append it to the most recent sub string in stack
+ *      
+ */
+
+function reverseInParentheses(str) {
+    const stack = [];
+    let curSubStr = '';
+    for (let i = 0; i <= str.length; i++) {
+        const char = str[i];
+        if (i === str.length) {
+            return curSubStr;
+        } else if (char === '(') {
+            stack.push(curSubStr);
+            curSubStr = '';
+        } else if (char === ')') {
+            curSubStr = curSubStr.split('').reverse().join('');
+            let lastSubStr = stack.pop() || '';
+            lastSubStr += curSubStr;
+            curSubStr = lastSubStr;
+        } else {
+            curSubStr += char;
+        }
+    }
+    return ''
+}
+
+describe('sub', () => {
+    it('sub', () => {
+        const str = "(u(noi(rst)s)an)";
+        expect(reverseInParentheses(str)).to.equal('');
+    });
+})
