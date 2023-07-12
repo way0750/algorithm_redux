@@ -108,3 +108,71 @@ describe('', () => {
         expect(isPali(str)).to.equal(false);
     })
 })
+
+function rotateMatrix(matrix) {
+    // flip matrix horizontally
+    const rowLength = matrix[0].length;
+    for (let rowIndex = 0; rowIndex < rowLength; rowIndex++) {
+        console.log(rowIndex);
+        for (let colIndex = 0; colIndex < Math.floor(rowLength/2); colIndex++) {
+            const targetFlipIndex = rowLength - colIndex - 1;
+            matrix[rowIndex][targetFlipIndex] += matrix[rowIndex][colIndex];
+            matrix[rowIndex][colIndex] = matrix[rowIndex][targetFlipIndex] - matrix[rowIndex][colIndex];
+            matrix[rowIndex][targetFlipIndex] -= matrix[rowIndex][colIndex];
+        }
+    }
+    // flip matrix upward diagonally
+    for (let rowIndex = 0; rowIndex < rowLength; rowIndex++) {
+        for (let colIndex = 0; colIndex < rowLength - 1 - rowIndex; colIndex++) {
+            const targetX = rowLength - colIndex - 1;
+            const targetY = rowLength - rowIndex - 1;
+            matrix[targetX][targetY] += matrix[rowIndex][colIndex];
+            matrix[rowIndex][colIndex] = matrix[targetX][targetY] - matrix[rowIndex][colIndex];
+            matrix[targetX][targetY] -= matrix[rowIndex][colIndex];
+        }
+    }
+    return matrix;
+}
+
+describe('', () => {
+    it('', () => {
+        const matrix = [
+            [1,2,3],
+            [4,5,6],
+            [7,8,9]
+        ];
+        expect(rotateMatrix(matrix));
+    })
+})
+
+function getFreq(chars) {
+    let curChar = chars[0];
+    let curCharCount = 0;
+    let backI = 0;
+    for (let frontI = 0; frontI <= chars.length; frontI++) {
+        if (chars[frontI] === curChar) {
+            curCharCount++;
+        } else {
+            chars[backI] = curChar;
+            backI++;
+            if (curCharCount > 1) {
+                const countNums = `${curCharCount}`.split('');
+                countNums.forEach((num) => {
+                    chars[backI] = num;
+                    backI++;
+                });
+            }
+            curChar = chars[frontI];
+            curCharCount = 1;
+        }
+    }
+
+    return chars;
+}
+
+describe('', () => {
+    it('', () => {
+        const chars = ['a', 'a', 'a', 'a', 'a','a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'b', 'b'];
+        expect(getFreq(chars)).to.equal([]);
+    });
+});
