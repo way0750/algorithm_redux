@@ -2,29 +2,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "might not work: debug TS File: see https://medium.com/@dupski/debug-typescript-in-vs-code-without-compiling-using-ts-node-9d1f4f9a94a",
-            "type": "node",
-            "request": "launch",
-            "args": [
-                "${relativeFile}"
-            ],
-            "runtimeArgs": [
-                "--nolazy",
-                "-r",
-                "ts-node/register"
-            ],
-            "sourceMaps": true,
-            "cwd": "${workspaceRoot}",
-            "protocol": "inspector",
-        },
-        {
-            "name": "might not work: debug with node",
-            "type": "node",
-            "request": "launch",
-            "program": "${file}",
-            "sourceMaps": true
-        },
-        {
             "name": "MochaJS",
             "runtimeExecutable": "${workspaceRoot}/node_modules/ts-mocha/bin/ts-mocha",
             "runtimeArgs": [
