@@ -6,10 +6,16 @@ export function findSecondLargest(array: Array<number>): number|any {
   let largestInt = null;
   let secondLargestInt = null;
   array.forEach((number) => {
-    const shouldUpdateLargestInt = largestInt === null || number >= largestInt;
-    if (shouldUpdateLargestInt) {
-      secondLargestInt = largestInt;
-      largestInt = number;
+    if (largestInt === null) {
+      largestInt = number
+    } else if (secondLargestInt === null) {
+      secondLargestInt = Math.min(largestInt, number);
+      largestInt = Math.max(largestInt, number);
+    } else if (number > largestInt) {
+      secondLargestInt = largestInt
+      largestInt = number
+    } else {
+      secondLargestInt = Math.max(secondLargestInt, number);
     }
   });
 
@@ -53,5 +59,11 @@ describe('Testing find the second largest int', () => {
     let numbers = [77, 88, 88]
     let secondLargestInt = findSecondLargest(numbers);
     expect(secondLargestInt).to.equal(88);
+  });
+
+  it('the real test', () => {
+    let numbers = [100, 90, 80, 70, 60]
+    let secondLargestInt = findSecondLargest(numbers);
+    expect(secondLargestInt).to.equal(90);
   });
 });

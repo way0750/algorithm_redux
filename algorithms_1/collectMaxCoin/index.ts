@@ -26,7 +26,7 @@ export function forEachBackward (array, callback) {
   }
 }
 
-export function getMaxCoinValue(matrix: Array<Array<number>>): number {
+export function getMaxCoinValue001(matrix: Array<Array<number>>): number {
   forEachBackward(matrix, (row: Array<number>, rowIndex: number) => {
     forEachBackward(row, (cell: number, cellIndex: number) => {
       const adjacentRightIndex = cellIndex + 1;
@@ -67,6 +67,21 @@ function getMaxCoinValueNoInputMutation(matrix): number {
 
   const lastRow = matrixReverseClone[matrixReverseClone.length - 1] || [];
   return lastRow[lastRow.length - 1] || 0;
+}
+
+function getMaxCoinValue (matrix) {
+  if (!matrix.length) return 0;
+  let preRow = Array(matrix[0].length).fill(0);
+  for (let rowIndex = matrix.length-1; rowIndex >= 0; rowIndex--) {
+    const newPreRow = Array(preRow.length).fill(0);
+    for (let colIndex = newPreRow.length-1; colIndex >= 0; colIndex--) {
+      const rightVal = newPreRow[colIndex+1] || 0;
+      const bottomVal = preRow[colIndex];
+      newPreRow[colIndex] = matrix[rowIndex][colIndex] + Math.max(rightVal, bottomVal);
+    }
+    preRow = newPreRow;
+  }
+  return preRow[0];
 }
 
 describe('Most coin value', () => {

@@ -9,7 +9,28 @@
  * put everything back together into a number
  */
 
-export function findNextLargerPermutation(number: number): number {
+const findNextLargerPermutation = (num) => {
+  const digits = num.toString().split('');
+  let swabIndex = -1;
+  digits.forEach((digit, index) => {
+    if (+digit < +digits[index+1] || 0) swabIndex = index;
+  });
+  if (swabIndex === -1) return NaN;
+  let targetNumIndex;
+  const rightPortion = digits.slice(swabIndex);
+  rightPortion.forEach((digit, index) => {
+    if (+digits[swabIndex] < +digit) targetNumIndex = index;
+  });
+  const temp = rightPortion[targetNumIndex];
+  rightPortion[targetNumIndex] = rightPortion[0];
+  rightPortion[0] = temp;
+
+  const leftNum = digits.slice(0, swabIndex).join('');
+  const rightNum = rightPortion[0] + rightPortion.slice(1).sort().join('');
+  return +(leftNum + rightNum);
+};
+
+export function findNextLargerPermutation001(number: number): number {
   const digits: Array<number> = number.toString().split('').map((numStr) => +numStr);
   const swappableIndex = digits.reduce((index, curNum, curIndex) => {
     const rigthDigit = digits[curIndex + 1];

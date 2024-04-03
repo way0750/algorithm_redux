@@ -32,7 +32,7 @@ function getDiagonalGroupCount(points: Array<Array<number>>, upward: boolean = t
   return diagonalGroupCounts;
 }
 
-export function attackDiagonally(points: Array<Array<number>>): number {
+export function attackDiagonally001(points: Array<Array<number>>): number {
   const upwardDiagonalGroupCounts = getDiagonalGroupCount(points);
   const downwardDiagonalGroupCounts = getDiagonalGroupCount(points, false)
 
@@ -51,6 +51,40 @@ export function attackDiagonally(points: Array<Array<number>>): number {
 
   return pairCount;
 }
+
+const attackDiagonally = (points) => {
+  const pointGroup = {};
+  points.forEach(([row, col]) => {
+    const downDiagKey = `down:${row-row}_${col-row}`;
+    const upDiagKey = `up:${row-row}_${col+row}`;
+    pointGroup[downDiagKey] = (pointGroup[downDiagKey] || 0) + 1;
+    pointGroup[upDiagKey] = (pointGroup[upDiagKey] || 0) + 1;
+  });
+
+  let count = 0;
+  for (let groupKey in pointGroup) {
+    const bishops = pointGroup[groupKey];
+    if (bishops > 1) {
+      count += (bishops * (bishops - 1)) / 2;
+    }
+  }
+
+  return count;
+}
+
+/**
+ * 
+ * 
+ * 
+ *   BB: 1
+ *  BBB: 2
+ * BBBB: 3
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
 
 describe('Attack diagonally', () => {
   it('should work for the example above:', () => {
