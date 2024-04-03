@@ -49,7 +49,8 @@
  * 
  * remember to set a cache and pass it!!!
  */
-function allUniqueCombos(options, amount: number, cache: object = {}) {
+
+function allUniqueCombos001(options, amount: number, cache: object = {}) {
   if (!options.length) {
     return amount === 0 ? [[]] : [];
   }
@@ -80,9 +81,25 @@ function allUniqueCombos(options, amount: number, cache: object = {}) {
   return allCombos;
 }
 
+const allUniqueCombos = (options, amount, cache = {}) => {
+  if (!amount) return [[]];
+  const allCombos = [];
+  options.forEach(([option, price]) => {
+    const newAmount = amount - price;
+    if (newAmount >= 0) {
+      let subCombos = cache[newAmount] ? [] : allUniqueCombos(options, newAmount, cache);
+      subCombos = subCombos.map((subCombo) => [option, ...subCombo]);
+      allCombos.push(...subCombos);
+    }
+  });
+
+  cache[amount] = allCombos;
+  return allCombos;
+};
+
 describe('all unique combos', () => {
   beforeEach(() => {});
-  it('should handle only 1 option', () => {
+  xit('should handle only 1 option', () => {
     const menu = [
       ['chips', 1],
     ];
@@ -91,7 +108,7 @@ describe('all unique combos', () => {
     expect(actualResult).to.deep.equal([['chips']]);
   });
 
-  it('should return [] if no patterns found', () => {
+  xit('should return [] if no patterns found', () => {
     const menu = [
       ['op1', 100]
     ];

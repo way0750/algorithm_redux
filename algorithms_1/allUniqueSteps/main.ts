@@ -65,6 +65,27 @@ function allUniqSteps(stepOptions, n): Array<Array<number>> {
   return n === 0 ? [] : AllDPCases[n];
 }
 
+/**
+ * 
+ * from bottom and up:
+ * 1......n
+ * 
+ */
+
+function allUniqSteps002(stepOptions, n) {
+  const cache = { 0: 1 };
+  for (let i = 1; i <= n; i++) {
+    cache[i] = 0;
+    stepOptions.forEach((option) => {
+      const subN = i - option;
+      if (subN >= 0) {
+        cache[i] += cache[subN];
+      }
+    });
+  }
+  return cache[n];
+}
+
 describe('Using dynamic programming to find all unique stpes', () => {
   it('should return [] if n === 0', () => {
     const n = 0;
@@ -98,9 +119,12 @@ describe('Using dynamic programming to find all unique stpes', () => {
   });
 
   it('should return for a large number of 25, any bigger is going to generate way too many patterns', () => {
-    const n = 25;
+    const n = 50;
     const options = [1,2,3];
-    const result = allUniqSteps(options, n);
-    expect(result.length).to.equal(2555757);
+    // const result = allUniqSteps(options, n);
+    // expect(result.length).to.equal(2555757);
+
+    const count = allUniqSteps002(options, n);
+    expect(count).to.equal(10562230626642);
   });
 });
